@@ -1,0 +1,53 @@
+Lenovo Laptop
+
+# Linux Lite is based on Ubuntu.  It doesn't have 'snapd' installed by default.  Once that is installed, installation is similar to Ubuntu.  Pycharm-community did not work right so had to download and create shortcut.  Xfce is desktop. x11/ Xorg is installed by default.
+
+# insert iso usb
+  F1 (rapid F12 on Lenovo laptop, F10 on HP-Omen, F7 on little_guy) during boot.   Set boot order to USB.  *try or install ubuntu - normal installation - install updates (I tried minimal installation - lots of things didn't work right)
+  Choose 'Direct install Linux Live'
+
+# Direct install Linux Live
+  # Chose not to install 3rd party drivers because requires secure boot, which was disabled installing Ubuntu
+    # Chose to do complete install (3rd choice in list beginning 'Reinstall Ubuntu')
+    # 'p' initial password
+    # Restart process will prompt you to remove USB
+
+# It should restart to Linux without Bios boot
+# Install Updates and choose to reboot
+# Install drivers - there were none available
+# Create restore / install timeshift
+# Create a restore point...you have to ask for first one
+# Skip down to 'select dark theme'
+# finally try to Upgrade
+
+# Install basic stuff then use 'Install 24.04 Ubuntu.txt' ('I..')
+  sudo apt update
+  sudo apt upgrade
+  sudo apt autoremove
+  sudo apt install -y firefox
+  sudo apt install -y ubuntu-restricted-extras
+  # remove chrome launcher from panel
+  # linux lite installs following by default:
+    # libreoffice, vlc, 
+  # Connect online accounts google drive stuff
+  # to bootstrap look for email subject 'google drive stuff'
+  # Menu - Settings - Session and Startup - Application Autostart - Add - ~/bin/start_google-drive-ocamlfuse
+  # vscode using 'I..'
+  # github using 'I..'
+  # plexmediaserver using 'I..'
+  # pycharm-community using 'I..'
+
+
+  # Simple serial check (optional to debug)
+  sudo apt install screen
+  sudo screen /dev/ttyACM0 230400
+
+# Cleanup
+sudo apt autoremove
+cd
+sudo apt autoclean
+sudo apt clean
+sudo apt install deborphan
+sudo apt remove $(deborphan)
+
+

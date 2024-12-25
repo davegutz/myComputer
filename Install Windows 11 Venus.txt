@@ -1,0 +1,120 @@
+MINISFORUM Venus Series UM773 Lite Mini PC AMD Ryzen 7 7735HS Desktop Computer, DDR5-4800 32GB 1TB PCIe4.0 SSD, 2.5Gbps LAN, 2X4K HDMI, 1X8K USB4 Output, Radeon 680M Graphics Micro PC
+2/18/2024 Amazon
+Manufacturer:  Micro Computer (HK) Tech Limited
+Device ID:  AF498936-54CD-4C11-BFD1-EB5F8395B931
+Product ID: 00356-07420-83374-AAOEM
+Windows 11 Home
+Bios:  F7 repeatedly
+
+# turn in dvdfab license (deauthorize davegutz@alum.mit.edu, ste_)
+# turn in winxdvd license (remove license)
+# turn in ePubor license (Tools - License Manager - deregister)
+# unplug Seagate backup drive and USB backup stick
+
+Times are for HP-OMEN 2022 8-core, 4 GHz, 64 GB
+
+# prepare media
+https://www.microsoft.com/en-us/software-download/windows10
+    Download Now
+    double-click media creation tool .exe in Downloads
+    create usb media for another pc
+# restart....F9...Custom install.    Pick Pro then use Pro product key (8BTNH-9VCJM-B29XV-8KFFB-43KTR) below later when flagged as bad
+00:08.  yes to allow network discovery
+OurHappyHomeGuest5g  OurHappyHomeGuest10
+00:15. DavesHP-OMEN  davegutz@alum.mit.edu 0nTh31r0wn!
+00:27  firefox:  davegutz@alummit.edu, ste_
+
+For Win11 choose to install pro
+###00:36 Home-->Pro (email search label Warranties + "Magic")
+###Disconnect the product from the internet or put it into airplane mode for the upgrade key
+###Navigate to > Settings > Update & Security > Activation > Change product key
+###Enter the following into the text box: VK7JG-NPHTM-C97JM-9MPGT-3V66T
+###Restart the product
+###Connect to the internet
+###Navigate to > Settings > Update & Security > Activation > Change product key
+###Enter the following into the text box: 8BTNH-9VCJM-B29XV-8KFFB-43KTR
+
+00:41 check-for-updates.   Install and reboot until clean
+###01:00 install HP Support Assistant 9   https://support.hp.com/us-en/help/hp-support-assistant   continue as guest check for updates
+###01:07 AMD Adrenaline app https://www.amd.com/en/support use auto detect  check for updates
+###01:14 GEForce Experience app: https://www.nvidia.com/en-us/geforce/geforce-experience/download/  login with Google; studio driver; express installation
+###01:24 check-for-updates again and install reboot until clean
+
+don't accept windows optional drivers
+
+01:32 create a restore point
+
+# Cleanup
+Manage Advanced sharing settings:  turn on all including non-guest
+use ourHappyHome5g (not guest) 7ef79856c1a52598410c so that file sharing works
+startup apps:  cleanup
+uninstall Microsoft OneDrive, but leave path for oneNote
+quit Teams (tray)
+power options:   turnoff hard disk - never both battery and plugged in
+Downloads:   view ext, show hidden
+Start: run netplwiz - advanced
+
+# Apps
+notepad++
+cygdrive
+browse to this file and use cut/paste
+zoom:  sign in using Google
+cygwin:  vt,  just defaults
+caffeine (powertoys win11)  look for free version on line with google search
+python:  3.12.2 as non-admin and add-to-path and install now and don't disable path length limit
+ffmpeg --> c:\ffmpeg
+edit ENVIRONMENT VARIABLES user path:  C:\ffmpeg\bin   (make sure that's where you put the putty stuff after decompressing .zip file)
+restart for ENVIRONMENT VARIABLES
+github:  sign in online.  clone myStateOfCharge (change to g20230530) and famouswriter978/fwgWhisper
+git:  all the defaults
+libreoffice
+google drive
+vb-audio virtual cable  # restart not required
+jetbrains - pycharm community - quit jetbrains (tray) and remove from startup
+R + Rstudio
+kdenlive https://kdenlive.org/en/download/
+LocalSend from Microsoft Store
+
+Epubor Ultimate Registration
+Licensed email: davegutz@alum.mit.edu
+Download URL: https://download.epubor.com/epubor_ultimate.exe
+Registration code: RFVTLU7-7ZT3KW-9C5D69-4FSHUS-S5EZDQ7
+Epubor Ultimate:  let epubor install kindle for pc
+
+dvdfab:  davegutz@alum.mit.edu, ste_
+winxdvd:  davegutz@alum.mit.edu   AAQPS-JODOK-U66T2-C QSU
+vlc
+LTspice
+kindle
+jre
+#optional (good on laptop to run with Rigol):  ultrasigma, ultrascope
+  https://www.rigolna.com/download/
+  get UltraSigma Instrument Connectivity Driver.   It will update other stuff (.net)
+sketchupmake 2017
+sharex from store for screenshots
+clipgrab:
+	https://clipgrab.org/
+	
+
+default apps:  firefox, vlc, paint.net, sketchup
+putty Setup per myStateOfCharge/SOC_Particle/putty/sessions/*.odt
+
+pyCharm - screencast get to run
+
+pyCharm - movie-scraper get to run
+
+pyCharm - SOC_Particle\py\GUI... get to run
+  then in VS Code run it
+  VS Code - Codeium AI (login via Google) - Ruff - Python - Workbench
+
+
+create another restore point
+
+# Burn iso to dvd.   It disappeared from right-click menu
+    Right-click on the file and select "Open With"
+    Select "Choose another app"
+    Select "More apps"
+    Scroll to the bottom and select "Look for another app on this PC"
+    Browse to folder C:\Windows\System32 and select isoburn.exe
+    Click Open
+Now you can go ahead and burn your ISO.   Select 'Always' to remember

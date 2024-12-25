@@ -1,0 +1,139 @@
+HP Omen 15" 2022
+
+# This already had Ubuntu dual boot installed.   See "Install 24.04 Ubuntu".  Pop!_OS (popos) is Ubuntu clone.  It doesn't have 'snapd' installed by default.  Once that is installed, installation is similar to Ubuntu.  Pycharm-community did not work right so had to download and create shortcut.  x11/ Xorg is installed by default.
+
+# insert iso usb
+  F1 (rapid F12 on Lenovo laptop, F10 on HP-Omen, F7 on little_guy) during boot.   Set boot order to USB.  *try or install ubuntu - normal installation - install updates (I tried minimal installation - lots of things didn't work right)
+  Choose 'try or install Ubuntu.'  3 min to next step - will hear music
+
+  # Begin install Pop
+    # Modify disks using GParted
+      # Select or delete to get to empty space
+      # right-click New
+        # 1000 MB FAT32
+        # rest ext4
+        # Green check to execute changes
+      # On new graphic
+        # select new small FAT32 activate as /boot/efi
+        # select new large ext4 activate as /root
+        # select Erase and Install
+        # Note location of Windows efi (/dev/nvme0n1p1)
+	# Remove USB before Restart
+# It should restart to Linux without Bios boot
+sudo apt update
+sudo mkdir /mnt/windows
+mount /dev/nvme0n1p1 /mnt/windows
+sudo mount /dev/nvme0n1p1 /mnt/windows
+sudo cp -r /mnt/windows/EFI/Microsoft /boot/efi/EFI
+sudo ls /boot/efi/EFI
+sudo nano /boot/efi/loader/loader.conf
+  ...default...
+  timeout 5
+  console-mode max
+# restart
+
+# Connect online accounts
+  Google
+  #Gnome
+  Allow location services
+
+# At first prompt:
+  sudo apt update
+  sudo apt upgrade
+  sudo apt autoremove
+  sudo apt install -y snapd   #############################!!!!!!!
+  Open popshop gui (Applications) install sqlitebrowser, libreoffice, gnucash, brasero, gnome calculator, caffeine, vlc
+  Restart
+  https://code.visualstudio.com/docs/?dv=linux64_deb
+  sudo apt install ./Downloads/code_1.90.1-1718141439_amd64.deb
+  sudo apt install -y psensor ######!!!!!!!!!!!  For fan speed
+  psensor  # add to favorites
+  OTHERWISE FOLLOW "Install 24.04 Ubuntu"
+    # During VS Code - Particle Workbench install I had to restart after crc32 fix and OS USB fix before it would recognize devices.
+
+	
+# Special instructions for fwgWhisper/venv/bin/activate
+  # install source from GitHub/fwgWhisper978 per notes
+  # Flatpak used in pop!os makes path errors for pycharm-community (won't find special python build in /usr/local/bin).  Have to install it using snap then do some extra setup steps.
+  sudo apt install snapd
+  sudo snap install pycharm-community
+  # install a version of python >=3.8, <3.12 using 'Install 24.04 Ubuntu.txt' instructions
+  sudo apt install python3-dev, portaudio19-dev, ffmpeg, libssl-dev, libsound-dev, python3-tk
+  # start pycharm-community using command line
+    # set Help - Change Memory Settings - 4096 (for openai-whisper install)
+    # point at python interpreter, load packages:  ffmpeg-python, openai-whisper, pvrecorder, pvdub, pvaudio
+	# Run 'speak_write.py'.  When it works, run 'install.py'.
+
+  
+	
+#####fan control
+  # be sure to run 
+  source /home/daveg/Documents/GitHub/fwgWhisper/venv/bin/activate
+  pip3 install amdgpu-fan
+  sudo /home/daveg/Documents/GitHub/fwgWhisper/venv/bin/amdgpu-fan
+
+
+  # Simple serial check (optional to debug)
+  sudo apt install screen
+  sudo screen /dev/ttyACM0 230400
+
+# fix wake from suspend
+sudo kernelstub -a mem_sleep_default=deep
+
+# Cleanup
+sudo apt autoremove
+cd
+sudo apt autoclean
+sudo apt clean
+sudo apt install deborphan
+sudo apt remove $(deborphan)
+
+# fans on
+system76-power profile performance
+
+
+# kernel parameters on startup
+sudo kernelstub -a "amdgpu.ppfeaturemask=0xffffffff"
+
+
+# try coolercontrol ############### no fan access
+sudo apt install -y flatpak
+sudo apt install -y gnome-software-plugin-flatpak
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+restart
+sudo apt install curl 
+sudo apt install apt-transport-https
+curl -1sLf 'https://dl.cloudsmith.io/public/coolercontrol/coolercontrol/setup.deb.sh' | sudo -E bash
+sudo apt update
+sudo apt install -y coolercontrol
+sudo systemctl enable coolercontrold
+sudo systemctl start coolercontrold
+sudo apt install libxcb-cursor0
+##########didn't have access to fan
+
+# Install corectrl  ########## no access to fan
+sudo add-apt-repository ppa:ernstp/mesarc
+sudo apt-get update
+sudo apt install -y corectrl
+
+IMPORTANT: This PPA contains release candidate and development versions of other packages which may break your system. It is strongly recommended that you limit the PPA to only installing/upgrading the corectrl package to avoid such issues. According to the official installation instructions, create the file
+
+nano /etc/apt/preferences.d/corectrl
+
+# Never prefer packages from the ernstp repository
+Package: * Pin: release o=LP-PPA-ernstp-mesarc 
+Pin-Priority: 1 
+
+# Allow upgrading only corectrl from LP-PPA-ernstp-mesarc 
+Package: corectrl 
+Pin: release o=LP-PPA-ernstp-mesarc 
+Pin-Priority: 500
+
+##########didn't have access to fan
+
+# /var/log filled with false positives ''HDY_IS_CAROUSEL_BOX (self)' failed'
+sudo nano /etc/xdg/autostart/io.elementary.appcenter-daemon.desktop 
+change 60->0
+"So after digging some more on this issue, I believe I managed to fix my issue. The user who originally posted the github article merged it with another article (https://github.com/pop-os/shop/pull/349) where you change the "io.elementary.appcenter-daemon.desktop" to auto-start immediately after logging in, instead of waiting 60 seconds to start. I found this file located in this folder "/etc/xdg/autostart". I then edited the "X-GNOME-Autostart-Delay" entry to a value of "0" and restarted my system. After the restart I opened then closed the Pop Shop and checked the journalctl. I didn't see any of the logs listed above. I will keep an eye on this and update this post with any further details." 
+
+

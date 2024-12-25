@@ -1,0 +1,532 @@
+MINISFORUM Venus Series UM773 Lite Mini PC AMD Ryzen 7 7735HS Desktop Computer, DDR5-4800 32GB 1TB PCIe4.0 SSD, 2.5Gbps LAN, 2X4K HDMI, 1X8K USB4 Output, Radeon 680M Graphics Micro PC 
+daveg-Venus-Linux
+Hardware Model Micro Computer _HK_ Tech Limited Venus series 
+Memory 32.0 GiB
+Processor AMD® Ryzen 7 7735hs with radeon graphics × 16
+Graphihcs REMBRANDT (rembrandt, LLVM 15.0.7, DRM 3.54, 6.5.0-18-generic)
+Disk Capacity 1.0 TB
+OS Name Ubuntu 22.04.4 LTS
+OS Type 64-bit
+GNOME Version 42.9
+Windowing System Wayland
+No Proprietary Drivers installed.  No additional drivers available
+
+
+
+Wireless Address 4C:24:CE:D7:76:45
+static 192.168.1.45
+
+
+#  Get ready
+  Phone to approve google requests and usb tethering if needed
+  Make space for linux.  Note partition #. (8).  Note any others you want to take over (5)
+  Have >4 GB thumbdrive
+  On Windows download iso.  flash using balenaEtcher
+  Turn off bitlocker all drives
+  Deauthorize tools like DVDfab, winxdvd, epubor in case can't get back
+  Unplug second monitor, other usb's.  May leave mouse and keypad
+
+# insert iso usb
+  F1 (rapid F12 on Lenovo laptop, F10 on HP-Omen, F7 on little_guy) during boot.   Set boot order to USB.  *try or install ubuntu - normal installation - install updates (I tried minimal installation - lots of things didn't work right)
+  Choose 'try or install Ubuntu.'  3 min to next step - will hear music
+  Go through menus ~5 min
+    Network - for next step
+    Update to new version (green button)
+    Full installation
+    Custom:
+      p5 ext4 / all
+      #p5 swap        35 GB (larger than 32 GB Ram)
+      #p6 ext4 /      21 GB (recommended by web link)
+      #p7 ext4 /boot    500 MB (")
+      #p8 ext4 /home 517.99 GB
+    daveg
+    daveg-Venus-Linux
+  Wait ~12 min for install
+    When prompted to reboot leave stick and wait until prompted to remove it
+    I start with one letter password until end then change using instructions herein 
+
+
+# NOTE:  if end up at grub> command due to crash, type 'exit' to boot into Windows
+
+# NOTE: if first 
+
+ starts Windows instead, re-open BIOS - boot.  At bottom is a strangely worded option. Go in there and you should be able to move Ubuntu to the top.
+
+#NOTE: don't use all-number pwd; won't be able to drop into lightdm later if you do  TODO: verify lightdm behaviour for passwords
+
+# Connect online accounts
+  Google
+  Gnome
+  Allow location services
+
+# At first ubuntu prompt:   ctrl-alt-t for terminal (skip if done no wifi adapter step above)
+  sudo apt update
+  sudo apt upgrade
+  sudo apt autoremove
+
+#####skip# be ready for gdm3 fail on restart:
+####  sudo apt install -y lightdm
+####  Install lightdm fully
+####  Log out / log back in
+####  sudo dpkg-reconfigure lightdm
+####  Select gdm3 default - as I said, be ready for it to fail
+####  Restart to be sure it still does
+####
+##### if hangs on gdm during restart, boot using safe mode and
+####  sudo dpkg-reconfigure lightdm
+
+
+# Get ready for action!
+  Start firefox.  Signin.  Start BitWarden
+  Restart again
+
+###skip### Mount windows partition
+Open Disks utility
+Click on settings for the windows partition
+Edit Mount Options:
+  Turn off 'Use Session Defaults'
+  Mount at system startup
+  Show in user interface
+  Display Name: Windows
+  Icon Name: Windows
+  Symbolic Icon Name Name: Windows
+  Mount point: /mnt/Windows
+  Identify As:  LABEL=Windows
+  Filesystem Type: auto
+  OK
+Run
+
+# Turn off power button sensitivity so inadvertently touching it doesn't shut down
+Settings - Power - Power Button Behavior - Nothing
+Use power plug if hangs
+
+# Start second monitor
+  Plug it in.  Leave built-in display primary.  Turn on night light - low setting
+  Configure desktop at this time.
+  Open this file in Drive so can cut an paste from it.  'Unable to access...
+  Wifi tune setup to personal:  7ef79856c1a52598410c.  This is so can work off network easier
+  Turn of automatic for Guest5G network
+ 
+
+# Install apps
+  sudo snap install plexmediaserver # for basement server
+  sudo snap install --classic pycharm-community
+  sudo snap install sqlitebrowser
+  Open snap gui (Applications)
+  Accept updates
+  Restart
+  Open snap gui (Applications) install code, gnucash, brasero, vlc, gnome calculator, and caffeine
+  sudo apt update && sudo apt upgrade
+  Restart
+  sudo apt install -y fuse libfuse2  # For appImage
+  sudo apt install -y ffmpeg
+  sudo apt install -y git
+  sudo apt-get install -y putty
+  sudo apt-get install -y python3-tk  # for pyCharm
+  sudo apt install -y dhcpcd5
+  sudo apt install dos2unix
+  sudo apt install xsel
+  sudo apt install -y pavucontrol  # for myPyScreencast
+  sudo apt-get install ubuntu-restricted-extras
+#  sudo apt install -y vlc  # installed at snap step
+    # VLC
+    Tools-preferences-codecs  disable hardware-accelerated-decoding  save
+    May have to restart vlc
+
+# Fix missing 'Settings' (if needed)
+sudo apt-get install ubuntu-desktop
+Restart
+
+# google drive stuff
+  sudo add-apt-repository ppa:alessandro-strada/ppa
+  sudo apt update && sudo apt install -y google-drive-ocamlfuse
+  # Special google-drive-ocamlfuse:  need to run with a secret so I stored it in davegutz2006 gmail
+  # run google-drive-ocamlfuse using command line store in email:  search for 'google-drive-ocamlfuse'
+# I had to setup google cloud free trial.  Project 6102.  Enable Google Drive API.
+# After authorizing in browser should see 'Access token retrieved' in term
+    mkdir ~/google-drive
+    google-drive-ocamlfuse ~/google-drive/  # add -debug to this if problems. then  'more /home/daveg/.gdfuse/default/gdfuse.log'
+    nano .gdfuse/default/config
+      stream_large_files=true  # https://www.reddit.com/r/PleX/comments/67d5m6/googledriveocamlfuse_experience_to_share/
+    mkdir ~/bin
+cat << EOF > /home/daveg/bin/start_google-drive-ocamlfuse
+#!/bin/bash
+
+while true; do
+  # check to see if there is a connection by pinging a Google server
+  if ping -q -c 1 -W 1 8.8.8.8 >/dev/null; then
+    # if connected, mount the drive and break the loop
+    google-drive-ocamlfuse /home/daveg/google-drive/; break;
+  else
+    # if not connected, wait for one second and then check again
+    sleep 1
+  fi
+done
+EOF
+    chmod +x /home/daveg/bin/start_google-drive-ocamlfuse
+    # open Startup Applications and add this script
+
+# Plex
+  go turn off the main plex server in the house.   It will confuse plex for next step
+  start plexmediaserver using applications
+  plex started using  menus - sign in with google id
+  need to 'claim' this new installation.  There should be some visual clues in the plex
+  menus, yellow exclamation points, yellow triangles
+  name:  PLEX-LINUX on pc for server
+  connect usb drive then:
+  plex - manage libraries - select the sources
+  after several hours of content loading, you will need to shutdown plex and restart to see the content
+  transcoder settings - deselect use hardware acceleration
+                  - specify Transcoder Temporary Directory = /media/daveg/DVRcache
+  dvr - mounted spare hard drive 3 TB named 'DVRcache'
+      - use 'Files' to browse to the dvr drive.  Right click properties:  set 'create & delete' permissions for all.
+      - Owner:  me
+           Access: Create & Delete (C&D)
+      - Group:  daveg
+           Access: C&D
+      - Others:
+      	   Access: C&D
+         
+         Enclosed Files
+             Files		Folders
+             Owner R&W		C&D
+             Group R&W		C&D
+             Other R		Access only
+
+
+# github desktop
+  sudo wget https://github.com/shiftkey/desktop/releases/download/release-3.1.1-linux1/GitHubDesktop-linux-3.1.1-linux1.deb
+  sudo apt-get install -y gdebi-core 
+  sudo gdebi GitHubDesktop-linux-3.1.1-linux1.deb
+  github
+    # sign in to GitHub.com.  Your password will be available in BitWarden
+
+# Zoom desktop
+  https://zoom.us/download?os=linux  # download Ubuntu 64 bit
+  sudo gdebi ./Downloads/zoom_amd64.deb
+  Launch from Apps and signin with Google
+  
+# YouTube downloader
+  # ClipGrab
+  https://github.com/yt-dlp/yt-dlp?tab=readme-ov-file#release-files
+    Get yt-dlp file for Linux
+  https://clipgrab.org/download-clipgrab/
+    Free Download
+    cd Downloads
+    chmod a+x ClipGrab-3.9.10-x86_64.AppImage
+    ./ClipGrab-3.9.10-x86_64.AppImage  # Will error first time, looking for yt-dlp.  Press Continue not exit, to get folders ClipGrab made
+    mv yt-dlp /home/daveg/.local/share/ClipGrab/ClipGrab/
+  Do a google search for 'clipgrab' and save the blue circle icon as Downloads/ClipGrab.jpeg
+    
+cat << EOF > /home/daveg/Desktop/ClipGrab.desktop
+[Desktop Entry]
+Name=ClipGrab
+Exec=/home/daveg/Downloads/ClipGrab-3.9.10-x86_64.AppImage
+Icon=/home/daveg/Downloads/ClipGrab.jpeg
+comment=app
+Type=Application
+Terminal=false
+Encoding=UTF-8
+Categories=Utility;
+EOF
+
+  Right click on ClipGrab.desktop and set 'Allow Launching' and 'Properties - Run as Program'
+    Re-run
+  sudo mv /home/daveg/Desktop/ClipGrab.desktop /usr/share/applications/
+  
+# Desktop icons mission 
+ sudo apt-get install --reinstall ubuntu-desktop
+ restart
+ 
+# Configure sound   ####NOTE doesn't really work for 22.04...new sound stuff 23+
+sudo nano /etc/modules-load.d/modules.conf
+#Add following line to /etc/modules-load.d/modules.conf
+snd-aloop
+# To start it for this session
+sudo modprobe snd-aloop
+# you can just plug in the usb headset and adjust the sound settings
+
+
+#### Another version of Python:  call by version e.g. >python3.12
+#**********NOTE:  never replace default python in Debian-based Linux
+# https://ubuntuhandbook.org/index.php/2021/10/compile-install-python-3-10-ubuntu/
+
+  # dependencies
+  sudo apt update
+  sudo apt install -y wget build-essential
+  sudo apt install -y libreadline-dev
+  sudo apt install -y libncursesw5-dev
+  sudo apt install -y libssl-dev
+  sudo apt install -y libsqlite3-dev
+  sudo apt install -y tk-dev
+  sudo apt install -y libgdbm-dev
+  sudo apt install -y libc6-dev
+  sudo apt install -y libbz2-dev
+  sudo apt install -y libffi-dev
+  sudo apt install -y zlib1g-dev
+  sudo apt install -y portaudio19-dev
+
+
+  # get alternate python to call from venv in pycharm
+
+  https://www.python.org/ftp/python/
+  download Python-3.11.9.tar.xz
+  cd Downloads/
+  tar -Jxf Python-3.11.9.tar.xz
+
+  # compile and install it (do make clean first if adding --enable-shared to an existing build)
+  cd Python-3.11.9/
+  ./configure --enable-optimizations --enable-shared
+  sudo make -j4 && sudo make altinstall
+  sudo ldconfig /usr/local/lib  # done once to load shared libraries (maybe 'pip3 install uswgi' works)
+     
+  # verify
+  python3.11 --version
+  python3.11 -m pip --version
+  
+  # uninstall
+  cd Downloads/Python-3.11.9/
+  sudo make uninstall
+  
+  # use
+  use venv in pycharm to set up and use an app with this new python version
+   
+   
+# Install and setup puTTY
+  cd $HOME/Documents/GitHub/myStateOfCharge/SOC_Particle/dataReduction/putty/
+  # start putty from launch - save a session def to create folders
+  # open .._def.odt setup
+   *********set Font 'free mono 10'
+  # then create test* from def
+  Plug in a SOC deviceriv
+  sudo dmesg | grep tty  # to find out whicth TTY
+  sudo chgrp daveg /dev/ttyACM0
+  # NOTE:  save putty data on local drive.  GUI_TestSOC may use dataReductionFolder on google-drive but should not use putty to stream to google-drive
+
+
+# Configure for Development
+  Open pyCharm-Community
+    Setup venv for python, can be used in Code.  Update pip etc before importing more packages
+    # also use local dictionary in settings - editor - natural languages - spelling (uncheck 'use single...')
+    ***********Caution - use pycharm to install python interpreters
+    ***********I followed deb process and made ubuntu unbootable
+    Choose interpreter - local - run something to determine packages at least numpy, matplotlib, reportlab, easygui, pyshortcuts, openai-whisper, configparser
+    May have to start twice
+  Open pyCharm install venv for each github repository	
+  
+    # movie_Scraper notes
+    Search for 'PySimpleGUI' in email for 'License key of:...' then open attachment.  First run will bomb.  Just run again.
+    # TODO: investigate message '_tkinter.TclError: image "pyimage7" doesn't exist'
+    Set DB location to /home/daveg/google-drive/Movies Stuff
+    Run executable making stuff at top of comments GUI_sqlite_scrape.py
+cat << EOF > /home/daveg/Desktop/GUI_sqlite_scrape.desktop
+[Desktop Entry]
+Name=GUI_sqlite_scrape
+Exec=/home/daveg/Documents/GitHub/movie_Scraper/dist/GUI_sqlite_scrape/GUI_sqlite_scrape
+Path=/home/daveg/Documents/GitHub/movie_Scraper/dist/GUI_sqlite_scrape
+Icon=/home/daveg/Documents/GitHub/movie_Scraper/popcorn.ico
+comment=app
+Type=Application
+Terminal=true
+Encoding=UTF-8
+Categories=Utility;
+EOF
+  Right click on GUI_sqlite_scrape.desktop and set 'Allow Launching' and 'Properties - Run as Program'
+    or
+  gio set /home/daveg/Desktop/GUI_sqlite_scrape.desktop metadata::trusted true
+  chmod a+x ~/Desktop/GUI_sqlite_scrape.desktop
+    Re-run
+  sudo mv /home/daveg/Desktop/GUI_sqlite_scrape.desktop /usr/share/applications/
+  Findit in applications and save to favorites
+  
+    
+    # myPyScreencast notes
+    Use movie_scaper interpreter (venv/bin/python310)
+    Open a browser and start playing some music on youTube
+    insert headphones  !!!
+    pavucontrol  # assign browser cast to LoopbackAnalogStereo (verifies this kills spkr snd)
+    pactl list short sources  # to find name of output (NOTE: may need to insert headphones to get this all to work)
+    Screencast: Video: x11grab  :0.0+0.0   Audio: pulse  alsa_output.platform-snd_aloop.0.analog-stereo.monitor
+    
+    
+    # myStateOfCharge notes
+    VS Code - Codeium AI (login via Google) - Ruff - Python - Workbench
+    **crc32 not found
+	    sudo apt-get install libarchive-zip-perl
+    File Icon - Explorerer ... - OPEN EDITORS
+    File - Open Folder - Documents/GitHub/myStateOfCharge/SOC_Particle
+    Logon Particle Workbench ASAP:  davegutz@alum.mit.edu  stevie18g  <cr>on code
+    local_config.h
+    Find Icon - ellipses at bottom - include *.h, *.cpp, *.ino  exclude SOC_Particle.cpp
+    local build dirty - answer 'stop checking'
+    As a precaution, when get errors do ctrl-shift-P - Particle: Clean <various> and redo
+    First flash will get guidance to install usb drivers, answer 'Y' and give daveg password.
+      ignore message about 'missing permissions to access..' it will go away next try 
+      
+    # myStateOfCharge notes cont'd..........12
+    Emptied py/venv
+    install python 3.12 using notes above.  Pick that
+    Use pycharm to run 'install.py'   (need to install 'pyinstaller' in interpreter.   won't get error about this until try to run install.py)
+    # linux putty
+	    sudo chown daveg /dev/ttyACM0
+	    font:  8 any mono
+    
+    # fwgWhisper notes
+    only versions >=3.8,<3.12 are supported;  I have been using 3.11.9 (notes elsewhere in this document)
+    may have to manually remove non-openai whisper package (don't use pip to install 'whisper')
+      #pyaudio
+    	sudo apt-get install portaudio19-dev -y
+    	source /home/daveg/Documents/GitHub/fwgWhisper/.venv/bin/activate
+	pip install pyaudio
+	re-run pip install for pyaudio in PyCharm
+    if change .desktop,  may need to purge old shortcut from system
+      sudo rm /usr/share/applications/speak_write.desktop 
+    
+# not needed    source /home/daveg/Documents/GitHub/fwgWhisper/venv/bin/activate
+/home/daveg/Documents/GitHub/fwgWhisper/venv/bin/python /snap/pycharm-community/383/plugins/python-ce/helpers/packaging_tool.py install openai-whisper
+
+  # Simple serial check (optional to debug)
+  sudo apt install screen
+  sudo screen /dev/ttyACM0 230400
+
+# Cleanup
+sudo apt autoremove
+cd
+sudo apt autoclean
+sudo apt clean
+sudo apt install deborphan
+sudo apt remove $(deborphan)
+
+###skip# other 
+sudo apt install gnome-shell-extensions  # for workspace tweaks.  Launch new Extensions app
+
+###skip# desktop clock widget https://askubuntu.com/questions/1195645/how-do-i-put-a-clock-on-the-desktop-background-on-ubuntu-19-04-gnome
+sudo apt install conky-all
+mkdir ~/.config/conky
+cat << EOF > /home/daveg/.config/conky/conky.conf
+conky.config = {
+
+    background = false,
+    update_interval = 1,
+    double_buffer = true,
+    no_buffers = true,
+    text_buffer_size = 2048,
+    own_window = true,
+    own_window_class = 'conky',
+    own_window_argb_visual = true,
+    own_window_argb_value = 80,
+    own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+    own_window_colour = '#252525',
+    own_window_type = 'desktop',
+    background = false,
+    minimum_width = 250,
+    gap_x = 100,
+    gap_y = 200,
+    draw_shades = false,
+    draw_outline = false,
+    draw_borders = false,
+    override_utf8_locale = true,
+    use_xft = true,
+    font = 'Noto:size=8',
+    xftalpha = 0.5,
+    uppercase = false
+};
+
+conky.text = [[
+${voffset 5}${offset 15}${font Noto:size=36}${color white}${time %e}
+${goto 25}${font Noto:size=18}${color white}${voffset -30}${time %b}${color white}${offset 10}${time %Y}
+${font Noto:size=12}${color white}${voffset 5}${goto 20}${time %A}${goto 153}${color white}${time %H}:${time %M}
+]];
+-- https://store.kde.org/p/1197154/
+EOF
+
+chmod +x .config/conky/conky.conf
+# open Startup Applications and add this script:
+conky -c ~/.config/conky/conky.conf
+
+
+
+# Get bluetooth to work
+sudo apt install bluez bluez-tools pulseaudio-module-bluetooth  # Not sure if this helps anything
+sudo systemctl restart bluetooth
+bluetoothctl scan on
+
+# Get wireless to work better on Venus
+Restart router
+https://askubuntu.com/questions/425155/my-wireless-wifi-connection-does-not-work-what-information-is-needed-to-diagnos/425180#425180
+  Open wireless-info.txt.  Paste content to http://paste.ubuntu.com/  (login using Google ID)
+sudo apt install net-tools  
+ifconfig
+# Turn off power management (https://askubuntu.com/questions/1504262/new-install-ubutu-22-04-wireless-drops)
+sudo iwconfig wlp2s0 power off && sudo sed -i 's/wifi.powersave = 3/wifi.powersave = 2/' /etc/NetworkManager/conf.d/default-wifi-powersave-on.conf
+
+# Forget a network in a way that bypasses gui.  if mistakenly setup one as remembered:
+sudo ls /etc/NetworkManager/system-connections/
+sudo rm /etc/NetworkManager/system-connections/ourHappyHome2.nmconnection 
+
+# Passwords...ignore warnings
+sudo passwd daveg
+sudo passwd # root
+rm ~/.local/share/keyrings/login.keyring
+
+# Install flatpak
+sudo apt install -y flatpak
+sudo apt install -y gnome-software-plugin-flatpak
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+restart
+
+# MissionCenter (like Windows task manager)
+flatpak install flathub io.missioncenter.MissionCenter
+flatpak run io.missioncenter.MissionCenter
+
+# Chrome browser
+sudo apt install libu2f-udev
+cd Downloads
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo dpkg -i google-chrome-stable_current_amd64.deb
+
+# Uninstall Chrome browser stuff
+uninstall 'google chrome' from Ubuntu Software app
+sudo apt remove libu2f-udev
+sudo apt autoremove
+cd
+sudo apt autoclean
+sudo apt clean
+sudo apt install deborphan
+sudo apt remove $(deborphan)
+
+
+# OBS
+Ignore initial record error; restart OBS
+
+# Shared folder
+need Samba installed....use spare thumbdrive.  Maybe later install samba stuff
+use thunar, browse to smb://daveg-810-160.local/public/
+same as smb://192.168.1.222/public/   
+login as secure daveg J3susY0ga
+
+# Better file managers
+sudo apt install nemo
+sudo apt install thunar
+
+# Browse to public folder
+thunar 
+click on 'Browse Network'
+double-click on 'Windows Network'  # formed by samba on hp-phoenix desktop
+smb://192.168.1.222/public/
+secure
+daveg: J3susY0ga
+
+#### LTSpice
+sudo apt update
+sudo apt-get install wine-stable
+cd /tmp/
+wget https://ltspice.analog.com/software/LTspice64.exe
+wine LTspice64.exe
+rm LTspice64.exe
+# Start lstpice through wine
+wine ~/.wine/drive_c/Program\ Files/LTC/LTspiceXVII/XVIIx64.exe
+mkdir ~/.wine/drive_c/my_ltspice_files
+cp ~/Documents/GitHub/myStateOfCharge/SOC_Particle/datasheets/pSpice/* ~/.wine/drive_c/my_ltspice_files
+
+
