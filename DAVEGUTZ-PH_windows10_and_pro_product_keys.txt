@@ -1,0 +1,30 @@
+==================================================
+Product Name      : Internet Explorer
+Product ID        : 00258-61496-25550-AAOEM
+Product Key       : XW28K-3FNHD-F3PWH-6D9YQ-T6MCD
+Installation Folder : 
+Service Pack      : 
+Computer Name     : DAVEGUTZ-PH
+Modified Time     : 10/16/2016 3:07:45 AM
+==================================================
+
+==================================================
+Product Name      : Windows (BIOS OEM Key)
+Product ID        : 
+Product Key       : XW28K-3FNHD-F3PWH-6D9YQ-T6MCD
+Installation Folder : 
+Service Pack      : 
+Computer Name     : 
+Modified Time     : 
+==================================================
+
+==================================================
+Product Name      : Windows 10 Pro
+Product ID        : 00330-80000-00000-AA136
+Product Key       : VK7JG-NPHTM-C97JM-9MPGT-3V66T
+Installation Folder : C:\WINDOWS
+Service Pack      : 
+Computer Name     : DAVEGUTZ-PH
+Modified Time     : 10/28/2016 8:00:11 PM
+==================================================
+
