@@ -7,9 +7,13 @@ Lenovo Laptop
   http://tinycorelinux.net/
 # the CorePlus installer
   http://tinycorelinux.net/11.x/x86/release/CorePlus-current.iso
-# Use balena etcher on Windows to make bootable USB from that iso.  Don't bother with Linux
-
-# start the ISO.  I assume it will install to a USB that is installed?
-# pick the default option 'FLWM topside'
-
-# this looks like too much work.  Let me find another option
+# use core2usb to install to usb ( https://sourceforge.net/p/core2usb/wiki/Home/ )
+   # first format usb to vfat using a linux build
+   sudo mkfs.vfat -I /dev/sda -n TINYCORE
+   # make sure 7-zip is installed on windows to extract from .iso
+   # on windows run core2usb-16.py (in the folder with this Install... file)
+     # BROWSE to iso file and select
+	 # select usb
+	 # press INSTALL - this will take a while
+	 
+   
