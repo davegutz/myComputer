@@ -1,0 +1,15 @@
+Lenovo Laptop
+
+# Tiny Core is a unique  distro.
+
+# Make install USB (ref https://tiagojsilva.github.io/en/unixlike/meme/2021-10-29_tinycorelinux-install/  )
+# Download from
+  http://tinycorelinux.net/
+# the CorePlus installer
+  http://tinycorelinux.net/11.x/x86/release/CorePlus-current.iso
+# Use balena etcher on Windows to make bootable USB from that iso.  Don't bother with Linux
+
+# start the ISO.  I assume it will install to a USB that is installed?
+# pick the default option 'FLWM topside'
+
+# this looks like too much work.  Let me find another option
