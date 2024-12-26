@@ -119,7 +119,7 @@ pactl load-module module-alsa-sink device=hw:0,3
 # Arduino from Install Ubuntu
   sudo apt install -y arduino
   # Arduino libraries for CTE collision with Arduino IDE v1.8.19:  Arduino_LSM6DS3, AceCommon, AceCRC, AceRoutine, AceUtils, Adafruit BusIO,
-  Adafruit LSMDS, SafeString
+  Adafruit LSM6DS, SafeString, Boards - Boards Manager - Arduino SAMD boards
   # Arduino board for CTE Nano:  Arduino Nano 33 IoT in Arduino SAMD library
   
   # Arduino dark theme:   
