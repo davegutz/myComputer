@@ -52,7 +52,8 @@ sudo do-release-upgrade
   Unplug second monitor, other usb's.  May leave mouse and keypad
 
 # insert iso usb
-  F1 (rapid F12 on Lenovo laptop, F10 on HP-Omen, F7 on little_guy) during boot.   Set boot order to USB.  *try or install ubuntu - normal installation - install updates (I tried minimal installation - lots of things didn't work right)
+  F1 (rapid F12 on Lenovo laptop, F10 on HP
+  Omen, F7 on little_guy) during boot.   Set boot order to USB.  *try or install ubuntu - normal installation - install updates (I tried minimal installation - lots of things didn't work right)
   Choose 'try or install Ubuntu.'  3 min to next step - will hear music
   Go through menus ~5 min
     Network - for next step
