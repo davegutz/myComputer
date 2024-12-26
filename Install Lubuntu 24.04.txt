@@ -10,18 +10,27 @@ Lenovo Laptop
 
 # Restart process will prompt you to remove USB
 
-# It should restart to Linux without Bios boot
+# It should restart to Lubuntu without Bios boot
 # Install Updates and choose to reboot
 # Install drivers - there were none available
 
-# Install basic stuff then use 'Install 24.04 Ubuntu.txt' ('I..')
+# Install following basic stuff then use 'Install 24.04 Ubuntu.txt' ('I..')
   sudo apt update
   sudo apt upgrade
   sudo apt autoremove
+  sudo apt install -y git-all
+  sudo apt install snapd
   sudo apt install -y ubuntu-restricted-extras
   sudo apt install -y python3-pip
   # lubuntu installs following by default:
     # libreoffice, vlc, firefox
+  # github desktop
+  sudo wget https://github.com/shiftkey/desktop/releases/download/release-3.1.1-linux1/GitHubDesktop-linux-3.1.1-linux1.deb
+  sudo apt-get install -y gdebi-core 
+  sudo gdebi GitHubDesktop-linux-3.1.1-linux1.deb
+  github
+  # When prompted during initial clone menu option, sign in to GitHub.com.  Your password will be available in BitWarden.  Do not proactively log in to github on the web using browser; wait for the GitHub Desktop application to request it; to avoid an infinite authorization loop.
+ 
     
   # Connect online accounts google drive stuff
   # to bootstrap look for email subject 'google drive stuff'
@@ -34,9 +43,7 @@ Lenovo Laptop
   # pycharm-community using 'I..'
    sudo apt install -y python3-tk  # for pyCharm
    snap install pycharm-community --classic
-
-    # give it time to index first time
-sudo apt install -y python3-tk   # don't have to restart or restart pycharm either
+   # give it time to index first time
 
 	# pycharm pyStateOfCharge
 	GUI_..py  # get this to run using local venv, then do
@@ -53,12 +60,6 @@ sudo apt install -y python3-tk   # don't have to restart or restart pycharm eith
 	# pysimpleguiKey.txt in same folder as this file
 	# ignore '_tkinter.TclError: can't use "pyimage7" as iconphoto: not a photo image'
 	
-
-  # github using 'I..'
-	sudo wget https://github.com/shiftkey/desktop/releases/download/release-3.1.1-linux1/GitHubDesktop-linux-3.1.1-linux1.deb
-	sudo apt-get install -y gdebi-core 
-  	sudo gdebi GitHubDesktop-linux-3.1.1-linux1.deb
-  	github
 
   sudo apt install LocalSend
   	
@@ -114,6 +115,8 @@ pactl load-module module-alsa-sink device=hw:0,3
 sudo nano /etc/pulse/default.pa
 # Add this line at the end
 pactl load-module module-alsa-sink device=hw:0,3
+
+*****************  ended here.  see if hdmi sound works alredy then delete following nonsense
 
 sudo alsamixer - F6 - default - unmute S/PDIF  # to unmute manually
 sudo alsactl --file ~/.config/asound.state store
