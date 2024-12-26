@@ -13,7 +13,7 @@ Lenovo Laptop
 # try on linux
 cd Downloads
 lsblk  # identify the USB device
-dd if=CorePlus-current.iso of=/dev/sd? status=progress  # use lsblx result to resolve ?
+sudo dd if=CorePlus-current.iso of=/dev/sd? status=progress  # use lsblx result to resolve ?
 
 
 # try on linux  ventoy
