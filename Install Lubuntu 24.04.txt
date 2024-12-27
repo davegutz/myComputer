@@ -130,18 +130,21 @@ rm ~/.local/share/keyrings/login.keyring
 # Play VLC sound over HDMI
 sudo apt install pulseaudio
 sudo apt install alsa-utils
-pactl load-module module-alsa-sink device=hw:0,3
-sudo nano /etc/pulse/default.pa
-# Add this line at the end
-pactl load-module module-alsa-sink device=hw:0,3
+  #### not sure if all this pactl stuff needed
+   pactl load-module module-alsa-sink device=hw:0,3
+   sudo nano /etc/pulse/default.pa
+   # Add this line at the end
+   pactl load-module module-alsa-sink device=hw:0,3
+   #### did up to here in latest trial
+    sudo alsamixer - F6 - default - unmute S/PDIF  # to unmute manually
+    sudo alsactl --file ~/.config/asound.state store
+    sudo nano ~/.bashrc
+    # Add this line at the end
+    alsactl --file ~/.config/asound.state restore
+open PulseAudio Volume Control - Configuration -  Profile: Digital Stereo (HDMI) Output + Analog Stereo Input
+
 
 *****************  ended here.  see if hdmi sound works alredy then delete following nonsense
 
-sudo alsamixer - F6 - default - unmute S/PDIF  # to unmute manually
-sudo alsactl --file ~/.config/asound.state store
-sudo nano ~/.bashrc
-# Add this line at the end
-alsactl --file ~/.config/asound.state restore
  
-  # after all this, open PulseAudio Volume Control - Configuration -  Profile: Digital Stereo (HDMI) Output + Analog Stereo Input
-
+  # after all this, 
