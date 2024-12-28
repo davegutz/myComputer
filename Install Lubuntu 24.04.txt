@@ -135,16 +135,13 @@ sudo apt install alsa-utils
    sudo nano /etc/pulse/default.pa
    # Add this line at the end
    pactl load-module module-alsa-sink device=hw:0,3
-   #### did up to here in latest trial
+  open PulseAudio Volume Control - Configuration -  Profile: Digital Stereo (HDMI) Output + Analog Stereo Input
+   #### did up to here in latest trial and sound worked on HDMI
+
+
+######undone
     sudo alsamixer - F6 - default - unmute S/PDIF  # to unmute manually
     sudo alsactl --file ~/.config/asound.state store
     sudo nano ~/.bashrc
     # Add this line at the end
     alsactl --file ~/.config/asound.state restore
-open PulseAudio Volume Control - Configuration -  Profile: Digital Stereo (HDMI) Output + Analog Stereo Input
-
-
-*****************  ended here.  see if hdmi sound works alredy then delete following nonsense
-
- 
-  # after all this, 
