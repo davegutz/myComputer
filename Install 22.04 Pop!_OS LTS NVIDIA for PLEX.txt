@@ -49,6 +49,19 @@ HP Omen 15" 2022
   # It should restart to Linux without Bios boot
   # It came up without wifi.  Connect ethernet to grab updates and fix wireless
 
+
+# Fix 5G network connect:
+  sudo dhcpcd5
+   ubuntu wifi connected no browse
+      Use the Google Public DNS IP in /etc/resolv.conf
+      sudo cp /etc/resolv.conf /etc/resolv.conf.bak
+      sudo nano /etc/resolv.conf
+         add
+         nameserver 8.8.8.8
+        nameserver 8.8.4.4
+        to bottom of file, leaving everything else in there
+
+
 # Connect online accounts
   # firefox sign in and google
  
