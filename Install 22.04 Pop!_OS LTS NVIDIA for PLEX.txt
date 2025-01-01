@@ -66,27 +66,19 @@ HP Omen 15" 2022
     # sign in to GitHub.com.  Your password will be available in BitWarden
 	# Download myComputer to get this file.
 
-# Broadcom drivers
-  sudo apt install 
+  # wifi for broadcom:
+  sudo apt install bcmwl-kernel-source
+#  sudo apt update
+#  sudo apt install firmware-b43-installer
 
-  Open popshop gui (Applications) install sqlitebrowser, libreoffice, gnucash, brasero, gnome calculator, caffeine, vlc
+  Open popshop gui (Applications) install sqlitebrowser, brasero, caffeine, vlc, pycharm-community
   Restart
 
 # Install apps
+  sudo snap install snapd
+  logout / log back in to organize snapd ########## important!!!!  IT WILL WORK IF YOU DO THIS
   sudo snap install plexmediaserver # for remote laptop (for trips) as well as basement server
-  sudo snap install --classic pycharm-community
-  sudo snap install sqlitebrowser
-  Open snap gui (Applications)
-  Accept updates
-  Restart
-  Open snap gui (Applications) brasero, gnome calculator
-  sudo apt update && sudo apt upgrade
-  Restart
-
-  https://code.visualstudio.com/docs/?dv=linux64_deb
   sudo apt install ./Downloads/code_1.90.2-1718751586_amd64.deb
-  sudo apt install -y brasero
-  sudo apt install -y caffeine
   sudo apt install -y fuse libfuse2  # For appImage
   sudo apt install -y ffmpeg
   sudo apt install -y git
@@ -96,48 +88,12 @@ HP Omen 15" 2022
   sudo apt install LocalSend
   sudo apt install xsel
   sudo apt install -y pavucontrol  # for myPyScreencast
-  sudo apt-get install ubuntu-restricted-extras
 
   # VLC
     Tools-preferences-codecs  disable hardware-accelerated-decoding  save
     May have to restart vlc
   
-  # Install flatpak
-  sudo apt install -y flatpak
-  sudo apt install -y gnome-software-plugin-flatpak
-  flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-  restart
-
   # kdenlive https://kdenlive.org/en/download/  select and install flatpak
-
-  # YouTube downloader
-  # ClipGrab
-  https://github.com/yt-dlp/yt-dlp?tab=readme-ov-file#release-files
-    Get yt-dlp file for Linux
-  https://clipgrab.org/download-clipgrab/
-    Free Download
-    cd Downloads
-    chmod a+x ClipGrab-3.9.10-x86_64.AppImage
-    ./ClipGrab-3.9.10-x86_64.AppImage  # Will error first time, looking for yt-dlp.  Press Continue not exit, to get folders ClipGrab made
-    mv yt-dlp /home/daveg/.local/share/ClipGrab/ClipGrab/
-  Do a google search for 'clipgrab' and save the blue circle icon as Downloads/ClipGrab.jpeg
-    
-cat << EOF > /home/daveg/Desktop/ClipGrab.desktop
-[Desktop Entry]
-Name=ClipGrab
-Exec=/home/daveg/Downloads/ClipGrab-3.9.10-x86_64.AppImage
-Icon=/home/daveg/Downloads/ClipGrab.jpeg
-comment=app
-Type=Application
-Terminal=false
-Encoding=UTF-8
-Categories=Utility;
-EOF
-
-  Right click on ClipGrab.desktop and set 'Allow Launching' and 'Properties - Run as Program'
-    Re-run
-  sudo mv /home/daveg/Desktop/ClipGrab.desktop /usr/share/applications/
-  
 
 # Configure sound
 sudo nano /etc/modules-load.d/modules.conf
@@ -224,16 +180,35 @@ EOF
   use venv in pycharm to set up and use an app with this new python version
    
    
-# Install and setup puTTY
-  cd $HOME/Documents/GitHub/myStateOfCharge/SOC_Particle/dataReduction/putty/
-  # start putty from launch - save a session def to create folders
-  # open .._def.odt setup
-   *********set Font 'free mono 10'
-  # then create test* from def
-  Plug in a SOC deviceriv
-  sudo dmesg | grep tty  # to find out whicth TTY
-  sudo chgrp daveg /dev/ttyACM0
-  # NOTE:  save putty data on local drive.  GUI_TestSOC may use dataReductionFolder on google-drive but should not use putty to stream to google-drive
+  # YouTube downloader
+  # ClipGrab
+  https://github.com/yt-dlp/yt-dlp?tab=readme-ov-file#release-files
+    Get yt-dlp file for Linux
+  https://clipgrab.org/download-clipgrab/
+    Free Download
+    cd Downloads
+    chmod a+x ClipGrab-3.9.10-x86_64.AppImage
+    ./ClipGrab-3.9.10-x86_64.AppImage  # Will error first time, looking for yt-dlp.  Press Continue not exit, to get folders ClipGrab made
+    mv yt-dlp /home/daveg/.local/share/ClipGrab/ClipGrab/
+  Do a google search for 'clipgrab' and save the blue circle icon as Downloads/ClipGrab.jpeg
+    
+cat << EOF > /home/daveg/Desktop/ClipGrab.desktop
+[Desktop Entry]
+Name=ClipGrab
+Exec=/home/daveg/Downloads/ClipGrab-3.9.10-x86_64.AppImage
+Icon=/home/daveg/Downloads/ClipGrab.jpeg
+comment=app
+Type=Application
+Terminal=false
+Encoding=UTF-8
+Categories=Utility;
+EOF
+
+  Right click on ClipGrab.desktop and set 'Allow Launching' and 'Properties - Run as Program'
+    Re-run
+  sudo mv /home/daveg/Desktop/ClipGrab.desktop /usr/share/applications/
+  
+
 
 
 # Configure for Development
