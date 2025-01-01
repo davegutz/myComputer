@@ -82,6 +82,7 @@ HP Omen 15" 2022
   sudo apt install -y fuse libfuse2  # For appImage
   sudo apt install -y ffmpeg
   sudo apt install -y git
+  sudo apt install --fix-missing -y python3-pip
   sudo apt install -y python3-tk  # for pyCharm
   sudo apt install -y dhcpcd5
   sudo apt install dos2unix
@@ -158,22 +159,22 @@ EOF
   # get alternate python to call from venv in pycharm
 
   https://www.python.org/ftp/python/
-  download Python-3.11.9.tar.xz
+  download Python-3.12.8.tar.xz
   cd Downloads/
-  tar -Jxf Python-3.11.9.tar.xz
+  tar -Jxf Python-3.12.8.tar.xz
 
   # compile and install it (do make clean first if adding --enable-shared to an existing build)
-  cd Python-3.11.9/
+  cd Python-3.12.8/
   ./configure --enable-optimizations --enable-shared
   sudo make -j4 && sudo make altinstall
   sudo ldconfig /usr/local/lib  # done once to load shared libraries (maybe 'pip3 install uswgi' works)
      
   # verify
-  python3.11 --version
-  python3.11 -m pip --version
+  python3.12 --version
+  python3.12 -m pip --version
   
   # uninstall
-  cd Downloads/Python-3.11.9/
+  cd Downloads/Python-3.12.8/
   sudo make uninstall
   
   # use
