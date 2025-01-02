@@ -291,7 +291,7 @@ ffmpeg -f pulse -i alsa_output.platform-snd_aloop.0.analog-stereo.monitor -t   1
   # auto suspend  ************************************
   # get suspend_until from the folder this file came from
 # or:
-cat << EOF > /home/daveg/bin/suspend_until1
+cat << EOF > /home/daveg/bin/suspend_until
 #!/bin/bash
 
 # Auto suspend and wake-up script
@@ -345,6 +345,7 @@ chmod +x /home/daveg/bin/suspend_until
 0 14 * * * /home/daveg/bin/suspend_until 15:30
   sudo crontab -r  # reset
 
+  pop!os - settings - Power - Automatic suspend off,  - screen blank 15 min
 
   # Cleanup
   sudo passwd daveg  # passwords:  ignore warnings
