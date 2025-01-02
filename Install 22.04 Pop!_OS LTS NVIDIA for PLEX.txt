@@ -328,7 +328,65 @@ ffmpeg -f pulse -i alsa_output.platform-snd_aloop.0.analog-stereo.monitor -t   1
              Other R		Access only
 
 
+  # Samba for file sharing in network of home
+  sudo apt install -y samba
+  sudo apt install samba samba-common-bin
+  sudo apt install net-tools
+  sudo apt install vino -y
+  sudo apt install -y xrdp
+  sudo systemctl enable xrdp
+  sudo apt-get install libarchive-zip-perl  # for Particle workbench, crc32
 
+  # Samba for file share to Windows and other
+  https://askubuntu.com/questions/855139/cannot-access-shared-folder-in-ubuntu-from-windows-10
+  will not find system-config-samba  make changes by hand later in conf files
+  sudo apt-get install samba system-config-samba
+  sudo mkdir /Public
+  sudo chmod -R 0777 /Public
+  sudo adduser --no-create-home plexmgr
+  # Samba username & password  ******************************#sudo usermod -u 998 plexmgr
+  sudo smbpasswd -a plexmgr
+  # Open firewall
+  sudo ufw allow samba
+
+  # Add config for Public
+  sudo nano /etc/samba/smb.conf
+  # end Share Definitions
+inherit permissions = yes 
+  # bottom
+[Public]
+comment = public share, no need to enter username and password
+;path = /srv/samba/Public/
+path = /Public/
+browseable = yes
+writable = yes
+guest ok = yes
+
+  # Other Samba
+  systemctl status smbd nmbd
+  sudo systemctl start smbd nmbd
+  #sudo gedit /etc/samba/smb.conf
+  sudo service smbd restart && sudo service nmbd restart
+  # Samba username & password  ******************************
+  sudo groupadd samba
+  sudo gpasswd -a plexmgr samba
+  <network-usr-name>=plexmgr  pwd=126262  *************************************
+  sudo mkdir -p /srv/samba/private/
+  sudo setfacl -R -m "g:samba:rwx" /srv/samba/private/
+  testparm
+  sudo systemctl restart smbd nmbd
+  # settings - sharing:
+    everything shareable, even last item
+    set password same as others, e.g. daveg / 1262**
+  
+  # ip address set on router as fixed
+
+  # tried above - not present on Windows where it was before
+  # try restart.  OK address now 192.168.1.11.  Try to make it static
+
+
+  
+  
 
 ################# Fixes
 
