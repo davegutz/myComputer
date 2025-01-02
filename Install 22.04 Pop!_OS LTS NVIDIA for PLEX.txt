@@ -84,7 +84,7 @@ HP Omen 15" 2022
 #  sudo apt update
 #  sudo apt install firmware-b43-installer
 
-  Open popshop gui (Applications) install sqlitebrowser, brasero, caffeine, vlc, pycharm-community
+  Open popshop gui (Applications) install sqlitebrowser, brasero, caffeine, vlc
   Restart
 
 # Install apps
@@ -102,6 +102,16 @@ HP Omen 15" 2022
   sudo apt install LocalSend
   sudo apt install xsel
   sudo apt install -y pavucontrol  # for myPyScreencast
+  
+  # Special instructions for pycharm-community
+  # Flatpak used in pop!os makes path errors for pycharm-community (won't find special python build in /usr/local/bin).  Have to install it using snap then do some extra setup steps.
+  # uninstall the pycharm-community already installed
+  sudo apt install snapd
+  sudo snap install --classic pycharm-community
+  # install a version of python >=3.8, <3.12 using 'Install 24.04 Ubuntu.txt' instructions
+  sudo apt install python3-dev, portaudio19-dev, ffmpeg, libssl-dev, libsound-dev, python3-tk
+  # start pycharm-community using command line
+
 
   # VLC
     Tools-preferences-codecs  disable hardware-accelerated-decoding  save
@@ -326,6 +336,13 @@ sudo kernelstub -a "amdgpu.ppfeaturemask=0xffffffff"
 
 # fix wake from suspend
 sudo kernelstub -a mem_sleep_default=deep
+
+# TODO fix pyimage7 error on intial run of GUI_sqlite_scrape
+# just rerun; no need to exit re-enter or reboot or logout/in
+
+
+# pycharm-community cannot find /usr/local/bin
+# problem with flatpak version of pycharm-community.  Uninstall and reinstall using snap
 
 
 # Fix missing 'Settings' (if needed)
