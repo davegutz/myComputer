@@ -404,8 +404,9 @@ chmod +x /home/daveg/bin/suspend_until
              Other R		Access only
              
   add to TVshows library:    /media/daveg/Videos/DVRcache
+  switch top tab of each library display from 'Recommended' to 'Library'
              
-  Mount the 3TB drive using Disks
+  Mount the 3TB drive using Disks #  now what? TODO
 
 
 
