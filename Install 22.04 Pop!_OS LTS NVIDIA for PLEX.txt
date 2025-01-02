@@ -103,14 +103,10 @@ HP Omen 15" 2022
   sudo apt install xsel
   sudo apt install -y pavucontrol  # for myPyScreencast
   
-  # Special instructions for pycharm-community
   # Flatpak used in pop!os makes path errors for pycharm-community (won't find special python build in /usr/local/bin).  Have to install it using snap then do some extra setup steps.
   # uninstall the pycharm-community already installed
   sudo apt install snapd
   sudo snap install --classic pycharm-community
-  # install a version of python >=3.8, <3.12 using 'Install 24.04 Ubuntu.txt' instructions
-  sudo apt install python3-dev, portaudio19-dev, ffmpeg, libssl-dev, libsound-dev, python3-tk
-  # start pycharm-community using command line
 
 
   # VLC
@@ -246,34 +242,18 @@ EOF
   Open pyCharm install venv for each github repository	
   
     # movie_Scraper notes
-    Use own venv for install to work portably
+    Use own .venv for install to work portably
     Search for 'PySimpleGUI' in email for 'License key of:...' then open attachment.  First run will bomb.  Just run again.
     # TODO: investigate message '_tkinter.TclError: image "pyimage7" doesn't exist'
     Set DB location to /home/daveg/google-drive/Movies Stuff
-    Run executable making stuff at top of comments GUI_sqlite_scrape.py
-cat << EOF > /home/daveg/Desktop/GUI_sqlite_scrape.desktop
-[Desktop Entry]
-Name=GUI_sqlite_scrape
-Exec=/home/daveg/Documents/GitHub/movie_Scraper/dist/GUI_sqlite_scrape/GUI_sqlite_scrape
-Path=/home/daveg/Documents/GitHub/movie_Scraper/dist/GUI_sqlite_scrape
-Icon=/home/daveg/Documents/GitHub/movie_Scraper/popcorn.ico
-comment=app
-Type=Application
-Terminal=true
-Encoding=UTF-8
-Categories=Utility;
-EOF
-  Right click on GUI_sqlite_scrape.desktop and set 'Allow Launching' and 'Properties - Run as Program'
-    or
-  gio set /home/daveg/Desktop/GUI_sqlite_scrape.desktop metadata::trusted true
-  chmod a+x ~/Desktop/GUI_sqlite_scrape.desktop
-    Re-run
-  sudo mv /home/daveg/Desktop/GUI_sqlite_scrape.desktop /usr/share/applications/
-  Findit in applications and save to favorites
+
+    Run install.py and follow instructions
+
+    Findit in applications and save to favorites
   
     
     # myPyScreencast notes
-    Use own venv for install to work portably
+    Use own .venv for install to work portably
     Open a browser and start playing some music on youTube
     insert headphones  !!!
     pavucontrol  # assign browser cast to LoopbackAnalogStereo (verifies this kills spkr snd)
