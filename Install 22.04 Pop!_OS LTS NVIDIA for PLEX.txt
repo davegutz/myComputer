@@ -157,6 +157,10 @@ EOF
     # open Startup Applications and add /home/daveg/bin/start_google-drive-ocamlfuse
 
 
+ # from email search for 'restart_gdrive.h script' and download that script to desktop
+ # won't be run but commands are useful to restart google-drive ('??????????' in ls -rlt of homes)
+
+
 
   # Another version of Python:  call by version e.g. >python3.12
   #**********NOTE:  never replace default python in Debian-based Linux
@@ -282,7 +286,65 @@ ffmpeg -f pulse -i alsa_output.platform-snd_aloop.0.analog-stereo.monitor -t   1
       if comes up blank proceed down to 'install ffmpeg for screencaset'
     # helpful to install audacity in addition to pauvcontrol (previously)
     sudo snap install audacity
-    
+
+
+  # auto suspend  ************************************
+  # get suspend_until from the folder this file came from
+# or:
+cat << EOF > /home/daveg/bin/suspend_until1
+#!/bin/bash
+
+# Auto suspend and wake-up script
+#
+# Puts the computer on standby and automatically wakes it up at specified time
+#
+# Written by Romke van der Meulen <redge.online@gmail.com>
+# Minor mods fossfreedom for AskUbuntu
+#
+# Takes a 24hour time HH:MM as its argument
+# Example:
+# suspend_until 9:30
+# suspend_until 18:45
+
+# ------------------------------------------------------
+# Argument check
+if [ $# -lt 1 ]; then
+    echo "Usage: suspend_until HH:MM"
+    exit
+fi
+
+# Check whether specified time today or tomorrow
+DESIRED=$((`date +%s -d "$1"`))
+NOW=$((`date +%s`))
+if [ $DESIRED -lt $NOW ]; then
+    DESIRED=$((`date +%s -d "$1"` + 24*60*60))
+fi
+
+# Kill rtcwake if already running
+sudo killall rtcwake
+
+# Set RTC wakeup time
+sudo rtcwake -l -m mem -t $DESIRED &
+
+sleep 5
+sudo systemctl restart snap.plexmediaserver.plexmediaserver.service
+EOF
+chmod +x /home/daveg/bin/suspend_until
+
+  # Cron tab uses computer time (> date)
+  sudo crontab -e
+1 0 * * 1-6 /home/daveg/bin/suspend_until 16:00  # Mon - Sat 1 min after midnight
+1 0 * * 0 /home/daveg/bin/suspend_until 10:15   # Sun. Face the Nation at 10:30 Sun.
+  sudo crontab -l # to show current
+  #? ssudo crontab -  # to update crontab
+  # no restart of any kind needed because cron simply reads all crontab files every minute
+
+
+  # Test on hpomen 
+  sudo crontab -e
+0 14 * * * /home/daveg/bin/suspend_until 15:30
+  sudo crontab -r  # reset
+
 
   # Cleanup
   sudo passwd daveg  # passwords:  ignore warnings
@@ -326,6 +388,8 @@ ffmpeg -f pulse -i alsa_output.platform-snd_aloop.0.analog-stereo.monitor -t   1
              Owner R&W		C&D
              Group R&W		C&D
              Other R		Access only
+
+
 
 
   # Samba for file sharing in network of home
@@ -378,11 +442,10 @@ guest ok = yes
   # pop!os settings - sharing:
     everything shareable, even last item
     set password same as others, e.g. daveg / 1262**
+  # restart - note ip for windows.  pop_os will be visible in 'files' app
+  ifconfig
   
-  # ip address set on router as fixed
-
-  # tried above - not present on Windows where it was before
-  # try restart.  OK address now 192.168.1.11.  Try to make it static
+  OK address now 192.168.4.21.  Try to make it static by EERO phone app (reservation). Change name from pop-os-# to pop-os-plex
 
 
   
