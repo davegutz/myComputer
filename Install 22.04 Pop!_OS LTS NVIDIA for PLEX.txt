@@ -116,16 +116,17 @@ HP Omen 15" 2022
   
   # kdenlive https://kdenlive.org/en/download/  select and install flatpak
 
-# Configure sound
-sudo nano /etc/modules-load.d/modules.conf
-#Add following line to /etc/modules-load.d/modules.conf
-snd-aloop
-# To start it for this session
-sudo modprobe snd-aloop
-# you can just plug in the usb headset and adjust the sound settings
+
+  # Configure sound
+  sudo nano /etc/modules-load.d/modules.conf
+  # Add following line to /etc/modules-load.d/modules.conf
+  snd-aloop
+  # To start it for this session
+  sudo modprobe snd-aloop
+  # you can just plug in the usb headset and adjust the sound settings
 
 
-# google drive stuff
+  # google drive stuff
   sudo add-apt-repository ppa:alessandro-strada/ppa
   sudo apt update && sudo apt install -y google-drive-ocamlfuse
   # Special google-drive-ocamlfuse:  need to run with a secret so I stored it in davegutz2006 gmail
@@ -156,9 +157,10 @@ EOF
     # open Startup Applications and add /home/daveg/bin/start_google-drive-ocamlfuse
 
 
-#### Another version of Python:  call by version e.g. >python3.12
-#**********NOTE:  never replace default python in Debian-based Linux
-# https://ubuntuhandbook.org/index.php/2021/10/compile-install-python-3-10-ubuntu/
+
+  # Another version of Python:  call by version e.g. >python3.12
+  #**********NOTE:  never replace default python in Debian-based Linux
+  # https://ubuntuhandbook.org/index.php/2021/10/compile-install-python-3-10-ubuntu/
 
   # dependencies
   sudo apt update
@@ -198,7 +200,7 @@ EOF
   sudo make uninstall
   
   # use
-  use venv in pycharm to set up and use an app with this new python version
+  use .venv in pycharm to set up and use an app with this new python version
    
    
   # YouTube downloader
@@ -232,7 +234,7 @@ EOF
 
 
 
-# Configure for Development
+  # Configure for Development
   Open pyCharm-Community
     Setup venv for python, can be used in Code.  Update pip etc before importing more packages
     # also use local dictionary in settings - editor - natural languages - spelling (uncheck 'use single...')
@@ -278,28 +280,52 @@ ffmpeg -f pulse -i alsa_output.platform-snd_aloop.0.analog-stereo.monitor -t   1
     # Check features of ffmpeg
       ffmpeg -version |grep x11grab  && ffmpeg -version |grep gpl && ffmpeg -version |grep libx264 && ffmpeg -version |grep libmp3lame && ffmpeg -version |grep nonfree
       if comes up blank proceed down to 'install ffmpeg for screencaset'
-    # helpful to install pavucontrol and audacity
-    sudo apt install pavucontrol
+    # helpful to install audacity in addition to pauvcontrol (previously)
     sudo snap install audacity
     
 
+  # Cleanup
+  sudo passwd daveg  # passwords:  ignore warnings
+  sudo passwd # root
+  rm ~/.local/share/keyrings/login.keyring
+  sudo apt autoremove
+  cd
+  sudo apt autoclean
+  sudo apt clean
+  sudo apt install deborphan
+  sudo apt remove $(deborphan)
 
 
-
-# Cleanup
-
-# Passwords...ignore warnings
-sudo passwd daveg
-sudo passwd # root
-rm ~/.local/share/keyrings/login.keyring
+  # Seagate harddrive
+  # #'secure backup' refers to the really long secure password in BitWarden 'secure F secure.vhdx'
 
 
-sudo apt autoremove
-cd
-sudo apt autoclean
-sudo apt clean
-sudo apt install deborphan
-sudo apt remove $(deborphan)
+  # Plex
+  go turn off the main plex server in the house.   It will confuse plex for next step
+  start plexmediaserver using applications
+  plex started using  menus - sign in with google id
+  need to 'claim' this new installation.  There should be some visual clues in the plex
+  menus, yellow exclamation points, yellow triangles
+  name:  PLEX-LINUX on pc for server
+  connect usb drive then:
+  plex - manage libraries - select the sources
+  after several hours of content loading, you will need to shutdown plex and restart to see the content
+  transcoder settings - deselect use hardware acceleration
+                  - specify Transcoder Temporary Directory = /media/daveg/DVRcache
+  dvr - mounted spare hard drive 3 TB named 'DVRcache'
+      - use 'Files' to browse to the dvr drive.  Right click properties:  set 'create & delete' permissions for all.
+      - Owner:  me
+           Access: Create & Delete (C&D)
+      - Group:  daveg
+           Access: C&D
+      - Others:
+      	   Access: C&D
+         
+         Enclosed Files
+             Files		Folders
+             Owner R&W		C&D
+             Group R&W		C&D
+             Other R		Access only
 
 
 
@@ -312,11 +338,14 @@ sudo apt remove $(deborphan)
     # sudo apt install --reinstall ubuntu-session
     # reboot
 
+
 # kernel parameters on startup
 sudo kernelstub -a "amdgpu.ppfeaturemask=0xffffffff"
 
+
 # fix wake from suspend
 sudo kernelstub -a mem_sleep_default=deep
+restart
 
 # TODO fix pyimage7 error on intial run of GUI_sqlite_scrape
 # just rerun; no need to exit re-enter or reboot or logout/in
@@ -329,8 +358,10 @@ sudo kernelstub -a mem_sleep_default=deep
 # Fix missing 'Settings' (if needed)
 sudo apt-get install -y ubuntu-desktop
 
+
 # Fix "gnome-control-center not found  in path" when launching Settings
 sudo apt install gnome-control-center
+
 
 # Desktop icons mission 
  sudo apt-get install --reinstall ubuntu-desktop
