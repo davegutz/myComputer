@@ -450,8 +450,7 @@ guest ok = yes
   
   OK address now 192.168.4.21.  Try to make it static by EERO phone app (reservation). Change name from pop-os-# to pop-os-plex
 
-
-  
+  send email noting static address to windows users so they can change shortcuts
   
 
 ################# Fixes
