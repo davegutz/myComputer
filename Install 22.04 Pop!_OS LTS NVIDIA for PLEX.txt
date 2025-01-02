@@ -337,21 +337,21 @@ ffmpeg -f pulse -i alsa_output.platform-snd_aloop.0.analog-stereo.monitor -t   1
   sudo systemctl enable xrdp
   sudo apt-get install libarchive-zip-perl  # for Particle workbench, crc32
 
-  # Samba for file share to Windows and other
-  https://askubuntu.com/questions/855139/cannot-access-shared-folder-in-ubuntu-from-windows-10
-  will not find system-config-samba  make changes by hand later in conf files
-  sudo apt-get install samba system-config-samba
+  # refer to  https://askubuntu.com/questions/855139/cannot-access-shared-folder-in-ubuntu-from-windows-10
+    will not find system-config-samba  make changes by hand later in conf files
+  ## sudo apt install samba system-config-samba
   sudo mkdir /Public
   sudo chmod -R 0777 /Public
   sudo adduser --no-create-home plexmgr
-  # Samba username & password  ******************************#sudo usermod -u 998 plexmgr
-  sudo smbpasswd -a plexmgr
+  # Samba username & password  **************same pwd as daveg ****************#
+  sudo usermod -u 998 plexmgr
+  sudo smbpasswd -a plexmgr  # use same pwd as daveg
   # Open firewall
   sudo ufw allow samba
 
   # Add config for Public
   sudo nano /etc/samba/smb.conf
-  # end Share Definitions
+  # end Share Definitions (just before printers, use ctrl-w to search for [printers]
 inherit permissions = yes 
   # bottom
 [Public]
@@ -363,7 +363,7 @@ writable = yes
 guest ok = yes
 
   # Other Samba
-  systemctl status smbd nmbd
+  systemctl status smbd nmbd  # don't know what this does
   sudo systemctl start smbd nmbd
   #sudo gedit /etc/samba/smb.conf
   sudo service smbd restart && sudo service nmbd restart
@@ -373,9 +373,9 @@ guest ok = yes
   <network-usr-name>=plexmgr  pwd=126262  *************************************
   sudo mkdir -p /srv/samba/private/
   sudo setfacl -R -m "g:samba:rwx" /srv/samba/private/
-  testparm
+  testparm  # see your changes
   sudo systemctl restart smbd nmbd
-  # settings - sharing:
+  # pop!os settings - sharing:
     everything shareable, even last item
     set password same as others, e.g. daveg / 1262**
   
