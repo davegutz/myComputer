@@ -85,6 +85,7 @@ HP Omen 15" 2022
 #  sudo apt install firmware-b43-installer
 
   Open popshop gui (Applications) install sqlitebrowser, brasero, caffeine, vlc
+  sudo kernelstub -a mem_sleep_default=deep  # prevent not waking after suspend
   Restart
 
 # Install apps
