@@ -365,13 +365,13 @@ chmod +x /home/daveg/bin/suspend_until
 
   # Plex
   go turn off the main plex server in the house.   It will confuse plex for next step
-  start plexmediaserver using applications
+  start plexmediaserver using applications menu (snap didn't do it)
   plex started using  menus - sign in with google id
   need to 'claim' this new installation.  There should be some visual clues in the plex
   menus, yellow exclamation points, yellow triangles
   name:  PLEX-LINUX on pc for server.  Uncheck "Allow me to access my media outside my home"
   connect usb drive then:
-  plex - manage libraries - select the sources
+  plex - manage libraries - select the sources.  WAIT BEFORE FINISHING A LIBRARY ADD OR PATH WILL BE SHORTENED
      Movies:  /media/daveg/Lib/Movies
      TV Shows: /media/daveg/Lib/TV Shows
      Other Videos: /media/daveg/Lib/Videos
@@ -379,7 +379,13 @@ chmod +x /home/daveg/bin/suspend_until
   Settings - Transcoder - deselect 'Use hardware acceleration when available'
                   - specify Transcoder Temporary Directory = /media/daveg/Videos/DVRcache
   dvr - mounted spare hard drive 3 TB named 'DVRcache'
-      - use 'Files' to browse to the dvr drive.  Right click properties for 'DVRcache':  set 'create & delete' permissions for owner, group and others.  Also go into 'Change Permissions for Enclosed Files' and set as shown below.
+      - use 'Files' to browse to the dvr drive.  Right click properties for 'DVRcache':  set 'create & delete' permissions for owner, group and others.  Also go into 'Change 
+  
+  # give plexmgr permissions
+  # add plexmgr to group daveg
+      sudo usermod -a -G daveg plexmgr
+      
+  Permissions for Enclosed Files' and set as shown below.
       - Owner:  me
            Access: Create & Delete (C&D)
       - Group:  daveg
