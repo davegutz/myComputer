@@ -403,6 +403,7 @@ chmod +x /home/daveg/bin/suspend_until
              Group R&W		C&D
              Other R		Access only
              
+  add to TVshows library:    /media/daveg/Videos/DVRcache
              
   Mount the 3TB drive using Disks
 
