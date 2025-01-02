@@ -384,6 +384,7 @@ chmod +x /home/daveg/bin/suspend_until
   # give plexmgr permissions
   # add plexmgr to group daveg
       sudo usermod -a -G daveg plexmgr
+  restart
       
   Permissions for Enclosed Files' and set as shown below.
       - Owner:  me
