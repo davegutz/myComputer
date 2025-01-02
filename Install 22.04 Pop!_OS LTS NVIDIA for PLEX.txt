@@ -368,14 +368,17 @@ chmod +x /home/daveg/bin/suspend_until
   plex started using  menus - sign in with google id
   need to 'claim' this new installation.  There should be some visual clues in the plex
   menus, yellow exclamation points, yellow triangles
-  name:  PLEX-LINUX on pc for server
+  name:  PLEX-LINUX on pc for server.  Uncheck "Allow me to access my media outside my home"
   connect usb drive then:
   plex - manage libraries - select the sources
+     Movies:  /media/daveg/Lib/Movies
+     TV Shows: /media/daveg/Lib/TV Shows
+     Other Videos: /media/daveg/Lib/Videos
   after several hours of content loading, you will need to shutdown plex and restart to see the content
-  transcoder settings - deselect use hardware acceleration
-                  - specify Transcoder Temporary Directory = /media/daveg/DVRcache
+  Settings - Transcoder - deselect 'Use hardware acceleration when available'
+                  - specify Transcoder Temporary Directory = /media/daveg/Videos/DVRcache
   dvr - mounted spare hard drive 3 TB named 'DVRcache'
-      - use 'Files' to browse to the dvr drive.  Right click properties:  set 'create & delete' permissions for all.
+      - use 'Files' to browse to the dvr drive.  Right click properties for 'DVRcache':  set 'create & delete' permissions for owner, group and others.  Also go into 'Change Permissions for Enclosed Files' and set as shown below.
       - Owner:  me
            Access: Create & Delete (C&D)
       - Group:  daveg
@@ -388,7 +391,7 @@ chmod +x /home/daveg/bin/suspend_until
              Owner R&W		C&D
              Group R&W		C&D
              Other R		Access only
-
+  Mount the 3TB drive.
 
 
 
