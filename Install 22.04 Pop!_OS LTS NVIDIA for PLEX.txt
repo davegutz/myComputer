@@ -385,6 +385,9 @@ chmod +x /home/daveg/bin/suspend_until
   # add plexmgr to group daveg
       sudo usermod -a -G daveg plexmgr
   restart
+  sudo chown daveg /media/daveg
+  sudo chmod -R a+rwx /media/daveg
+  #sudo chmod a+rwx /media/daveg/Videos/DVRcache
       
   Permissions for Enclosed Files' and set as shown below.
       - Owner:  me
@@ -399,7 +402,9 @@ chmod +x /home/daveg/bin/suspend_until
              Owner R&W		C&D
              Group R&W		C&D
              Other R		Access only
-  Mount the 3TB drive.
+             
+             
+  Mount the 3TB drive using Disks
 
 
 
