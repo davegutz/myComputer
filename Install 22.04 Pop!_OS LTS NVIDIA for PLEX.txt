@@ -50,16 +50,16 @@ HP Omen 15" 2022
   # It came up without wifi.  Connect ethernet to grab updates and fix wireless
 
 
-# Fix 5G network connect:
-  sudo dhcpcd5
-   ubuntu wifi connected no browse
-      Use the Google Public DNS IP in /etc/resolv.conf
-      sudo cp /etc/resolv.conf /etc/resolv.conf.bak
-      sudo nano /etc/resolv.conf
-         add
-         nameserver 8.8.8.8
-        nameserver 8.8.4.4
-        to bottom of file, leaving everything else in there
+  # wifi fixes:
+  # Broadcom driver on hp phoenix
+  sudo apt install bcmwl-kernel-source
+  # Use the Google Public DNS IP in /etc/resolv.conf
+  sudo cp /etc/resolv.conf /etc/resolv.conf.bak
+  sudo nano /etc/resolv.conf
+         add to bottom of file, leaving everything else in there
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+        
 
 
 # Connect online accounts
@@ -79,14 +79,12 @@ HP Omen 15" 2022
     # sign in to GitHub.com.  Your password will be available in BitWarden
 	# Download myComputer to get this file.
 
-  # wifi for broadcom:
-  sudo apt install bcmwl-kernel-source
-#  sudo apt update
-#  sudo apt install firmware-b43-installer
-
-  Open popshop gui (Applications) install sqlitebrowser, brasero, caffeine, vlc
+  Open popshop gui (Applications) install sqlitebrowser, brasero, caffeine, vlc, gnome tweaks
   sudo kernelstub -a mem_sleep_default=deep  # prevent not waking after suspend
   Restart
+
+# Lockscreen icons:
+  # Tweaks - Appearance - Lock Screen
 
 # Install apps
   sudo snap install snapd
@@ -290,46 +288,7 @@ ffmpeg -f pulse -i alsa_output.platform-snd_aloop.0.analog-stereo.monitor -t   1
 
   # auto suspend  ************************************
   # get suspend_until from the folder this file came from
-# or:
-cat << EOF > /home/daveg/bin/suspend_until
-#!/bin/bash
-
-# Auto suspend and wake-up script
-#
-# Puts the computer on standby and automatically wakes it up at specified time
-#
-# Written by Romke van der Meulen <redge.online@gmail.com>
-# Minor mods fossfreedom for AskUbuntu
-#
-# Takes a 24hour time HH:MM as its argument
-# Example:
-# suspend_until 9:30
-# suspend_until 18:45
-
-# ------------------------------------------------------
-# Argument check
-if [ $# -lt 1 ]; then
-    echo "Usage: suspend_until HH:MM"
-    exit
-fi
-
-# Check whether specified time today or tomorrow
-DESIRED=$((`date +%s -d "$1"`))
-NOW=$((`date +%s`))
-if [ $DESIRED -lt $NOW ]; then
-    DESIRED=$((`date +%s -d "$1"` + 24*60*60))
-fi
-
-# Kill rtcwake if already running
-sudo killall rtcwake
-
-# Set RTC wakeup time
-sudo rtcwake -l -m mem -t $DESIRED &
-
-sleep 5
-sudo systemctl restart snap.plexmediaserver.plexmediaserver.service
-EOF
-chmod +x /home/daveg/bin/suspend_until
+  chmod +x /home/daveg/bin/suspend_until
 
   # Cron tab uses computer time (> date)
   sudo crontab -e
