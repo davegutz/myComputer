@@ -79,12 +79,9 @@ nameserver 8.8.4.4
     # sign in to GitHub.com.  Your password will be available in BitWarden
 	# Download myComputer to get this file.
 
-  Open popshop gui (Applications) install sqlitebrowser, brasero, caffeine, vlc, gnome tweaks
+  Open popshop gui (Applications) install sqlitebrowser, brasero, caffeine, vlc
   sudo kernelstub -a mem_sleep_default=deep  # prevent not waking after suspend
   Restart
-
-# Lockscreen icons:
-  # Tweaks - Appearance - Lock Screen
 
 # Install apps
   sudo snap install snapd
