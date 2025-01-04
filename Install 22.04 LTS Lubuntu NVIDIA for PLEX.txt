@@ -1,8 +1,11 @@
 HP Omen 15" 2022
 
-# Pop!OS wouldn't work:  wouldn't auto-detect monitor no matter what settings I tried.  The result was install window too big to fit in display and couldn't de-select encryption.  With encryption, couldn't suspend automatically.  Also, screencasted movies were jerky.
+# Pop!OS is superb choice for an NVIDIA PC of any kind.  System 76 optimized it for NVIDIA gaming.
 
-# Lubuntu is Ubuntu clone.  It doesn't have 'snapd' installed by default.  Once that is installed, installation is similar to Ubuntu.  Pycharm-community did not work right so had to download and create shortcut.  x11/ Xorg is installed by default.
+# Lubuntu is based on Ubuntu.  It doesn't have 'snapd' installed by default.  Once that is installed, installation is similar to Ubuntu.  Pycharm-community did not work right so had to download and create shortcut.  LXQt is desktop. x11/ Xorg is installed by default.
+
+#### When in doubt, use instructions for Ubuntu
+
 
 ######## Lessons Learned  ##########
 - Do not interrupt command-line initiated upgrade.  Will break system.  Let it finish.
@@ -35,20 +38,23 @@ HP Omen 15" 2022
   Deauthorize tools like DVDfab, winxdvd, epubor in case can't get back
   Unplug second monitor, other usb's.  May leave mouse and keypad
 
-# insert iso usb (lubuntu 24.04 LTS.iso)
-  F1 (rapid F12 on Lenovo laptop, F10 on HP-Omen, ESC on HP-Phoenix, F7 on little_guy) during boot.   Set boot order to USB.  *try or install lubuntu - minimal installation - install updates.
+# insert iso usb (lubuntu 24.04.iso)
+  F1 (rapid F12 on Lenovo laptop, F10 on HP-Omen, ESC on HP-Phoenix, F7 on little_guy) during boot.   Set boot order to USB.  *try or install ubuntu - normal installation - install updates (I tried minimal installation - lots of things didn't work right)
   Choose 'try or install ...'  3 min to next step - may hear music
 
-  # Begin install Lubuntu
+  # Begin install Pop
      # Initial display will be wonky because pop doesn't recognize old Acer monitor
      # Fresh clean install
-     # pop won't ask for wireless
-     # encrypted
+     # minimal
+     # update
      # daveg / pwd   # can change passwords later but note that this initial pwd will be the lock for LUKS file system encryption.  I suggest start with your final password here then temporarily change to a short one for install
+     # When done press finish.  It will automatically prompt you to remove media.
 
   # It should restart to Linux without Bios boot
   # It came up without wifi.  Connect ethernet to grab updates and fix wireless
 
+  # Power - Turn off idleness watcher
+  # test suspend
 
   # wifi fixes:
   # Broadcom driver on hp phoenix
