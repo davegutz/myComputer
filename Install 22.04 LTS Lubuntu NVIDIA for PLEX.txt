@@ -269,6 +269,7 @@ ffmpeg -f pulse -i alsa_output.platform-snd_aloop.0.analog-stereo.monitor -t   1
 
 
   # Samba for file sharing in network of home
+    ( this link may be easier than this process:  https://ubuntuforums.org/showthread.php?t=1623346  )
   sudo apt install -y samba
   sudo apt install samba samba-common-bin
   sudo apt install net-tools
@@ -276,22 +277,13 @@ ffmpeg -f pulse -i alsa_output.platform-snd_aloop.0.analog-stereo.monitor -t   1
   sudo apt install -y xrdp
   sudo systemctl enable xrdp
   sudo apt-get install libarchive-zip-perl  # for Particle workbench, crc32
-
-  # refer to  https://askubuntu.com/questions/855139/cannot-access-shared-folder-in-ubuntu-from-windows-10
-    will not find system-config-samba  make changes by hand later in conf files
-  ## sudo apt install samba system-config-samba
   sudo mkdir /Public
   sudo chmod -R 0777 /Public
-  sudo adduser --no-create-home plexmgr
-  # Samba username & password  **************same pwd as daveg ****************#
-  sudo usermod -u 998 plexmgr
   sudo smbpasswd -a plexmgr  # use same pwd as daveg
-  # Open firewall
-  sudo ufw allow samba
-
-  # Add config for Public
-  sudo nano /etc/samba/smb.conf
-  # end Share Definitions (just before printers, use ctrl-w to search for [printers]
+  sudo ufw allow samba  # Open firewall
+  
+  sudo nano /etc/samba/smb.conf  # Add config for Public
+  # end Share Definitions (just before printers, use ctrl-w to search for [printers])
 inherit permissions = yes 
   # bottom
 [Public]
@@ -305,21 +297,40 @@ guest ok = yes
   # Other Samba
   systemctl status smbd nmbd  # don't know what this does
   sudo systemctl start smbd nmbd
-  #sudo gedit /etc/samba/smb.conf
   sudo service smbd restart && sudo service nmbd restart
+
   # Samba username & password  ******************************
   sudo groupadd samba
   sudo gpasswd -a plexmgr samba
-  <network-usr-name>=plexmgr  pwd=126262  *************************************
   sudo mkdir -p /srv/samba/private/
   sudo setfacl -R -m "g:samba:rwx" /srv/samba/private/
   testparm  # see your changes
   sudo systemctl restart smbd nmbd
-  # pop!os settings - sharing:
-    everything shareable, even last item
-    set password same as others, e.g. daveg / 1262**
-  # restart - note ip for windows.  pop_os will be visible in 'files' app
-  ifconfig
+
+  *******  here
+  As an initial test, go to file manager (pcmanfm) and enter:-
+smb://localhost
+You should see the local print$ folder listed.
+
+To access folder shares remotely
+* open file manager (pcmanfm)
+* enter the IP address or computer name of the machine you wish to access
+e.g. smb://192.168.0.99 or smb://print-server
+
+ To share a folder:-
+Go to: Preferences > Samba (enter password when requested)
+In the Samba Configuration screen:-
+* File > Add Share
+* use Browse... to select folder to be shared
+* Tick "Visible" and (if required} "Writable"
+* In the "Access" select "Allow access to everyone"
+Set the Linux permissions:-
+* locate the folder to share in file manager
+* right click on the folder and select Properties > Permissions
+* set the required permissions, e.g. Other: Read & Write (to allow anyone full access)
+
+Happy networking!
+
   
   OK address now 192.168.4.21.  Try to make it static by EERO phone app (reservation). Change name from pop-os-# to pop-os-plex
 
