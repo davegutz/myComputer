@@ -1,33 +1,11 @@
 HP Omen 15" 2022
 
-# Pop!OS is superb choice for an NVIDIA PC of any kind.  System 76 optimized it for NVIDIA gaming.
+# Pop!OS is superb choice for an NVIDIA PC of any kind.  System 76 optimized it for NVIDIA gaming.  But it gives poor screencast results and I couldn't get it to install unencrypted due to NVIDIA / Pop incompatibility with screen resolution (couldn't press button).
 
 # Lubuntu is based on Ubuntu.  It doesn't have 'snapd' installed by default.  Once that is installed, installation is similar to Ubuntu.  Pycharm-community did not work right so had to download and create shortcut.  LXQt is desktop. x11/ Xorg is installed by default.
 
 #### When in doubt, use instructions for Ubuntu
 
-
-######## Lessons Learned  ##########
-- Do not interrupt command-line initiated upgrade.  Will break system.  Let it finish.
-- Do not directly upgrade or delete the as-shipped installed python.  Will break system.  Use 'altinstall' make directive
-- Always use virtual environment 'venv' unique for each python project.  Allows easy cross-platform 'install' operations in python.
-- 'pauvcontrol' default volume on outputs - built-in or pulse audio - is too low to record movies using screencasting.  Set them to 100.
-- Use 'ffmpeg -sources pulse' (or 'ffmpeg -sources alsa') to determine screencast source appropriate for the 'ffmpeg'.  Use the long initial string.
-- 'grub' changes ordering of boot options upon ugrading kernel.   May be important, especially if you cannot view grub due to bad monitor.
-- Acer monitors will not display grub on boot.   Have to learn the grub pattern and perform it blind to get to non-default os e.g. Windows.  Can use a video capture card plus a phone and 'USB Camera' app or capture card plus another PC and 'OBS' to view the new grub pattern.
-- New linux os  have Wayland gui system as default.   Breaks a lot of programs.  Resort to Xorg = X11 instead.
-- A lot of boot problems can be fixed at end of failed boot using 'Ctrl+Alt+F5' and 'sudo' commands as needed.  Restoring snap applications and snap itself is easy as are desktop managers.
-- 'puTTY' is a tried-and-true cross-platform terminal emulator and will save a lot of work if used on your cross-platform applications. 
-- 'ffmpeg' is a tried-and-true cross-platform terminal emulator and will save a lot of work if used on your cross-platform applications.
-- Python's native 'ffmpeg' is about 4x faster than one installed in the system.
-- Ubuntu community is supportive.  I have managed to solve every problem.  Social media in order of helpfulness:  'StackExchange', 'Ubuntu Forums', 'Reddit', 'askUbuntu'.
-- Python's built-in UNIX time utilities easier to use than on-line epoch sites.
-- GitHub is great way to coordinate cross-platform activities.  Do not track 'dist', 'build', '.idea', '.vscode', 'venv', '...someapp.cpp'.  
-- Install settings files in local temp folders for seamless iteration of design changes.  And don't track using GitHub.
-- Don't install figures in GitHub.  They're basically unreadable as a historical record.   Some value in keeping them in local machines for reference.  Instead make it easy to reproduce interactive plot tools.
-- Do not expect other users to use GitHub.  Either figure out a way to distribute binaries or use GitHub yourself on their computers.
-- Do not become dependent on streaming data, e.g. Particle Cloud, Blynk, Google Cloud.  Eventually they will try to charge you.  I am somewhat dependent on Google Cloud for ocamlfuse G-drive application.
-- Use Python whenever possible.   'Scilab' and 'Matlab' tools may ALL be replaced by Python and the effort will be worth it.
 
 #  Get ready
   Phone to approve google requests and usb tethering if needed
@@ -55,28 +33,60 @@ HP Omen 15" 2022
 
   # Power - Turn off idleness watcher
   # test suspend
-
-  # wifi fixes:
-  # Broadcom driver on hp phoenix
-  sudo apt install bcmwl-kernel-source
-  # Use the Google Public DNS IP in /etc/resolv.conf
-  sudo cp /etc/resolv.conf /etc/resolv.conf.bak
-  sudo nano /etc/resolv.conf
-         add to bottom of file, leaving everything else in there
-nameserver 8.8.8.8
-nameserver 8.8.4.4
         
+# Preferences - Additional drivers:                                 
+    * NVIDIA proprietary, tested
+    * Broadcom STA wireless                                           
+    * apply                                                           
+    * close                                                           
+    * restart                                                         
+  # Sign into wifi
+    * ourHappyHome5G - 7ef79856c1a52598410c
+    # Use the Google Public DNS IP in /etc/resolv.conf
+    * sudo nano /etc/resolve.conf  # add to bottom
+nameserver 8.8.8.8
+nameserver 8.8.8.4
+    * restart
+ 
+
+  # Initial functionality (bootstrapping)
+    * sudo apt update && sudo apt upgrade
+    * sudo apt install synaptic  # will be found in Preferences
+      * firefox
+      * dos2unix     * featherpad      * apply
+      * restart
+
+    * open firefox
+      * signin
+      * pin Bitwarden to Toolbar
+      * Bookmarks Bar - always show
+      * Sign into google
 
 
-# Connect online accounts
-  # firefox sign in and google
+    * Preferences - Users 
+       * add plexmgr same properties as daveg, main group daveg
+
+  * Change BIOS to power on at 16:00 every day.  Later use cron to turn off at 22:30 every day and 01:00 every day
+
+  /usr/sbin/shutdownnano /etc/crontab22 30 * * * root /usr/sbin/shutdown -h now01 00 * * * root /usr/sbin/shutdown -h now
+ * add github to end bootstrapping
+sudo wget https://github.com/shiftkey/desktop/releases/download/release-3.1.1-linux1/GitHubDesktop-linux-3.1.1-linux1.deb
+
+  # Install GitHub
+  sudo apt-get install -y gdebi-core 
+  sudo gdebi GitHubDesktop-linux-3.1.1-linux1.deb
+  github
+  # sign in to GitHub.com.  Your password will be available in BitWarden. Use passkey -easiest
+
+ May have to do URL clone if get caught in a loop
+* Preferences - LXQt Settings - Appearance LXQt Theme = Dark
  
 # ASAP:
   sudo apt update
   sudo do-release-upgrade  # ?
   sudo apt upgrade             # ?
   sudo apt autoremove
-  sudo apt install -y snapd   #############################!!!!!!!
+
 # github desktop
   sudo wget https://github.com/shiftkey/desktop/releases/download/release-3.1.1-linux1/GitHubDesktop-linux-3.1.1-linux1.deb
   sudo apt-get install -y gdebi-core 
@@ -85,13 +95,10 @@ nameserver 8.8.4.4
     # sign in to GitHub.com.  Your password will be available in BitWarden
 	# Download myComputer to get this file.
 
-  Open popshop gui (Applications) install sqlitebrowser, brasero, caffeine, vlc
-  sudo kernelstub -a mem_sleep_default=deep  # prevent not waking after suspend
+  Open synaptic (Applications) install sqlitebrowser, brasero, caffeine, vlc
   Restart
 
 # Install apps
-  sudo snap install snapd
-  logout / log back in to organize snapd ########## important!!!!  IT WILL WORK IF YOU DO THIS
   sudo snap install plexmediaserver # for remote laptop (for trips) as well as basement server
   sudo apt install ./Downloads/code_1.90.2-1718751586_amd64.deb
   sudo apt install -y fuse libfuse2  # For appImage
@@ -104,10 +111,6 @@ nameserver 8.8.4.4
   sudo apt install LocalSend
   sudo apt install xsel
   sudo apt install -y pavucontrol  # for myPyScreencast
-  
-  # Flatpak used in pop!os makes path errors for pycharm-community (won't find special python build in /usr/local/bin).  Have to install it using snap then do some extra setup steps.
-  # uninstall the pycharm-community already installed
-  sudo apt install snapd
   sudo snap install --classic pycharm-community
 
 
@@ -473,4 +476,26 @@ sudo nano /etc/xdg/autostart/io.elementary.appcenter-daemon.desktop
 change 60->0
 "So after digging some more on this issue, I believe I managed to fix my issue. The user who originally posted the github article merged it with another article (https://github.com/pop-os/shop/pull/349) where you change the "io.elementary.appcenter-daemon.desktop" to auto-start immediately after logging in, instead of waiting 60 seconds to start. I found this file located in this folder "/etc/xdg/autostart". I then edited the "X-GNOME-Autostart-Delay" entry to a value of "0" and restarted my system. After the restart I opened then closed the Pop Shop and checked the journalctl. I didn't see any of the logs listed above. I will keep an eye on this and update this post with any further details." 
 
+
+######## Lessons Learned  ##########
+- Do not interrupt command-line initiated upgrade.  Will break system.  Let it finish.
+- Do not directly upgrade or delete the as-shipped installed python.  Will break system.  Use 'altinstall' make directive
+- Always use virtual environment 'venv' unique for each python project.  Allows easy cross-platform 'install' operations in python.
+- 'pauvcontrol' default volume on outputs - built-in or pulse audio - is too low to record movies using screencasting.  Set them to 100.
+- Use 'ffmpeg -sources pulse' (or 'ffmpeg -sources alsa') to determine screencast source appropriate for the 'ffmpeg'.  Use the long initial string.
+- 'grub' changes ordering of boot options upon ugrading kernel.   May be important, especially if you cannot view grub due to bad monitor.
+- Acer monitors will not display grub on boot.   Have to learn the grub pattern and perform it blind to get to non-default os e.g. Windows.  Can use a video capture card plus a phone and 'USB Camera' app or capture card plus another PC and 'OBS' to view the new grub pattern.
+- New linux os  have Wayland gui system as default.   Breaks a lot of programs.  Resort to Xorg = X11 instead.
+- A lot of boot problems can be fixed at end of failed boot using 'Ctrl+Alt+F5' and 'sudo' commands as needed.  Restoring snap applications and snap itself is easy as are desktop managers.
+- 'puTTY' is a tried-and-true cross-platform terminal emulator and will save a lot of work if used on your cross-platform applications. 
+- 'ffmpeg' is a tried-and-true cross-platform terminal emulator and will save a lot of work if used on your cross-platform applications.
+- Python's native 'ffmpeg' is about 4x faster than one installed in the system.
+- Ubuntu community is supportive.  I have managed to solve every problem.  Social media in order of helpfulness:  'StackExchange', 'Ubuntu Forums', 'Reddit', 'askUbuntu'.
+- Python's built-in UNIX time utilities easier to use than on-line epoch sites.
+- GitHub is great way to coordinate cross-platform activities.  Do not track 'dist', 'build', '.idea', '.vscode', 'venv', '...someapp.cpp'.  
+- Install settings files in local temp folders for seamless iteration of design changes.  And don't track using GitHub.
+- Don't install figures in GitHub.  They're basically unreadable as a historical record.   Some value in keeping them in local machines for reference.  Instead make it easy to reproduce interactive plot tools.
+- Do not expect other users to use GitHub.  Either figure out a way to distribute binaries or use GitHub yourself on their computers.
+- Do not become dependent on streaming data, e.g. Particle Cloud, Blynk, Google Cloud.  Eventually they will try to charge you.  I am somewhat dependent on Google Cloud for ocamlfuse G-drive application.
+- Use Python whenever possible.   'Scilab' and 'Matlab' tools may ALL be replaced by Python and the effort will be worth it.
 
