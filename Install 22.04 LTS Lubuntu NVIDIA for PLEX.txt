@@ -138,51 +138,6 @@ sudo wget https://github.com/shiftkey/desktop/releases/download/release-3.1.1-li
   # you can just plug in the usb headset and adjust the sound settings
 
 
-
-  # Another version of Python:  call by version e.g. >python3.12
-  #**********NOTE:  never replace default python in Debian-based Linux
-  # https://ubuntuhandbook.org/index.php/2021/10/compile-install-python-3-10-ubuntu/
-
-  # dependencies
-  sudo apt update
-  sudo apt install -y wget build-essential
-  sudo apt install -y libreadline-dev
-  sudo apt install -y libncursesw5-dev
-  sudo apt install -y libssl-dev
-  sudo apt install -y libsqlite3-dev
-  sudo apt install -y tk-dev
-  sudo apt install -y libgdbm-dev
-  sudo apt install -y libc6-dev
-  sudo apt install -y libbz2-dev
-  sudo apt install -y libffi-dev
-  sudo apt install -y zlib1g-dev
-  sudo apt install -y portaudio19-dev
-
-
-  # get alternate python to call from venv in pycharm
-
-  https://www.python.org/ftp/python/
-  download Python-3.12.8.tar.xz
-  cd Downloads/
-  tar -Jxf Python-3.12.8.tar.xz
-
-  # compile and install it (do make clean first if adding --enable-shared to an existing build)
-  cd Python-3.12.8/
-  ./configure --enable-optimizations --enable-shared
-  sudo make -j4 && sudo make altinstall
-  sudo ldconfig /usr/local/lib  # done once to load shared libraries (maybe 'pip3 install uswgi' works)
-     
-  # verify
-  python3.12 --version
-  python3.12 -m pip --version
-  
-  # uninstall
-  cd Downloads/Python-3.12.8/
-  sudo make uninstall
-  
-  # use
-  use .venv in pycharm to set up and use an app with this new python version
-   
    
   # YouTube downloader
   # ClipGrab
