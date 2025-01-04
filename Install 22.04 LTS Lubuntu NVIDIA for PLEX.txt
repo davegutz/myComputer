@@ -220,25 +220,6 @@ ffmpeg -f pulse -i alsa_output.platform-snd_aloop.0.analog-stereo.monitor -t   1
     sudo snap install audacity
 
 
-  # auto suspend  ************************************
-  # get suspend_until from the folder this file came from
-  chmod +x /home/daveg/bin/suspend_until
-
-  # Cron tab uses computer time (> date)
-  sudo crontab -e
-1 0 * * 1-6 /home/daveg/bin/suspend_until 16:00  # Mon - Sat 1 min after midnight
-1 0 * * 0 /home/daveg/bin/suspend_until 10:15   # Sun. Face the Nation at 10:30 Sun.
-  sudo crontab -l # to show current
-  #? ssudo crontab -  # to update crontab
-  # no restart of any kind needed because cron simply reads all crontab files every minute
-
-
-  # Test on hpomen 
-  sudo crontab -e
-0 14 * * * /home/daveg/bin/suspend_until 15:30
-  sudo crontab -r  # reset
-
-  pop!os - settings - Power - Automatic suspend off,  - screen blank 15 min
 
   # Cleanup
   sudo passwd daveg  # passwords:  ignore warnings
