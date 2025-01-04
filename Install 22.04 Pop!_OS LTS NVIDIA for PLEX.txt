@@ -36,7 +36,7 @@ HP Omen 15" 2022
   Unplug second monitor, other usb's.  May leave mouse and keypad
 
 # insert iso usb (pop-os_22.04_amd64_nvidia_49.iso)
-  F1 (rapid F12 on Lenovo laptop, F10 on HP-Omen, F7 on little_guy) during boot.   Set boot order to USB.  *try or install ubuntu - normal installation - install updates (I tried minimal installation - lots of things didn't work right)
+  F1 (rapid F12 on Lenovo laptop, F10 on HP-Omen, ESC on HP-Phoenix, F7 on little_guy) during boot.   Set boot order to USB.  *try or install ubuntu - normal installation - install updates (I tried minimal installation - lots of things didn't work right)
   Choose 'try or install ...'  3 min to next step - may hear music
 
   # Begin install Pop
