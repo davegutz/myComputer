@@ -99,15 +99,23 @@ sudo wget https://github.com/shiftkey/desktop/releases/download/release-3.1.1-li
   Restart
 
 # Install apps
-  sudo snap install plexmediaserver # for remote laptop (for trips) as well as basement server
-  sudo apt install ./Downloads/code_1.90.2-1718751586_amd64.deb
+  # Plexmediaserver on plexmgr account:
+    sudo snap install plexmediaserver
+    start it using menus and it will ask to setup.  See section below for
+    plexmediaserver settings to be applied
+     Movies:  /media/daveg/Lib/Movies
+     TV Shows: /media/daveg/Lib/TV Shows
+     Other Videos: /media/daveg/Lib/Videos
+     after several hours of content loading, to see on plexmgr account you will need to shutdown plex and restart to see the content.   Should be visible to other devices.
+     Settings - Transcoder - deselect 'Use hardware acceleration when available'
+              - specify Transcoder Temporary Directory = /media/daveg/Videos/DVRcache
+              
   sudo apt install -y fuse libfuse2  # For appImage
   sudo apt install -y ffmpeg
   sudo apt install -y git
   sudo apt install --fix-missing -y python3-pip
   sudo apt install -y python3-tk  # for pyCharm
   sudo apt install -y dhcpcd5
-  sudo apt install dos2unix
   sudo apt install LocalSend
   sudo apt install xsel
   sudo apt install -y pavucontrol  # for myPyScreencast
@@ -128,41 +136,6 @@ sudo wget https://github.com/shiftkey/desktop/releases/download/release-3.1.1-li
   # To start it for this session
   sudo modprobe snd-aloop
   # you can just plug in the usb headset and adjust the sound settings
-
-
-  # google drive stuff
-  sudo add-apt-repository ppa:alessandro-strada/ppa
-  sudo apt update && sudo apt install -y google-drive-ocamlfuse
-  # Special google-drive-ocamlfuse:  need to run with a secret so I stored it in davegutz2006 gmail
-  # run google-drive-ocamlfuse using command line store in email:  search for 'google-drive-ocamlfuse'
-# I had to setup google cloud free trial.  Project 6102.  Enable Google Drive API.
-# After authorizing in browser should see 'Access token retrieved' in term
-    mkdir ~/google-drive
-    google-drive-ocamlfuse ~/google-drive/  # add -debug to this if problems. then  'more /home/daveg/.gdfuse/default/gdfuse.log'
-    nano .gdfuse/default/config
-      stream_large_files=true  # https://www.reddit.com/r/PleX/comments/67d5m6/googledriveocamlfuse_experience_to_share/
-    mkdir ~/bin
-cat << EOF > /home/daveg/bin/start_google-drive-ocamlfuse
-#!/bin/bash
-
-while true; do
-  # check to see if there is a connection by pinging a Google server
-  if ping -q -c 1 -W 1 8.8.8.8 >/dev/null; then
-    # if connected, mount the drive and break the loop
-    google-drive-ocamlfuse /home/daveg/google-drive/; break;
-  else
-    # if not connected, wait for second and then check again
-    sleep 1
-  fi
-done
-EOF
-    chmod +x /home/daveg/bin/start_google-drive-ocamlfuse
-    sudo ln -s  /home/daveg/bin/start_google-drive-ocamlfuse /etc/apm/resume.d/restart_gdo.sh
-    # open Startup Applications and add /home/daveg/bin/start_google-drive-ocamlfuse
-
-
- # from email search for 'restart_gdrive.h script' and download that script to desktop
- # won't be run but commands are useful to restart google-drive ('??????????' in ls -rlt of homes)
 
 
 
@@ -329,22 +302,6 @@ ffmpeg -f pulse -i alsa_output.platform-snd_aloop.0.analog-stereo.monitor -t   1
 
 
   # Plex
-  go turn off the main plex server in the house.   It will confuse plex for next step
-  start plexmediaserver using applications menu (snap didn't do it)
-  plex started using  menus - sign in with google id
-  need to 'claim' this new installation.  There should be some visual clues in the plex
-  menus, yellow exclamation points, yellow triangles
-  name:  PLEX-LINUX on pc for server.  Uncheck "Allow me to access my media outside my home"
-  connect usb drive then:
-  plex - manage libraries - select the sources.  WAIT BEFORE FINISHING A LIBRARY ADD OR PATH WILL BE SHORTENED
-     Movies:  /media/daveg/Lib/Movies
-     TV Shows: /media/daveg/Lib/TV Shows
-     Other Videos: /media/daveg/Lib/Videos
-  after several hours of content loading, you will need to shutdown plex and restart to see the content
-  Settings - Transcoder - deselect 'Use hardware acceleration when available'
-                  - specify Transcoder Temporary Directory = /media/daveg/Videos/DVRcache
-  dvr - mounted spare hard drive 3 TB named 'DVRcache'
-      - use 'Files' to browse to the dvr drive.  Right click properties for 'DVRcache':  set 'create & delete' permissions for owner, group and others.  Also go into 'Change 
   
   # give plexmgr permissions
   # add plexmgr to group daveg
