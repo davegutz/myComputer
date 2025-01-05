@@ -24,15 +24,13 @@ HP Omen 15" 2022
   # It should restart to Linux without Bios boot
   # It came up without wifi.  Connect ethernet to grab updates and fix wireless
 
-  # Power - Turn off idleness watcher
-  # test suspend
-        
+
 # Preferences - Additional drivers:                                 
-    * NVIDIA proprietary, tested
-    * Broadcom STA wireless                                           
+    * NVIDIA proprietary, tested (was there by default)
+    * Broadcom STA wireless   (was there by default)               
     * apply                                                           
     * close                                                           
-    * restart                                                         
+    * no need to restart                                                         
   # Sign into wifi
     * ourHappyHome5G - 7ef79856c1a52598410c
     # Use the Google Public DNS IP in /etc/resolv.conf
@@ -42,26 +40,31 @@ nameserver 8.8.8.4
     * restart
  
 
-  # Initial functionality (bootstrapping)
-    * sudo apt update && sudo apt upgrade
-    * Install SW
-      * firefox
-      * dos2unix     * featherpad      * apply
-      * restart
+# ASAP:
+  sudo apt update && sudo apt upgrade
+  sudo do-release-upgrade  # ?
+  sudo apt upgrade             # ?
+  sudo apt autoremove
 
+
+  # Initial functionality (bootstrapping)
     * open firefox
       * signin
       * pin Bitwarden to Toolbar
       * Bookmarks Bar - always show
-      * Sign into google
+      * Sign into gmail
 
 
     * Preferences - Users 
-       * add plexmgr same properties as daveg, main group daveg
+       * add plexmgr same properties as daveg
 
-  * Change BIOS to power on at 16:00 every day.  Later use cron to turn off at 22:30 every day and 01:00 every day
+  # Cron tab uses computer time (> date)
+  sudo crontab -e
+1 0 * * 1-6 /home/daveg/bin/suspend_until 16:00  # Mon - Sat 1 min after midnight
+1 0 * * 0 /home/daveg/bin/suspend_until 10:15   # Sun. Face the Nation at 10:30 Sun.
+  sudo crontab -l # to show current
+  # no restart of any kind needed because cron simply reads all crontab files every minute
 
-  /usr/sbin/shutdownnano /etc/crontab22 30 * * * root /usr/sbin/shutdown -h now01 00 * * * root /usr/sbin/shutdown -h now
  * add github to end bootstrapping
 sudo wget https://github.com/shiftkey/desktop/releases/download/release-3.1.1-linux1/GitHubDesktop-linux-3.1.1-linux1.deb
 
@@ -72,23 +75,10 @@ sudo wget https://github.com/shiftkey/desktop/releases/download/release-3.1.1-li
   # sign in to GitHub.com.  Your password will be available in BitWarden. Use passkey -easiest
 
  May have to do URL clone if get caught in a loop
-* Preferences - LXQt Settings - Appearance LXQt Theme = Dark
  
-# ASAP:
-  sudo apt update
-  sudo do-release-upgrade  # ?
-  sudo apt upgrade             # ?
-  sudo apt autoremove
-
-# github desktop
-  sudo wget https://github.com/shiftkey/desktop/releases/download/release-3.1.1-linux1/GitHubDesktop-linux-3.1.1-linux1.deb
-  sudo apt-get install -y gdebi-core 
-  sudo gdebi GitHubDesktop-linux-3.1.1-linux1.deb
-  github
-    # sign in to GitHub.com.  Your password will be available in BitWarden
-	# Download myComputer to get this file.
-
-  Open synaptic (Applications) install sqlitebrowser, brasero, caffeine, vlc
+  Update software using Software Updater
+ 
+  Open App Center install sqlitebrowser, brasero, caffeine
   Restart
 
 # Install apps
@@ -105,11 +95,13 @@ sudo wget https://github.com/shiftkey/desktop/releases/download/release-3.1.1-li
               
   sudo apt install -y fuse libfuse2  # For appImage
   sudo apt install -y ffmpeg
+  sudo apt install -y dos2unix
   sudo apt install -y git
   sudo apt install --fix-missing -y python3-pip
   sudo apt install -y python3-tk  # for pyCharm
   sudo apt install -y dhcpcd5
   sudo apt install LocalSend
+  sudo apt install -y vlc
   sudo apt install xsel
   sudo apt install -y pavucontrol  # for myPyScreencast
   sudo snap install --classic pycharm-community
@@ -165,7 +157,7 @@ EOF
 
   # Configure for Development
   Open pyCharm-Community
-    Setup venv for python, can be used in Code.  Update pip etc before importing more packages
+    Setup .venv for python, can be used in Code.  Update pip etc before importing more packages
     # also use local dictionary in settings - editor - natural languages - spelling (uncheck 'use single...')
     ***********Caution - use pycharm to install python interpreters
     ***********I followed deb process and made ubuntu unbootable
