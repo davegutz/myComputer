@@ -58,12 +58,16 @@ nameserver 8.8.8.4
     * Preferences - Users 
        * add plexmgr same properties as daveg
 
-  # Cron tab uses computer time (> date)
+# get suspend_until from the folder this file came from
+  mkdir bin
+  cp Documents/GitHub/myComputer/suspend_until bin/.
+  chmod +x bin/suspend_until
   sudo crontab -e
 1 0 * * 1-6 /home/daveg/bin/suspend_until 16:00  # Mon - Sat 1 min after midnight
 1 0 * * 0 /home/daveg/bin/suspend_until 10:15   # Sun. Face the Nation at 10:30 Sun.
   sudo crontab -l # to show current
   # no restart of any kind needed because cron simply reads all crontab files every minute
+  # Cron tab uses computer time (> date)
 
  * add github to end bootstrapping
 sudo wget https://github.com/shiftkey/desktop/releases/download/release-3.1.1-linux1/GitHubDesktop-linux-3.1.1-linux1.deb
@@ -283,7 +287,8 @@ guest ok = yes
     # Turn off power management (https://askubuntu.com/questions/1504262/new-install-ubutu-22-04-wireless-drops)
     iwconfig  # get wlp4s0
     sudo iwconfig wlp4s0 power off && sudo sed -i 's/wifi.powersave = 3/wifi.powersave = 2/' /etc/NetworkManager/conf.d/default-wifi-powersave-on.conf
-
+# try this
+sudo sed -i 's/3/2/' /etc/NetworkManager/conf.d/*
 
 
 ################# Fixes
