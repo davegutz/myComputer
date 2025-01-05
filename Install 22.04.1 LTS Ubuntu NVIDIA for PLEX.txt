@@ -105,7 +105,8 @@ sudo wget https://github.com/shiftkey/desktop/releases/download/release-3.1.1-li
   sudo apt install xsel
   sudo apt install -y pavucontrol  # for myPyScreencast
   sudo snap install --classic pycharm-community
-
+  sudo apt install -y thunar
+  sudo apt install -y nautilus
 
   # VLC
     Tools-preferences-codecs  disable hardware-accelerated-decoding  save
@@ -169,7 +170,7 @@ EOF
     Use own .venv for install to work portably
     Search for 'PySimpleGUI' in email for 'License key of:...' then open attachment.  First run will bomb.  Just run again.
     # TODO: investigate message '_tkinter.TclError: image "pyimage7" doesn't exist'
-    Set DB location to /home/daveg/google-drive/Movies Stuff
+    Set DB location to /home/daveg/Documents/GitHub/myComputer
 
     Run install.py and follow instructions
 
@@ -178,32 +179,6 @@ EOF
     
     # myPyScreencast notes
     Use own .venv for install to work portably
-    Open a browser and start playing some music on youTube
-    insert headphones  !!!
-    pavucontrol  # assign browser cast to LoopbackAnalogStereo (verifies this kills spkr snd)
-    ********
-	**** pavucontrol defaults to low volume (esp important on loopback output).   Set it to 100%
-	********
-    # Find your loopback sound
-    ffmpeg -sources pulse
-    Auto-detected sources for pulse:
-this one--->      alsa_output.platform-snd_aloop.0.analog-stereo.monitor [Monitor of Loopback Analog Stereo] (none)
-      * alsa_input.platform-snd_aloop.0.analog-stereo [Loopback Analog Stereo] (none)
-      alsa_output.pci-0000_34_00.6.analog-stereo.monitor [Monitor of Family 17h/19h HD Audio Controller Analog Stereo] (none)
-      alsa_input.pci-0000_34_00.6.analog-stereo [Family 17h/19h HD Audio Controller Analog Stereo] (none)
-      alsa_input.usb-MACROSILICON_USB_Video-02.analog-stereo [USB Video Analog Stereo] (none)
-      alsa_input.usb-046d_HD_Pro_Webcam_C920_AD5AC5DF-02.analog-stereo [HD Pro Webcam C920 Analog Stereo] (none)
-ffmpeg -f pulse -i alsa_output.platform-snd_aloop.0.analog-stereo.monitor -t   12.0 -y  "/home/daveg/Documents/Recordings/test1_raw.mp4"
-
-
-    pactl list short sources  # to find name of output (NOTE: may need to insert headphones to get this all to work)
-    Screencast: Video: x11grab  :0.0+0.0   Audio: pulse  alsa_output.platform-snd_aloop.0.analog-stereo.monitor
-    # Check features of ffmpeg
-      ffmpeg -version |grep x11grab  && ffmpeg -version |grep gpl && ffmpeg -version |grep libx264 && ffmpeg -version |grep libmp3lame && ffmpeg -version |grep nonfree
-      if comes up blank proceed down to 'install ffmpeg for screencaset'
-    # helpful to install audacity in addition to pauvcontrol (previously)
-    sudo snap install audacity
-
 
 
   # Cleanup
@@ -228,9 +203,9 @@ ffmpeg -f pulse -i alsa_output.platform-snd_aloop.0.analog-stereo.monitor -t   1
   # add plexmgr to group daveg
       sudo usermod -a -G daveg plexmgr
   restart
-  sudo chown daveg /media/daveg
-  sudo chmod -R a+rwx /media/daveg
-  #sudo chmod a+rwx /media/daveg/Videos/DVRcache
+#  sudo chown daveg /media/daveg
+#  sudo chmod -R a+rwx /media/daveg
+#  #sudo chmod a+rwx /media/daveg/Videos/DVRcache
       
   Permissions for Enclosed Files' and set as shown below.
       - Owner:  me
@@ -255,9 +230,9 @@ ffmpeg -f pulse -i alsa_output.platform-snd_aloop.0.analog-stereo.monitor -t   1
 
   # Samba for file sharing in network of home
     ( this link may be easier than this process:  https://ubuntuforums.org/showthread.php?t=1623346  )
-  sudo apt install -y samba
+  sudo apt install -y --fix-missing samba
   sudo apt install samba samba-common-bin
-  sudo apt install net-tools
+  sudo apt install --fix-missing net-tools
   sudo apt install vino -y
   sudo apt install -y xrdp
   sudo systemctl enable xrdp
@@ -336,6 +311,10 @@ sudo apt-get install -y ubuntu-desktop
 
 # Fix "gnome-control-center not found  in path" when launching Settings
 sudo apt install gnome-control-center
+
+
+# daveg doesn't have permissions to attached external drive
+restart
 
 
 # Desktop icons mission 
