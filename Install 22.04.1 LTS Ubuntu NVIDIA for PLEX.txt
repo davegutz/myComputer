@@ -1,0 +1,381 @@
+HP Omen 15" 2022
+
+
+#  Get ready
+  Phone to approve google requests and usb tethering if needed
+  Make space for linux.  Note partition #. (8).  Note any others you want to take over (5)
+  Have >4 GB thumbdrive
+  On Windows download iso.  flash using balenaEtcher
+  Turn off bitlocker all drives
+  Deauthorize tools like DVDfab, winxdvd, epubor in case can't get back
+  Unplug second monitor, other usb's.  May leave mouse and keypad
+
+# insert iso usb (Ubuntu 24.04.1.iso)
+  F1 (rapid F12 on Lenovo laptop, F10 on HP-Omen, ESC on HP-Phoenix, F7 on little_guy) during boot.   Set boot order to USB.  *try or install ubuntu - normal installation - install updates (I tried minimal installation - lots of things didn't work right)
+  Choose 'try or install ...'  3 min to next step - may hear music
+
+  # Begin install
+     # I had to disconnect the 3TB extra drive in cabinet to get past bitlocker tests.  Reinstall later
+     # Fresh clean install
+     # basic
+     # daveg / pwd   # can change passwords later but note that this initial pwd will be the lock for LUKS file system encryption.  I suggest start with your final password here then temporarily change to a short one for install
+     # When done press finish.  It will automatically prompt you to remove media.
+
+  # It should restart to Linux without Bios boot
+  # It came up without wifi.  Connect ethernet to grab updates and fix wireless
+
+  # Power - Turn off idleness watcher
+  # test suspend
+        
+# Preferences - Additional drivers:                                 
+    * NVIDIA proprietary, tested
+    * Broadcom STA wireless                                           
+    * apply                                                           
+    * close                                                           
+    * restart                                                         
+  # Sign into wifi
+    * ourHappyHome5G - 7ef79856c1a52598410c
+    # Use the Google Public DNS IP in /etc/resolv.conf
+    * sudo nano /etc/resolve.conf  # add to bottom
+nameserver 8.8.8.8
+nameserver 8.8.8.4
+    * restart
+ 
+
+  # Initial functionality (bootstrapping)
+    * sudo apt update && sudo apt upgrade
+    * Install SW
+      * firefox
+      * dos2unix     * featherpad      * apply
+      * restart
+
+    * open firefox
+      * signin
+      * pin Bitwarden to Toolbar
+      * Bookmarks Bar - always show
+      * Sign into google
+
+
+    * Preferences - Users 
+       * add plexmgr same properties as daveg, main group daveg
+
+  * Change BIOS to power on at 16:00 every day.  Later use cron to turn off at 22:30 every day and 01:00 every day
+
+  /usr/sbin/shutdownnano /etc/crontab22 30 * * * root /usr/sbin/shutdown -h now01 00 * * * root /usr/sbin/shutdown -h now
+ * add github to end bootstrapping
+sudo wget https://github.com/shiftkey/desktop/releases/download/release-3.1.1-linux1/GitHubDesktop-linux-3.1.1-linux1.deb
+
+  # Install GitHub
+  sudo apt-get install -y gdebi-core 
+  sudo gdebi GitHubDesktop-linux-3.1.1-linux1.deb
+  github
+  # sign in to GitHub.com.  Your password will be available in BitWarden. Use passkey -easiest
+
+ May have to do URL clone if get caught in a loop
+* Preferences - LXQt Settings - Appearance LXQt Theme = Dark
+ 
+# ASAP:
+  sudo apt update
+  sudo do-release-upgrade  # ?
+  sudo apt upgrade             # ?
+  sudo apt autoremove
+
+# github desktop
+  sudo wget https://github.com/shiftkey/desktop/releases/download/release-3.1.1-linux1/GitHubDesktop-linux-3.1.1-linux1.deb
+  sudo apt-get install -y gdebi-core 
+  sudo gdebi GitHubDesktop-linux-3.1.1-linux1.deb
+  github
+    # sign in to GitHub.com.  Your password will be available in BitWarden
+	# Download myComputer to get this file.
+
+  Open synaptic (Applications) install sqlitebrowser, brasero, caffeine, vlc
+  Restart
+
+# Install apps
+  # Plexmediaserver on plexmgr account:
+    sudo snap install plexmediaserver
+    start it using menus and it will ask to setup.  See section below for
+    plexmediaserver settings to be applied
+     Movies:  /media/daveg/Lib/Movies
+     TV Shows: /media/daveg/Lib/TV Shows
+     Other Videos: /media/daveg/Lib/Videos
+     after several hours of content loading, to see on plexmgr account you will need to shutdown plex and restart to see the content.   Should be visible to other devices.
+     Settings - Transcoder - deselect 'Use hardware acceleration when available'
+              - specify Transcoder Temporary Directory = /media/daveg/Videos/DVRcache
+              
+  sudo apt install -y fuse libfuse2  # For appImage
+  sudo apt install -y ffmpeg
+  sudo apt install -y git
+  sudo apt install --fix-missing -y python3-pip
+  sudo apt install -y python3-tk  # for pyCharm
+  sudo apt install -y dhcpcd5
+  sudo apt install LocalSend
+  sudo apt install xsel
+  sudo apt install -y pavucontrol  # for myPyScreencast
+  sudo snap install --classic pycharm-community
+
+
+  # VLC
+    Tools-preferences-codecs  disable hardware-accelerated-decoding  save
+    May have to restart vlc
+  
+  # kdenlive https://kdenlive.org/en/download/  select and install flatpak
+
+
+  # Configure sound
+  sudo nano /etc/modules-load.d/modules.conf
+  # Add following line to /etc/modules-load.d/modules.conf
+  snd-aloop
+  # To start it for this session
+  sudo modprobe snd-aloop
+  # you can just plug in the usb headset and adjust the sound settings
+
+
+   
+  # YouTube downloader
+  # ClipGrab
+  https://github.com/yt-dlp/yt-dlp?tab=readme-ov-file#release-files
+    Get yt-dlp file for Linux
+  https://clipgrab.org/download-clipgrab/
+    Free Download
+    cd Downloads
+    chmod a+x ClipGrab-3.9.10-x86_64.AppImage
+    ./ClipGrab-3.9.10-x86_64.AppImage  # Will error first time, looking for yt-dlp.  Press Continue not exit, to get folders ClipGrab made
+    mv yt-dlp /home/daveg/.local/share/ClipGrab/ClipGrab/
+  Do a google search for 'clipgrab' and save the blue circle icon as Downloads/ClipGrab.jpeg
+    
+cat << EOF > /home/daveg/Desktop/ClipGrab.desktop
+[Desktop Entry]
+Name=ClipGrab
+Exec=/home/daveg/Downloads/ClipGrab-3.9.10-x86_64.AppImage
+Icon=/home/daveg/Downloads/ClipGrab.jpeg
+comment=app
+Type=Application
+Terminal=false
+Encoding=UTF-8
+Categories=Utility;
+EOF
+
+  Right click on ClipGrab.desktop and set 'Allow Launching' and 'Properties - Run as Program'
+    Re-run
+  sudo mv /home/daveg/Desktop/ClipGrab.desktop /usr/share/applications/
+  
+
+
+
+  # Configure for Development
+  Open pyCharm-Community
+    Setup venv for python, can be used in Code.  Update pip etc before importing more packages
+    # also use local dictionary in settings - editor - natural languages - spelling (uncheck 'use single...')
+    ***********Caution - use pycharm to install python interpreters
+    ***********I followed deb process and made ubuntu unbootable
+    Choose interpreter - local - run something to determine packages at least numpy, matplotlib, reportlab, easygui, pyshortcuts, openai-whisper, configparser
+    May have to start twice
+  Open pyCharm install venv for each github repository	
+  
+    # movie_Scraper notes
+    Use own .venv for install to work portably
+    Search for 'PySimpleGUI' in email for 'License key of:...' then open attachment.  First run will bomb.  Just run again.
+    # TODO: investigate message '_tkinter.TclError: image "pyimage7" doesn't exist'
+    Set DB location to /home/daveg/google-drive/Movies Stuff
+
+    Run install.py and follow instructions
+
+    Findit in applications and save to favorites
+  
+    
+    # myPyScreencast notes
+    Use own .venv for install to work portably
+    Open a browser and start playing some music on youTube
+    insert headphones  !!!
+    pavucontrol  # assign browser cast to LoopbackAnalogStereo (verifies this kills spkr snd)
+    ********
+	**** pavucontrol defaults to low volume (esp important on loopback output).   Set it to 100%
+	********
+    # Find your loopback sound
+    ffmpeg -sources pulse
+    Auto-detected sources for pulse:
+this one--->      alsa_output.platform-snd_aloop.0.analog-stereo.monitor [Monitor of Loopback Analog Stereo] (none)
+      * alsa_input.platform-snd_aloop.0.analog-stereo [Loopback Analog Stereo] (none)
+      alsa_output.pci-0000_34_00.6.analog-stereo.monitor [Monitor of Family 17h/19h HD Audio Controller Analog Stereo] (none)
+      alsa_input.pci-0000_34_00.6.analog-stereo [Family 17h/19h HD Audio Controller Analog Stereo] (none)
+      alsa_input.usb-MACROSILICON_USB_Video-02.analog-stereo [USB Video Analog Stereo] (none)
+      alsa_input.usb-046d_HD_Pro_Webcam_C920_AD5AC5DF-02.analog-stereo [HD Pro Webcam C920 Analog Stereo] (none)
+ffmpeg -f pulse -i alsa_output.platform-snd_aloop.0.analog-stereo.monitor -t   12.0 -y  "/home/daveg/Documents/Recordings/test1_raw.mp4"
+
+
+    pactl list short sources  # to find name of output (NOTE: may need to insert headphones to get this all to work)
+    Screencast: Video: x11grab  :0.0+0.0   Audio: pulse  alsa_output.platform-snd_aloop.0.analog-stereo.monitor
+    # Check features of ffmpeg
+      ffmpeg -version |grep x11grab  && ffmpeg -version |grep gpl && ffmpeg -version |grep libx264 && ffmpeg -version |grep libmp3lame && ffmpeg -version |grep nonfree
+      if comes up blank proceed down to 'install ffmpeg for screencaset'
+    # helpful to install audacity in addition to pauvcontrol (previously)
+    sudo snap install audacity
+
+
+
+  # Cleanup
+  sudo passwd daveg  # passwords:  ignore warnings
+  sudo passwd # root
+  rm ~/.local/share/keyrings/login.keyring
+  sudo apt autoremove
+  cd
+  sudo apt autoclean
+  sudo apt clean
+  sudo apt install deborphan
+  sudo apt remove $(deborphan)
+
+
+  # Seagate harddrive
+  # #'secure backup' refers to the really long secure password in BitWarden 'secure F secure.vhdx'
+
+
+  # Plex
+  
+  # give plexmgr permissions
+  # add plexmgr to group daveg
+      sudo usermod -a -G daveg plexmgr
+  restart
+  sudo chown daveg /media/daveg
+  sudo chmod -R a+rwx /media/daveg
+  #sudo chmod a+rwx /media/daveg/Videos/DVRcache
+      
+  Permissions for Enclosed Files' and set as shown below.
+      - Owner:  me
+           Access: Create & Delete (C&D)
+      - Group:  daveg
+           Access: C&D
+      - Others:
+      	   Access: C&D
+         
+         Enclosed Files
+             Files		Folders
+             Owner R&W		C&D
+             Group R&W		C&D
+             Other R		Access only
+             
+  add to TVshows library:    /media/daveg/Videos/DVRcache
+  switch top tab of each library display from 'Recommended' to 'Library'
+             
+  Mount the 3TB drive using Disks #  now what? TODO
+
+
+
+  # Samba for file sharing in network of home
+    ( this link may be easier than this process:  https://ubuntuforums.org/showthread.php?t=1623346  )
+  sudo apt install -y samba
+  sudo apt install samba samba-common-bin
+  sudo apt install net-tools
+  sudo apt install vino -y
+  sudo apt install -y xrdp
+  sudo systemctl enable xrdp
+  sudo apt install libarchive-zip-perl  # for Particle workbench
+  sudo mkdir /Public
+  sudo chmod -R 0777 /Public
+  sudo smbpasswd -a plexmgr  # use same pwd as daveg
+  sudo ufw allow samba  # Open firewall
+  
+  sudo nano /etc/samba/smb.conf  # Add config for Public
+
+  # end Share Definitions (just before printers, use ctrl-w to search for [printers])
+inherit permissions = yes 
+  # bottom
+[Public]
+comment = public share, no need to enter username and password
+;path = /srv/samba/Public/
+path = /Public/
+browseable = yes
+writable = yes
+guest ok = yes
+
+  # Samba continued
+  systemctl status smbd nmbd  # don't know what this does
+  sudo systemctl start smbd nmbd
+  sudo service smbd restart && sudo service nmbd restart
+  sudo groupadd samba
+  sudo gpasswd -a plexmgr samba
+  sudo mkdir -p /srv/samba/private/
+  sudo setfacl -R -m "g:samba:rwx" /srv/samba/private/
+  testparm  # see your changes
+  sudo systemctl restart smbd nmbd
+  # turn off ethernet; turn on wifi
+  ifconfig
+  # OK address now 192.168.4.21.  Try to make it static by EERO phone app (reservation). Change name if desired
+
+
+  #Locally, go to file manager (pcmanfm) and enter:
+    smb://localhost
+
+  # Remotely, enter the IP address:
+    smb://192.168.4.21
+    htpps://192.168.4.21
+
+  # send email noting static address to windows users so they can change shortcuts
+  
+
+################# Fixes
+
+# gdm3 fail on restart:
+# first try following if gdm fail on restart.  Also works kauditd_printk_skb hang
+  # ctrl+alt+F5 to get TTY login.  
+    # sudo apt install --reinstall ubuntu-session
+    # reboot
+
+
+# kernel parameters on startup
+sudo kernelstub -a "amdgpu.ppfeaturemask=0xffffffff"
+
+
+# fix wake from suspend
+sudo kernelstub -a mem_sleep_default=deep
+restart
+
+# TODO fix pyimage7 error on intial run of GUI_sqlite_scrape
+# just rerun; no need to exit re-enter or reboot or logout/in
+
+
+# pycharm-community cannot find /usr/local/bin
+# problem with flatpak version of pycharm-community.  Uninstall and reinstall using snap
+
+
+# Fix missing 'Settings' (if needed)
+sudo apt-get install -y ubuntu-desktop
+
+
+# Fix "gnome-control-center not found  in path" when launching Settings
+sudo apt install gnome-control-center
+
+
+# Desktop icons mission 
+ sudo apt-get install --reinstall ubuntu-desktop
+ restart
+
+
+# /var/log filled with false positives ''HDY_IS_CAROUSEL_BOX (self)' failed'
+sudo nano /etc/xdg/autostart/io.elementary.appcenter-daemon.desktop 
+change 60->0
+"So after digging some more on this issue, I believe I managed to fix my issue. The user who originally posted the github article merged it with another article (https://github.com/pop-os/shop/pull/349) where you change the "io.elementary.appcenter-daemon.desktop" to auto-start immediately after logging in, instead of waiting 60 seconds to start. I found this file located in this folder "/etc/xdg/autostart". I then edited the "X-GNOME-Autostart-Delay" entry to a value of "0" and restarted my system. After the restart I opened then closed the Pop Shop and checked the journalctl. I didn't see any of the logs listed above. I will keep an eye on this and update this post with any further details." 
+
+
+######## Lessons Learned  ##########
+- Do not interrupt command-line initiated upgrade.  Will break system.  Let it finish.
+- Do not directly upgrade or delete the as-shipped installed python.  Will break system.  Use 'altinstall' make directive
+- Always use virtual environment 'venv' unique for each python project.  Allows easy cross-platform 'install' operations in python.
+- 'pauvcontrol' default volume on outputs - built-in or pulse audio - is too low to record movies using screencasting.  Set them to 100.
+- Use 'ffmpeg -sources pulse' (or 'ffmpeg -sources alsa') to determine screencast source appropriate for the 'ffmpeg'.  Use the long initial string.
+- 'grub' changes ordering of boot options upon ugrading kernel.   May be important, especially if you cannot view grub due to bad monitor.
+- Acer monitors will not display grub on boot.   Have to learn the grub pattern and perform it blind to get to non-default os e.g. Windows.  Can use a video capture card plus a phone and 'USB Camera' app or capture card plus another PC and 'OBS' to view the new grub pattern.
+- New linux os  have Wayland gui system as default.   Breaks a lot of programs.  Resort to Xorg = X11 instead.
+- A lot of boot problems can be fixed at end of failed boot using 'Ctrl+Alt+F5' and 'sudo' commands as needed.  Restoring snap applications and snap itself is easy as are desktop managers.
+- 'puTTY' is a tried-and-true cross-platform terminal emulator and will save a lot of work if used on your cross-platform applications. 
+- 'ffmpeg' is a tried-and-true cross-platform terminal emulator and will save a lot of work if used on your cross-platform applications.
+- Python's native 'ffmpeg' is about 4x faster than one installed in the system.
+- Ubuntu community is supportive.  I have managed to solve every problem.  Social media in order of helpfulness:  'StackExchange', 'Ubuntu Forums', 'Reddit', 'askUbuntu'.
+- Python's built-in UNIX time utilities easier to use than on-line epoch sites.
+- GitHub is great way to coordinate cross-platform activities.  Do not track 'dist', 'build', '.idea', '.vscode', 'venv', '...someapp.cpp'.  
+- Install settings files in local temp folders for seamless iteration of design changes.  And don't track using GitHub.
+- Don't install figures in GitHub.  They're basically unreadable as a historical record.   Some value in keeping them in local machines for reference.  Instead make it easy to reproduce interactive plot tools.
+- Do not expect other users to use GitHub.  Either figure out a way to distribute binaries or use GitHub yourself on their computers.
+- Do not become dependent on streaming data, e.g. Particle Cloud, Blynk, Google Cloud.  Eventually they will try to charge you.  I am somewhat dependent on Google Cloud for ocamlfuse G-drive application.
+- Use Python whenever possible.   'Scilab' and 'Matlab' tools may ALL be replaced by Python and the effort will be worth it.
+
