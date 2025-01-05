@@ -279,6 +279,12 @@ guest ok = yes
 
   # send email noting static address to windows users so they can change shortcuts
   
+  # Get wireless to work better
+    # Turn off power management (https://askubuntu.com/questions/1504262/new-install-ubutu-22-04-wireless-drops)
+    iwconfig  # get wlp4s0
+    sudo iwconfig wlp4s0 power off && sudo sed -i 's/wifi.powersave = 3/wifi.powersave = 2/' /etc/NetworkManager/conf.d/default-wifi-powersave-on.conf
+
+
 
 ################# Fixes
 
