@@ -86,7 +86,6 @@ sudo wget https://github.com/shiftkey/desktop/releases/download/release-3.1.1-li
   Restart
 
 # Install apps
-  # Plexmediaserver on plexmgr account:
     sudo snap install plexmediaserver
     start it using menus and it will ask to setup.  See section below for
     plexmediaserver settings to be applied
@@ -96,6 +95,8 @@ sudo wget https://github.com/shiftkey/desktop/releases/download/release-3.1.1-li
      after several hours of content loading, to see on plexmgr account you will need to shutdown plex and restart to see the content.   Should be visible to other devices.
      Settings - Transcoder - deselect 'Use hardware acceleration when available'
               - specify Transcoder Temporary Directory = /media/daveg/Videos/DVRcache
+    Settings - Network - Secure Connections - set to required to be able to use wireless
+    
               
   sudo apt install -y fuse libfuse2  # For appImage
   sudo apt install -y ffmpeg
