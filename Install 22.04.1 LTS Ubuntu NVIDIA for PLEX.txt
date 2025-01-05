@@ -289,13 +289,10 @@ guest ok = yes
     # reboot
 
 
-# kernel parameters on startup
-sudo kernelstub -a "amdgpu.ppfeaturemask=0xffffffff"
+# Allow suspend to work on HPEnvy running Ubuntu 24.04.  No need to reboot.
+# Not needed pop!os
+sudo systemctl disable nvidia-suspend
 
-
-# fix wake from suspend
-sudo kernelstub -a mem_sleep_default=deep
-restart
 
 # TODO fix pyimage7 error on intial run of GUI_sqlite_scrape
 # just rerun; no need to exit re-enter or reboot or logout/in
