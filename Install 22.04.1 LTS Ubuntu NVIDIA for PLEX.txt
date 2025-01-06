@@ -96,7 +96,7 @@ sudo wget https://github.com/shiftkey/desktop/releases/download/release-3.1.1-li
      Settings - Transcoder - deselect 'Use hardware acceleration when available'
               - specify Transcoder Temporary Directory = /media/daveg/Videos/DVRcache
     Settings - Network - Secure Connections - set to required to be able to use wireless
-    
+	 - disable ipv6 each network by editing it's settings    
               
   sudo apt install -y fuse libfuse2  # For appImage
   sudo apt install -y ffmpeg
@@ -359,3 +359,19 @@ change 60->0
 - Do not become dependent on streaming data, e.g. Particle Cloud, Blynk, Google Cloud.  Eventually they will try to charge you.  I am somewhat dependent on Google Cloud for ocamlfuse G-drive application.
 - Use Python whenever possible.   'Scilab' and 'Matlab' tools may ALL be replaced by Python and the effort will be worth it.
 
+
+# get nvidia working
+  Settings - System - About shows nvidia recognized
+  nvidia-smi # shows always off when using heavy movie playing and screencasting
+  sudo apt dist-upgrade
+  sudo apt autoremove
+  sw and updates - Additional Drivers - apply nouveau drivers - restart - run 15 minutes
+                                      - restart - apply nvidia prop tested - restart
+                                      - restart - BIOS (ESC) - Advanced - Enhanced(?) - Integrated Video
+  Not sure any of this helped
+  lspci -vnnn | perl -lne 'print if /^\d+\:.+(\[\S+\:\S+\])/' | grep VGA
+    Your output will be something like that:
+    00:02.0 VGA compatible controller [0300]: Intel Corporation 3rd Gen Core processor Graphics Controller [8086:0166] (rev 09) (prog-if 00 [VGA controller]) 
+    01:00.0 VGA compatible controller [0300]: Advanced Micro Devices, Inc. [AMD/ATI] Chelsea LP [Radeon HD 7730M] [1002:682f] (rev ff) (prog-if ff)
+    Now look for the [VGA controller] at the end of each device. Whichever device has it, is the active GPU. In my case it's the i7 processor (HD 4000) that's handling the work.
+  mine is working.  It may have been all along
