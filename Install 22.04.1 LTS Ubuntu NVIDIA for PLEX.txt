@@ -112,6 +112,7 @@ sudo wget https://github.com/shiftkey/desktop/releases/download/release-3.1.1-li
   sudo snap install --classic pycharm-community
   sudo apt install -y thunar
   sudo apt install -y nautilus
+  free...backup
 
   # VLC
     Tools-preferences-codecs  disable hardware-accelerated-decoding  save
@@ -119,6 +120,11 @@ sudo wget https://github.com/shiftkey/desktop/releases/download/release-3.1.1-li
   
   # kdenlive https://kdenlive.org/en/download/  select and install flatpak
 
+  # Firefox security exceptions
+    https://www.hulu.com/
+    https://www.amazon.com/
+    https://play.max.com/
+    https://www.netflix.com/
 
   # Configure sound
   sudo nano /etc/modules-load.d/modules.conf
@@ -375,3 +381,4 @@ change 60->0
     01:00.0 VGA compatible controller [0300]: Advanced Micro Devices, Inc. [AMD/ATI] Chelsea LP [Radeon HD 7730M] [1002:682f] (rev ff) (prog-if ff)
     Now look for the [VGA controller] at the end of each device. Whichever device has it, is the active GPU. In my case it's the i7 processor (HD 4000) that's handling the work.
   mine is working.  It may have been all along
+  
