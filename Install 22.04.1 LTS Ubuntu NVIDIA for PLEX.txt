@@ -82,7 +82,7 @@ sudo wget https://github.com/shiftkey/desktop/releases/download/release-3.1.1-li
  
   Update software using Software Updater
  
-  Open App Center install sqlitebrowser, brasero, caffeine
+  Open App Center install sqlitebrowser, brasero, caffeine, Freefilesync
   Restart
 
 # Install apps
@@ -117,6 +117,18 @@ sudo wget https://github.com/shiftkey/desktop/releases/download/release-3.1.1-li
   # VLC
     Tools-preferences-codecs  disable hardware-accelerated-decoding  save
     May have to restart vlc
+    
+  # Freefilesync
+    plug in Lib and the backup drives (Lib_Dupe and ...)
+    open the app installed using App Center
+      press green '+' so have rows equalling the number of backups
+      on left side Browse to Lib for each backup row
+      on the right side Browse to each backup lib
+      on the right side press green 'gear' setting and set to Mirror
+      Compare
+        ignore 'lost and found' error
+        if it makes sense move on to Synchronize
+    
   
   # kdenlive https://kdenlive.org/en/download/  select and install flatpak
 
