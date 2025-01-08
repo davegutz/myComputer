@@ -136,4 +136,12 @@ sudo nano /etc/xdg/autostart/io.elementary.appcenter-daemon.desktop
 change 60->0
 "So after digging some more on this issue, I believe I managed to fix my issue. The user who originally posted the github article merged it with another article (https://github.com/pop-os/shop/pull/349) where you change the "io.elementary.appcenter-daemon.desktop" to auto-start immediately after logging in, instead of waiting 60 seconds to start. I found this file located in this folder "/etc/xdg/autostart". I then edited the "X-GNOME-Autostart-Delay" entry to a value of "0" and restarted my system. After the restart I opened then closed the Pop Shop and checked the journalctl. I didn't see any of the logs listed above. I will keep an eye on this and update this post with any further details." 
 
-
+### Failed keep screencasting lid closed
+# Gnome extensions (espresso) to keep awake during screencasting
+  sudo apt install gnome-shell-extensions
+  logout / in
+  sudo apt install gnome-shell-extension-manager
+  logout / in
+  Seems to work!  Can close lid with occassional mouse movement (need to change screecast activity setting?).  But it blanks the recorded screen.
+  uninstall
+  
