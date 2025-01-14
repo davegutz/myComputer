@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sudo bash
 
 # Auto suspend and wake-up script
 #

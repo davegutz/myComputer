@@ -59,9 +59,8 @@ nameserver 8.8.8.4
        * add plexmgr same properties as daveg
 
 # get suspend_until from the folder this file came from
-  mkdir bin
-  cp Documents/GitHub/myComputer/suspend_until bin/.
-  chmod +x bin/suspend_until
+  sudo cp Documents/GitHub/myComputer/suspend_until /usr/local/bin/.
+  chmod +x /usr/local/bin/suspend_until
   sudo crontab -e
 1 0 * * 1-6 /home/daveg/bin/suspend_until 16:00  # Mon - Sat 1 min after midnight
 1 0 * * 0 /home/daveg/bin/suspend_until 10:15   # Sun. Face the Nation at 10:30 Sun.
