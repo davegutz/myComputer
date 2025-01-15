@@ -62,8 +62,8 @@ nameserver 8.8.8.4
   sudo cp Documents/GitHub/myComputer/suspend_until /usr/local/bin/.
   chmod +x /usr/local/bin/suspend_until
   sudo crontab -e
-1 0 * * 1-6 /home/daveg/bin/suspend_until 16:00  # Mon - Sat 1 min after midnight
-1 0 * * 0 /home/daveg/bin/suspend_until 10:15   # Sun. Face the Nation at 10:30 Sun.
+1 0 * * 1-6 /usr/local/bin/suspend_until 16:00  # Mon - Sat 1 min after midnight
+1 0 * * 0 /usr/local/bin/suspend_until 10:15   # Sun. Face the Nation at 10:30 Sun.
   sudo crontab -l # to show current
   # no restart of any kind needed because cron simply reads all crontab files every minute
   # Cron tab uses computer time (> date)
