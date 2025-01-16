@@ -81,7 +81,7 @@ sudo wget https://github.com/shiftkey/desktop/releases/download/release-3.1.1-li
  
   Update software using Software Updater
  
-  Open App Center install sqlitebrowser, brasero, caffeine, Freefilesync
+  Open App Center install sqlitebrowser, brasero, caffeine, Freefilesync, localsend
   Restart
 
 # Install apps
