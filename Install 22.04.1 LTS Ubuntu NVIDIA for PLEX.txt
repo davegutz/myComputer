@@ -35,6 +35,7 @@ HP Omen 15" 2022
     * ourHappyHome5G - 7ef79856c1a52598410c
     # Use the Google Public DNS IP in /etc/resolv.conf
     * sudo nano /etc/resolve.conf  # add to bottom
+    **************DO NOT ACTIVATE OurHappyHomeGuest because it will interfere with PLEX and EERO modem by difficulties with devices on different networks from each other.
 nameserver 8.8.8.8
 nameserver 8.8.8.4
     * restart
