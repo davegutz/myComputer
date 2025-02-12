@@ -127,6 +127,13 @@ https://forum.allaboutcircuits.com/threads/how-to-setup-and-use-vs-code-windows-
   plug in a board and restart vscode
   have to 'Select Programmer' in bottom bar - nano is a SAM board
   I think you have to use Arduino IDE to install libraries and VS Code automatically finds them
-  Not sure how to get squiggles working correctly
+  Not sure how to get squiggles working correctly.  Start by getting paths right and intellisense working
   
+  
+  https://www.circuitstate.com/tutorials/how-to-use-vs-code-for-creating-and-uploading-arduino-sketches/
+  sudo snap install arduino-cli
+  arduino-cli config dump
+arduino-cli config init
+arduino-cli lib list
+arduino Community Edition - settings - Arduino:Path   (put path to clie
   
