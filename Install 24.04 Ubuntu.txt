@@ -139,6 +139,7 @@ Use power plug if hangs
  
 
 # Install apps
+  # use App to install synaptic-package-manager
   sudo snap install plexmediaserver # for remote laptop (for trips) as well as basement server
   sudo snap install --classic pycharm-community
   sudo snap install sqlitebrowser
