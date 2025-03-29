@@ -9,6 +9,47 @@ Lenovo Laptop
    sudo mkfs.vfat -I /dev/sda -n TINYCORE
    # once in windows reformat it to FAT32
 
+# install in VM on laptop windows (less used build on a laptop)
+download and install python  https://www.python.org/downloads/
+  # open cmd administrator
+  py -m pip install pywin32
+  python.exe -m pip install --upgrade pip
+
+download and install virtualbox  https://download.virtualbox.org/virtualbox/7.1.4/
+download virtualbox extension pack  https://download.virtualbox.org/virtualbox/7.1.4/
+download gues additions  https://download.virtualbox.org/virtualbox/7.1.4/
+install vb open it and + add extensions
+machine - new - select iso 
+ - 4 GB ram
+ - 20 GB  disk
+ - 1 cpu
+Start - choose:
+ Boot Core with X/GUI (TinyCore) + Installation Extension
+FOLLOWING https://eaglepubs.erau.edu/mastering-enterprise-networks-labs/chapter/installing-tiny-core-linux/
+ once live click install in LRC - pick 'whole', highlight 'sda', 'install boot loader' then 'right - arrow'
+ 'ext4' - click right again
+ boot options typee 'home=sda1 opt=sda1' - click right again
+ choose wifi:  all three boxes
+ continue right and with defaults then 'proceed' then shut down the machine
+ Return to the VM VirtualBox manager and adjust the settings for the TinyCoreLinux VM by clicking on settings
+  General - Advanced - pick bidirectional cut/paste
+  When startup - Devices - insert Guest Additions
+  Choose wifi + firmware
+  
+  #### did not do following
+  In settings, navigate to Storage, right-click the iso, and click Remove Attachment (Figure 17). This forces the VM to boot from the virtual hard disk instead of the iso
+  Click OK
+ Start the TinyCoreLinux VM to ensure it boots from the virtual hard drive. 
+
+
+new a VM choose CorePlus in downloads
+20 GB hard-drive, 2 GB Ram
+boot Core with Wifi & Firmware
+  Ensure your VirtualBox network adapter is set to "Attached to: NAT" or "Bridged Adapter" to access your host machine's network.
+
+wifi:  terminal
+  > wifi-menu
+  
 
 # try on linux
 cd Downloads
