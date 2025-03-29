@@ -12,3 +12,20 @@ MultiSplit=false
 BaseAccountGuid=1409566365cf41e280e19e35e33ee732
 BaseAccount=Assets:FREE REWARDS CK, *2680
 ColumnTypes=None;Date;Description;Amount;Amount;None;
+
+
+[Import csv,transaction - chase]
+Name=chase
+SkipStartLines=1
+SkipEndLines=0
+SkipAltLines=false
+CsvFormat=true
+Separators=,
+#Supported date formats: 0: 'y-m-d', 1: 'd-m-y', 2: 'm-d-y', 3: 'd-m', 4: 'm-d', 5: 'Locale'
+DateFormat=2
+CurrencyFormat=0
+Encoding=CP1252
+MultiSplit=false
+BaseAccountGuid=1985603fa823407da8b7ef7650e27315
+BaseAccount=Liabilities:Chase Prime CC D *8079
+ColumnTypes=None;Date;Description;None;None;Amount;None;
