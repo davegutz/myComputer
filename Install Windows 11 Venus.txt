@@ -137,3 +137,4 @@ arduino-cli config init
 arduino-cli lib list
 arduino Community Edition - settings - Arduino:Path   (put path to clie
   
+#install gnucash
