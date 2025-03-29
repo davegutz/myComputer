@@ -1,0 +1,14 @@
+[Import csv,transaction - m&t]
+Name=m&t
+SkipStartLines=0
+SkipEndLines=0
+SkipAltLines=false
+CsvFormat=true
+Separators=,
+DateFormat=2
+CurrencyFormat=0
+Encoding=CP1252
+MultiSplit=false
+BaseAccountGuid=1409566365cf41e280e19e35e33ee732
+BaseAccount=Assets:FREE REWARDS CK, *2680
+ColumnTypes=None;Date;Description;Amount;Amount;None;
