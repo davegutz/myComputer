@@ -29,3 +29,20 @@ MultiSplit=false
 BaseAccountGuid=1985603fa823407da8b7ef7650e27315
 BaseAccount=Liabilities:Chase Prime CC D *8079
 ColumnTypes=None;Date;Description;None;None;Amount;None;
+
+[Import csv,transaction - usaa]
+Name=usaa
+SkipStartLines=1
+SkipEndLines=0
+SkipAltLines=false
+CsvFormat=true
+Separators=,
+#Supported date formats: 0: 'y-m-d', 1: 'd-m-y', 2: 'm-d-y', 3: 'd-m', 4: 'm-d', 5: 'Locale'
+DateFormat=0
+CurrencyFormat=0
+Encoding=CP1252
+MultiSplit=false
+BaseAccountGuid=77324f39cd8946e4b49ccf466bc2642f
+BaseAccount=Liabilities:Visa Plat USAA *5290
+ColumnTypes=Date;None;Description;None;Amount (Negated);None;
+
