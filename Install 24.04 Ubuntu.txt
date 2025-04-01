@@ -16,6 +16,15 @@ Wireless Address 4C:24:CE:D7:76:45
 static 192.168.1.45
 
 ######## Lessons Learned  ##########
+- ####dual boot
+	- Install windows first - it's more selfish
+	- Windows setting 'fast startup' may prevent accessing Linux on reboot.  Disable 'fast startup' in Windows
+	- Best to install on separate physical drives
+	- Can access Windows files from Linux but not vice-versa
+	- Time off when switch from one to another.  Either configure Linux to use local time instead of UTC of configure Windows to use UTC.
+	https://www.howtogeek.com/323390/how-to-fix-windows-and-linux-showing-different-times-when-dual-booting/
+	(To make Windows use UTC, disable "Set Time Automatically" in the Settings App, or you can modify the registry)
+	
 - Do not interrupt command-line initiated upgrade.  Will break system.  Let it finish.
 - Do not directly upgrade or delete the as-shipped installed python.  Will break system.  Use 'altinstall' make directive
 - Always use virtual environment 'venv' unique for each python project.  Allows easy cross-platform 'install' operations in python.
