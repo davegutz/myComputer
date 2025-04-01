@@ -12,6 +12,8 @@ Windowing System Wayland
 No Proprietary Drivers installed.  No additional drivers available
 
 
+Be sure to read the 'Lessons Learned' of   before installing as dual-boot system.
+
 
 Wireless Address 4C:24:CE:D7:76:45
 static 192.168.1.45
