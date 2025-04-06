@@ -317,9 +317,9 @@ sudo modprobe snd-aloop
   Open pyCharm install venv for each github repository	
   
     # movie_Scraper notes
-    Search for 'PySimpleGUI' in email for 'License key of:...' then open attachment.  First run will bomb.  Just run again.
+    install PySimpleGUI-4-foss instead of PySimpleGUI
     # TODO: investigate message '_tkinter.TclError: image "pyimage7" doesn't exist'
-    Set DB location to /home/daveg/google-drive/Movies Stuff
+*****    Set DB location to /home/daveg/google-drive/Movies Stuff ******** no use myComputer instead now
     Run executable making stuff at top of comments GUI_sqlite_scrape.py
 cat << EOF > /home/daveg/Desktop/GUI_sqlite_scrape.desktop
 [Desktop Entry]

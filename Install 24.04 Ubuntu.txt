@@ -392,7 +392,7 @@ sudo modprobe snd-aloop
   
     # movie_Scraper notes
     Use own venv for install to work portably
-    Search for 'PySimpleGUI' in email for 'License key of:...' then open attachment.  First run will bomb.  Just run again.
+    install PySimpleGUI-4-foss instead of PySimpleGUI
     # TODO: investigate message '_tkinter.TclError: image "pyimage7" doesn't exist'
     Set DB location to /home/daveg/google-drive/Movies Stuff
     Run executable making stuff at top of comments GUI_sqlite_scrape.py
