@@ -104,6 +104,7 @@ download kitty (fork of putty that stays alive).  Follow putty setup instruction
 pyCharm - screencast get to run
 
 pyCharm - movie-scraper get to run
+use PySimpleGUI-4-foss instead of PySimpleGUI
 
 pyCharm - SOC_Particle\py\GUI... get to run
   then in VS Code run it
