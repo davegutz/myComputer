@@ -972,3 +972,15 @@ change 60->0
 "So after digging some more on this issue, I believe I managed to fix my issue. The user who originally posted the github article merged it with another article (https://github.com/pop-os/shop/pull/349) where you change the "io.elementary.appcenter-daemon.desktop" to auto-start immediately after logging in, instead of waiting 60 seconds to start. I found this file located in this folder "/etc/xdg/autostart". I then edited the "X-GNOME-Autostart-Delay" entry to a value of "0" and restarted my system. After the restart I opened then closed the Pop Shop and checked the journalctl. I didn't see any of the logs listed above. I will keep an eye on this and update this post with any further details." 
 
 
+# Play VLC sound over HDMI
+sudo apt install pulseaudio
+sudo apt install alsa-utils
+sudo apt install pavucontrol
+  #### not sure if all this pactl stuff needed
+   pactl load-module module-alsa-sink device=hw:0,3
+   sudo nano /etc/pulse/default.pa
+   # Add this line at the end
+   pactl load-module module-alsa-sink device=hw:0,3
+  open PulseAudio Volume Control - Configuration -  Profile: Digital Stereo (HDMI) Output + Analog Stereo Input
+   #### did up to here in latest trial and sound worked on HDMI
+
