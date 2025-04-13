@@ -138,6 +138,24 @@ sudo wget https://github.com/shiftkey/desktop/releases/download/release-3.1.1-li
     https://play.max.com/
     https://www.netflix.com/
 
+
+  # Chrome browser
+    sudo apt install libu2f-udev
+    cd Downloads
+    rm google-chrome-stable*.deb
+    wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+    sudo dpkg -i google-chrome-stable_current_amd64.deb
+
+    # Uninstall Chrome browser stuff
+      uninstall 'google chrome' from Ubuntu Software app
+      sudo apt remove libu2f-udev
+      sudo apt autoremove
+      cd
+      sudo apt autoclean
+      sudo apt clean
+      sudo apt install deborphan
+      sudo apt remove $(deborphan)
+
   # Configure sound
   sudo nano /etc/modules-load.d/modules.conf
   # Add following line to /etc/modules-load.d/modules.conf
