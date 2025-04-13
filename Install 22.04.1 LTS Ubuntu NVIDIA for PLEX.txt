@@ -68,6 +68,7 @@ nameserver 8.8.8.4
   sudo crontab -l # to confirm current
   # no restart of any kind needed because cron simply reads all crontab files every minute
   # Cron tab uses computer time (> date)
+  /usr/local/bin/suspend_until 16:00
 
  * add github to end bootstrapping
 sudo wget https://github.com/shiftkey/desktop/releases/download/release-3.1.1-linux1/GitHubDesktop-linux-3.1.1-linux1.deb
