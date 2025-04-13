@@ -61,11 +61,11 @@ nameserver 8.8.8.4
 
 # get suspend_until from the folder this file came from
   sudo cp Documents/GitHub/myComputer/suspend_until /usr/local/bin/.
-  chmod +x /usr/local/bin/suspend_until
+  sudo chmod +x /usr/local/bin/suspend_until
   sudo crontab -e
 1 0 * * 1-6 /usr/local/bin/suspend_until 16:00  # Mon - Sat 1 min after midnight
 1 0 * * 0 /usr/local/bin/suspend_until 10:15   # Sun. Face the Nation at 10:30 Sun.
-  sudo crontab -l # to show current
+  sudo crontab -l # to confirm current
   # no restart of any kind needed because cron simply reads all crontab files every minute
   # Cron tab uses computer time (> date)
 
@@ -95,6 +95,7 @@ sudo wget https://github.com/shiftkey/desktop/releases/download/release-3.1.1-li
      after several hours of content loading, to see on plexmgr account you will need to shutdown plex and restart to see the content.   Should be visible to other devices.
      Settings - Transcoder - deselect 'Use hardware acceleration when available'
               - specify Transcoder Temporary Directory = /media/daveg/Videos/DVRcache
+                  or /home/daveg/Documents/Recordings
     Settings - Network - Secure Connections - set to required to be able to use wireless
 	 - disable ipv6 each network by editing it's settings    
               
@@ -112,13 +113,15 @@ sudo wget https://github.com/shiftkey/desktop/releases/download/release-3.1.1-li
   sudo snap install --classic pycharm-community
   sudo apt install -y thunar
   sudo apt install -y nautilus
-  free...backup
+  freeFileSync...backup  **********use rsync instead??????????
 
   # VLC
     Tools-preferences-codecs  disable hardware-accelerated-decoding  save
     May have to restart vlc
     
-  # Freefilesync
+    
+    ??????????????????????????????????????
+  # Freefilesync **********use rsync instead??????????????????????????????????
     plug in Lib and the backup drives (Lib_Dupe and ...)
     open the app installed using App Center
       press green '+' so have rows equalling the number of backups
@@ -281,10 +284,10 @@ EOF
   sudo mkdir /Public
   sudo chmod -R 0777 /Public
   sudo smbpasswd -a plexmgr  # use same pwd as daveg
+    or daveg
   sudo ufw allow samba  # Open firewall
   
   sudo nano /etc/samba/smb.conf  # Add config for Public
-
   # end Share Definitions (just before printers, use ctrl-w to search for [printers])
 inherit permissions = yes 
   # bottom
@@ -302,6 +305,7 @@ guest ok = yes
   sudo service smbd restart && sudo service nmbd restart
   sudo groupadd samba
   sudo gpasswd -a plexmgr samba
+    or daveg
   sudo mkdir -p /srv/samba/private/
   sudo setfacl -R -m "g:samba:rwx" /srv/samba/private/
   testparm  # see your changes
@@ -315,8 +319,10 @@ guest ok = yes
     smb://localhost
 
   # Remotely, enter the IP address:
-    smb://192.168.4.21
-    htpps://192.168.4.21
+    Look up IP on router app eg:  192.168.5.205
+    on remote windows right click on desktop - New - Shortcut
+    location:  \\192.168.5.205\Public
+    next ----
 
   # send email noting static address to windows users so they can change shortcuts
   
@@ -362,7 +368,7 @@ sudo apt install gnome-control-center
 restart
 
 
-# Desktop icons mission 
+# Desktop icons missing 
  sudo apt-get install --reinstall ubuntu-desktop
  restart
 
