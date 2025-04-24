@@ -141,3 +141,11 @@ arduino Community Edition - settings - Arduino:Path   (put path to clie
 #install gnucash
 #install Okular from MS Store
 
+# Windows Explorer add-ons
+# TeraCopy  https://www.codesector.com/downloads  (freeware)
+# Peek (Power Toys) ctrl-space
+# Dropit
+# Image Resizer (Power Toys)
+# Power Rename
+
+
