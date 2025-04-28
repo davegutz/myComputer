@@ -984,3 +984,45 @@ sudo apt install pavucontrol
   open PulseAudio Volume Control - Configuration -  Profile: Digital Stereo (HDMI) Output + Analog Stereo Input
    #### did up to here in latest trial and sound worked on HDMI
 
+###### Supercharge
+ # update - software and updates
+   # all UbuntuSoftware - Downloadable from internet checked except source code
+     Download from:  Server for United States
+   # update
+     sudo apt update; sudo apt upgrade -y
+     restart if something changed
+    
+  # drivers - additional drivers
+    # use proprietary when possible
+    
+  # better software  
+    sudo apt install gparted synaptic
+    sudo apt install preload  # learns what to start before needed
+    
+  # Install Timeshift Backup Tool:
+    sudo apt install timeshift
+    # run timeshift
+    rsync
+    back up to a usb drive formatted to ext4
+    
+  # Speed up network
+    turn off automatic DNS for settings of wireless network being used ipv4 and ipv6 (temp)
+    8.8.8.8,8.8.4.4
+    apply and restart wireless
+    # Firefox Tweaks:
+      about:config
+      layers.acceleration.force-enabled
+      gfx.webrender.all
+    # Chrome tweaks:
+      chrome://settings/system
+      Toggle on the "Use hardware acceleration when available" option.
+      Relaunch Chrome for the changes to take effect
+      
+    # firewall
+      sudo apt install gufw
+      open 'firewall config' and turn on 'status'  that's it. close it
+
+    # cleanup
+      sudo apt install bleachbit
+      
+  
