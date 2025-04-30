@@ -1026,13 +1026,33 @@ sudo apt install pavucontrol
       sudo apt install bleachbit
   
   # Jellyfin
-  uname -r  (x86 = amd)
-  https://jellyfin.org/downloads/server/
-  visit http://192.168.5.205:8096
-  use same pwd as user
+    uname -r  (x86 = amd)
+    https://jellyfin.org/downloads/server/
+    # visit http://192.168.5.205:8096
+    # use same pwd as user
   
-  sudo usermod -a -G daveg jellyfin
-  sudo chown -R jellyfin /media/daveg
-  allow Jellyfin Incoming in Firewall
-  Get address of server and open in browser.  Fill libraries
+    sudo usermod -a -G daveg jellyfin
+    sudo chown -R jellyfin /media/daveg
+    # allow Jellyfin Incoming in Firewall
+    # Get address of server and open in browser.  Fill libraries
   
+    # Open port 8096:
+      sudo ufw allow 8096/tcp
+    # Open port 8920:
+      sudo ufw allow 8920/tcp
+    # (Optional) Open ports for auto-discovery:
+      sudo ufw allow 1900/udp
+      sudo ufw allow 7359/udp
+    # Reload the firewall rules:
+      sudo ufw reload
+    # Check the firewall status:
+      sudo ufw status verbose
+# 8096/tcp                   ALLOW IN    Anywhere                  
+# 8920/tcp                   ALLOW IN    Anywhere                  
+# 1900/udp                   ALLOW IN    Anywhere                  
+# 7359/udp                   ALLOW IN    Anywhere                  
+# 8096/tcp (v6)              ALLOW IN    Anywhere (v6)             
+# 8920/tcp (v6)              ALLOW IN    Anywhere (v6)             
+# 1900/udp (v6)              ALLOW IN    Anywhere (v6)             
+# 7359/udp (v6)              ALLOW IN    Anywhere (v6)             
+
