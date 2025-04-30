@@ -148,4 +148,28 @@ arduino Community Edition - settings - Arduino:Path   (put path to clie
 # Image Resizer (Power Toys)
 # Power Rename
 
+# Firefox tweaks
+about:config
+layers.acceleration.force-enabled
+gfx.webrender.all
 
+# on laptop fractionally scale display to 125%
+
+ ###### Supercharge
+    
+  # Speed up network
+    turn off automatic DNS for settings of wireless network being used ipv4 and ipv6 (temp)
+    8.8.8.8,8.8.4.4
+    apply and restart wireless
+    # Firefox Tweaks:
+      about:config
+      layers.acceleration.force-enabled
+      gfx.webrender.all
+    # Chrome tweaks:
+      chrome://settings/system
+      Toggle on the "Use hardware acceleration when available" option.
+      Relaunch Chrome for the changes to take effect
+      
+      
+
+  
