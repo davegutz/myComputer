@@ -1026,8 +1026,8 @@ sudo apt install pavucontrol
       sudo apt install bleachbit
   
   # Jellyfin
-    uname -r  (x86 = amd)
-    https://jellyfin.org/downloads/server/
+    uname -r  # (x86 = amd)
+    https://jellyfin.org/downloads/server/  # follow instructions
     # visit http://192.168.5.205:8096
     # use same pwd as user
   
