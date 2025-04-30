@@ -419,3 +419,15 @@ change 60->0
     Now look for the [VGA controller] at the end of each device. Whichever device has it, is the active GPU. In my case it's the i7 processor (HD 4000) that's handling the work.
   mine is working.  It may have been all along
   
+  
+    # Jellyfin
+  uname -r  (x86 = amd)
+  https://jellyfin.org/downloads/server/
+  visit http://192.168.5.205:8096
+  use same pwd as user
+  
+  sudo usermod -a -G daveg jellyfin
+  sudo chown -R jellyfin /media/daveg
+  allow Jellyfin Incoming in Firewall
+  Get address of server and open in browser.  Fill libraries
+
