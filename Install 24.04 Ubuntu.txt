@@ -1026,12 +1026,11 @@ sudo apt install pavucontrol
       sudo apt install bleachbit
   
   # Jellyfin
-    uname -r  # (x86 = amd)
-    https://jellyfin.org/downloads/server/  # follow instructions
-    # visit http://192.168.5.205:8096
-    # use same pwd as user
-  
+    curl -s https://repo.jellyfin.org/install-debuntu.sh | sudo bash
     sudo usermod -a -G daveg jellyfin
+    # visit http://192.168.<yours>:8096
+    # use same pwd as user  #################### I had to do this step twice
+  
     sudo chown -R jellyfin /media/daveg
     # allow Jellyfin Incoming in Firewall
     # Get address of server and open in browser.  Fill libraries
