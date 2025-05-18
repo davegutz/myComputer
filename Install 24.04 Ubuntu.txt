@@ -1061,3 +1061,20 @@ sudo apt install pavucontrol
     # Create app password
 	# Copy and paste into myGmail.py
 	
+	
+	
+   # Start ssh
+     # open up firewall with in/out rule using gufw
+     sudo systemctl status ssh
+     sudo systemctl start ssh
+     sudo apt update
+     # install openssh if needed
+     sudo apt install openssh-server
+     sudo systemctl status ssh
+     sudo systemctl enable ssh
+     sudo systemctl start ssh
+     ip addr show
+
+
+	
+	

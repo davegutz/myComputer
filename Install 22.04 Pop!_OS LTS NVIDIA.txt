@@ -190,14 +190,14 @@ change 60->0
     
    # Start ssh
      # open up firewall with in/out rule using gufw
-     # install openssh
      sudo systemctl status ssh
      sudo systemctl start ssh
      sudo apt update
+     # install openssh if needed
      sudo apt install openssh-server
      sudo systemctl status ssh
      sudo systemctl enable ssh
      sudo systemctl start ssh
-ip addr show
+     ip addr show
 
 
