@@ -186,5 +186,17 @@ change 60->0
     # cleanup
       sudo apt install bleachbit
       
+    
+    
+   # Start ssh
+     # open up firewall with in/out rule using gufw
+     sudo systemctl status ssh
+     sudo systemctl start ssh
+     sudo apt update
+     sudo apt install openssh-server
+     sudo systemctl status ssh
+     sudo systemctl enable ssh
+     sudo systemctl start ssh
+ip addr show
 
-  
+
