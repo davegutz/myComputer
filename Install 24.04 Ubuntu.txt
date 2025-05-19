@@ -960,6 +960,8 @@ sudo crontab -  # to update crontab
 # no restart of any kind needed because cron simply reads all crontab files every minute
 
 
+alias suspend='/usr/local/bin/suspend_until 16:00'
+
 # Test on hpomen 
 sudo crontab -e
 0 14 * * * /home/daveg/bin/suspend_until 15:30
