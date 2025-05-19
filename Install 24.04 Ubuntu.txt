@@ -1061,3 +1061,19 @@ sudo apt install pavucontrol
     # Create app password
 	# Copy and paste into myGmail.py
 	
++     ip addr show
+
+# rdp
+  sudo apt install xrdp
+  sudo ufw allow 3389
+  sudo systemctl status xrdp
+  automatic login must be disabled
+  logoff
+  
+  # if no joy with status xrdb (errno=22) try using xrdp script here:  www.c-nergy.be/products.html
+  cd Downloads
+  chmod +x xrdp-installer-1.5.4.sh -s
+  ./xrdp-installer-1.5.4.sh
+  # verify
+  sudo systemctl status xrdp
+  
