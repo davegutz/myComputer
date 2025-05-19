@@ -1,0 +1,3 @@
+Fatal Error: Trouble converting to curly brace notation:
+ Mismatched single quotes in
+  "F1 (rapid F12 on Lenovo laptop, F10 on HP-Omen, F7 on little_guy) during boot. Set boot order to USB. *try or install ubuntu - normal installation - install updates (I tried minimal installation - lots of things didn{t work right)"
