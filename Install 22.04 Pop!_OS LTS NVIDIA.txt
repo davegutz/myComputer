@@ -209,8 +209,8 @@ change 60->0
   
   # if no joy with status xrdb (errno=22) try using xrdp script here:  www.c-nergy.be/products.html
   cd Downloads
-  chmod +x xrdp-installer-1.5.4.sh -s
-  ./xrdp-installer-1.5.4.sh
+  chmod +x xrdp-installer-1.5.4.sh
+  ./xrdp-installer-1.5.4.sh -s
   # verify
   sudo systemctl status xrdp
 
