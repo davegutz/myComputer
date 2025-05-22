@@ -1078,15 +1078,42 @@ sudo apt install pavucontrol
   ./xrdp-installer-1.5.4.sh -s
   # verify
   sudo systemctl status xrdp
-  
-  # xpra for full control from windows:  use synaptic to install xpra
-  # Chrome rdp does not work as access in Linux (ok windows and macos)
-  # xrdp does not handle sound as desired - won't allow use of PulseAudio redirection to Looparound
-  sudo apt install xpra
+    
+    
+# xpra (must be rebuilt; repositories out of date)
+  https://github.com/Xpra-org/xpra/blob/master/docs/Build/Debian.md
+    cd Downloads
+    git clone https://github.com/Xpra-org/xpra
+     
+    # install version 3.13 of python advertised to be 'stable' with xpra.  See python install notes above somewhere
+    pip3.13 install --upgrade pip
+    python3.13 -m pip install --upgrade pip setuptools Cython
+    cd xpra
+    # dependencies
+    ./setup.py dev-env --minimal --with-openh264
+    # open xpra in pyCharm
+    # install by running setup.py in pyCharm
+
+    ./setup.py install --prefix=/usr --install-layout=deb
+    # the executable scripts may have been mangled, so overwrite them:
+    sudo cp fs/bin/* /bin/
+     
   # remote
     xpra start :100
   # local
     xpra attach ssh:daveg@daveg-venus-linux:22 :100
     xpra attach ssh:daveg@192.168.0.148:22 :100
     
+
+# noMachine    
+https://downloads.nomachine.com/download/?id=1&platform=linux
+# download the tar.gz for DEG x86_64
+# follow instructions from README file
+ sudo cp -p nomachine_9.0.188_11_x86_64.tar.gz /usr
+ cd /usr
+ sudo tar zxf nomachine_9.0.188_11_x86_64.tar.gz
+ sudo /usr/NX/nxserver --install
+
+uses port: 4000.  Allow through firewall
+
 
