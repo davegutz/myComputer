@@ -1107,9 +1107,9 @@ sudo apt install pavucontrol
 
 # noMachine    
 https://downloads.nomachine.com/download/?id=1&platform=linux
-# download the tar.gz for DEG x86_64
+# download the tar.gz for x86_64
 # follow instructions from README file
- sudo cp -p nomachine_9.0.188_11_x86_64.tar.gz /usr
+ sudo cp -p ~/Downloads/nomachine_9.0.188_11_x86_64.tar.gz /usr
  cd /usr
  sudo tar zxf nomachine_9.0.188_11_x86_64.tar.gz
  sudo /usr/NX/nxserver --install
