@@ -1065,6 +1065,7 @@ sudo apt install pavucontrol
 	
 +     ip addr show
 
+###########################  start  doesn't work   ###################################
 # rdp
   sudo apt install xrdp
   sudo ufw allow 3389
@@ -1103,6 +1104,7 @@ sudo apt install pavucontrol
   # local
     xpra attach ssh:daveg@daveg-venus-linux:22 :100
     xpra attach ssh:daveg@192.168.0.148:22 :100
+###########################   end  doesn't work   ###################################
     
 
 # noMachine    
