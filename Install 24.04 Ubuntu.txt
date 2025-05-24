@@ -1128,6 +1128,15 @@ sudo /usr/NX/bin/nxserver --restart
 sudo apt remove update-notifier update-notifier-common
 
 gsettings set org.gnome.desktop.session idle-delay <seconds> (0 to disable)
+
+gsettings get org.gnome.desktop.lockdown disable-lock-screen  # to discover current settings
+gsettings set org.gnome.desktop.lockdown disable-lock-screen 'true'
+gsettings set org.gnome.desktop.lockdown disable-lock-screen 'false'
+
+gsettings get org.gnome.desktop.screensaver lock-enabled  # to discover current settings
 gsettings set org.gnome.desktop.screensaver lock-enabled false
 gsettings set org.gnome.desktop.screensaver lock-enabled true
 
+xset s off
+xset s noblank
+xset -dpms
