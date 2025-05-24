@@ -1107,36 +1107,46 @@ sudo apt install pavucontrol
 ###########################   end  doesn't work   ###################################
     
 
-# noMachine    
+######################## noMachine    #####################################################
 https://downloads.nomachine.com/download/?id=1&platform=linux
 # download the tar.gz for x86_64
 # follow instructions from README file
- sudo cp -p ~/Downloads/nomachine_9.0.188_11_x86_64.tar.gz /usr
- cd /usr
- sudo tar zxf nomachine_9.0.188_11_x86_64.tar.gz
- sudo /usr/NX/nxserver --install
+  sudo cp -p ~/Downloads/nomachine_9.0.188_11_x86_64.tar.gz /usr
+  cd /usr
+  sudo tar zxf nomachine_9.0.188_11_x86_64.tar.gz
+  sudo /usr/NX/nxserver --install
+  # uses port: 4000.  Allow through firewall
 
-uses port: 4000.  Allow through firewall
-# Stop hang of noMachine after long absence or service restart
-#Add DisplayAgentExtraOptions “-alteventapi 1” to the node.cfg file.
-#Add DisplayServerExtraOptions “-eventdelay 0”
-# here:   /usr/NX/etc/node.cfg
-gnome-text-editor /usr/NX/etc/node.cfg
-# restart:
-sudo /usr/NX/bin/nxserver --restart
 
-sudo apt remove update-notifier update-notifier-common
+###########  I don't think any of the following helped  ###################
+###########  I think what helps is to activate 'esc' and 'space' to interrupt Chrome
+###########  fullscreen mode from screecasting.  The 'space' pauses playback.
+  # Stop hang of noMachine after long absence or service restart
+  #Add DisplayAgentExtraOptions “-alteventapi 1” to the node.cfg file.
+  #Add DisplayServerExtraOptions “-eventdelay 0”
+  # here:   /usr/NX/etc/node.cfg
+  gnome-text-editor /usr/NX/etc/node.cfg
+  # restart !Machine server:
+  sudo /usr/NX/bin/nxserver --restart
+################################  end no help section  ##################################
 
-gsettings set org.gnome.desktop.session idle-delay <seconds> (0 to disable)
+### didn't try the following to potentially stop hang of !Machine.
+### may try if still have issues
+  gsettings set org.gnome.desktop.session idle-delay <seconds> (0 to disable)
 
-gsettings get org.gnome.desktop.lockdown disable-lock-screen  # to discover current settings
-gsettings set org.gnome.desktop.lockdown disable-lock-screen 'true'
-gsettings set org.gnome.desktop.lockdown disable-lock-screen 'false'
+  gsettings get org.gnome.desktop.lockdown disable-lock-screen  # to discover current settings
+  gsettings set org.gnome.desktop.lockdown disable-lock-screen 'true'
+  gsettings set org.gnome.desktop.lockdown disable-lock-screen 'false'
 
-gsettings get org.gnome.desktop.screensaver lock-enabled  # to discover current settings
-gsettings set org.gnome.desktop.screensaver lock-enabled false
-gsettings set org.gnome.desktop.screensaver lock-enabled true
+  gsettings get org.gnome.desktop.screensaver lock-enabled  # to discover current settings
+  gsettings set org.gnome.desktop.screensaver lock-enabled false
+  gsettings set org.gnome.desktop.screensaver lock-enabled true
 
-xset s off
-xset s noblank
-xset -dpms
+  xset s off
+  xset s noblank
+  xset -dpms
+################################  end not tried swection  ##################################
+
+
+# finally turn off update notifier because it covers screencast
+  sudo apt remove update-notifier update-notifier-common
