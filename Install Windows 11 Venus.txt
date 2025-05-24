@@ -74,6 +74,7 @@ jetbrains - pycharm community - quit jetbrains (tray) and remove from startup
 R + Rstudio
 kdenlive https://kdenlive.org/en/download/
 LocalSend from Microsoft Store
+noMachine from https://www.nomachine.com/
 
 Epubor Ultimate Registration
 Licensed email: davegutz@alum.mit.edu
