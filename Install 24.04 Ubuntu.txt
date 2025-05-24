@@ -1119,9 +1119,15 @@ https://downloads.nomachine.com/download/?id=1&platform=linux
 uses port: 4000.  Allow through firewall
 # Stop hang of noMachine after long absence or service restart
 #Add DisplayAgentExtraOptions “-alteventapi 1” to the node.cfg file.
+#Add DisplayServerExtraOptions “-eventdelay 0”
 # here:   /usr/NX/etc/node.cfg
 gnome-text-editor /usr/NX/etc/node.cfg
 # restart:
 sudo /usr/NX/bin/nxserver --restart
+
 sudo apt remove update-notifier update-notifier-common
+
+gsettings set org.gnome.desktop.session idle-delay <seconds> (0 to disable)
+gsettings set org.gnome.desktop.screensaver lock-enabled false
+gsettings set org.gnome.desktop.screensaver lock-enabled true
 
