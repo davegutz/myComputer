@@ -1122,10 +1122,11 @@ https://downloads.nomachine.com/download/?id=1&platform=linux
 ###########  I think what helps is to activate 'esc' and 'space' to interrupt Chrome
 ###########  fullscreen mode from screecasting.  The 'space' pauses playback.
   # Stop hang of noMachine after long absence or service restart
-  #Add DisplayAgentExtraOptions “-alteventapi 1” to the node.cfg file.
-  #Add DisplayServerExtraOptions “-eventdelay 0”
-  # here:   /usr/NX/etc/node.cfg
+  # Change in the node.cfg file:
   gnome-text-editor /usr/NX/etc/node.cfg
+    DisplayAgentExtraOptions “-alteventapi 1”
+    DisplayServerExtraOptions “-eventdelay 0"
+  
   # restart !Machine server:
   sudo /usr/NX/bin/nxserver --restart
 ################################  end no help section  ##################################
