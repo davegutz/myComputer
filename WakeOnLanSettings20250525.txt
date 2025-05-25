@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfMachine xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Machine>
+    <Name>daveg-venus-linux</Name>
+    <MAC>4C-24-CE-D7-76-45</MAC>
+    <IP>192.168.0.148</IP>
+    <Broadcast>192.168.0.255</Broadcast>
+    <Netbios>192.168.0.148</Netbios>
+    <Method>0</Method>
+    <Emergency>true</Emergency>
+    <ShutdownCommand>shutdown -h</ShutdownCommand>
+    <Group />
+    <UDPPort>9</UDPPort>
+    <TTL>128</TTL>
+    <RemoteCommand />
+    <Note />
+    <UserID>daveg</UserID>
+    <Password>Qr1KGgjeiV5CsgIE3m5ycw==</Password>
+    <Domain>daveg-venus-linux</Domain>
+    <ShutdownMethod>WMI</ShutdownMethod>
+    <KeepAlive>false</KeepAlive>
+    <RepeatCount>1</RepeatCount>
+  </Machine>
+</ArrayOfMachine>
