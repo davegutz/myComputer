@@ -448,7 +448,23 @@ change 60->0
   cd /Downloads
   sudo apt install  ./opera-stable_119.0.5497.56_amd64.deb
 
-
+# disks
+  sudo apt install gnome-disk-utility
+  
+# Swappiness (not active now************)
+  cat /proc/sys/vm/swappiness
+  #sudo sysctl vm.swappiness=10
+#  sudo nano /etc/sysctl.conf 
+#  vm.swappiness=10
+  
+# Increase swap
+  swapon --show
+  sudo swapoff /swapfile
+  sudo fallocate -l 4G /swapfile
+  sudo mkswap /swapfile
+  sudo swapon /swapfile
+  swapon --show
+ 
 
  
   
