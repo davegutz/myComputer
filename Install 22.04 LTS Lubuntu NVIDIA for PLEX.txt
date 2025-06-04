@@ -427,4 +427,28 @@ change 60->0
     # cleanup
       sudo apt install bleachbit
       
+      
+# NoMachine
+  https://download.nomachine.com/download/9.0/Linux/nomachine_9.0.188_11_x86_64.tar.gz
+  cd Downloads
+  sudo cp -p nomachine_9.0.188_11_x86_64.tar.gz  /usr
+  cd /usr
+  sudo tar zxf nomachine_9.0.188_11_x86_64.tar.gz 
+  sudo /usr/NX/nxserver --install
+  # uses port: 4000.  Allow through firewall
+     # firewall
+      sudo apt install gufw
+      open 'firewall config' and turn on 'status'  that's it. close it
+      
+# manage bluetoot
+  sudo apt install blueman 
+  
+# zoom
+  # download zoom deb file
+  cd /Downloads
+  sudo apt install  ./opera-stable_119.0.5497.56_amd64.deb
+
+
+
+ 
   
