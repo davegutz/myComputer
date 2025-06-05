@@ -462,7 +462,7 @@ change 60->0
 # Increase swap
   swapon --show
   sudo swapoff /swapfile
-  sudo fallocate -l 4G /swapfile
+  sudo fallocate -l 8G /swapfile
   sudo mkswap /swapfile
   sudo swapon /swapfile
   swapon --show
