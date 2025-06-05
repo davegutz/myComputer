@@ -374,7 +374,7 @@ sudo modprobe snd-aloop
   # open .._def.odt setup
    *********set Font 'free mono 10'
   # then create test* from def
-  Plug in a SOC deviceriv
+  Plug in a SOC device
   sudo dmesg | grep tty  # to find out whicth TTY
   sudo chgrp daveg /dev/ttyACM0
   # NOTE:  save putty data on local drive.  GUI_TestSOC may use dataReductionFolder on google-drive but should not use putty to stream to google-drive
