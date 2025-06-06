@@ -4,6 +4,10 @@ Lenovo Laptop
 
 #### When in doubt, use instructions for Ubuntu
 
+
+#***************  swapfile size must be at least 3G when RAM is just 4G.  Go to bottom of file.
+#***************  vm.swappiness=10 (from 60) makes system responsive to mouse 
+
 # insert iso usb
   F1 (rapid F12 on Lenovo laptop, F10 on HP-Omen, F7 on little_guy) during boot.   Set boot order to USB.  *try or install Lubuntu - normal installation - install updates (I tried minimal installation - lots of things didn't work right)
   Choose 'Normal installation'
@@ -145,3 +149,45 @@ sudo apt install alsa-utils
     sudo nano ~/.bashrc
     # Add this line at the end
     alsactl --file ~/.config/asound.state restore
+
+
+# NoMachine
+  https://download.nomachine.com/download/9.0/Linux/nomachine_9.0.188_11_x86_64.tar.gz
+  cd Downloads
+  sudo cp -p nomachine_9.0.188_11_x86_64.tar.gz  /usr
+  cd /usr
+  sudo tar zxf nomachine_9.0.188_11_x86_64.tar.gz 
+  sudo /usr/NX/nxserver --install
+  # uses port: 4000.  Allow through firewall
+     # firewall
+      sudo apt install gufw
+      open 'firewall config' and turn on 'status'  that's it. close it
+      
+# manage bluetoot
+  sudo apt install blueman 
+  
+# zoom
+  # download zoom deb file
+  cd /Downloads
+  sudo apt install  ./opera-stable_119.0.5497.56_amd64.deb
+
+# disks
+  sudo apt install gnome-disk-utility
+  
+# Swappiness
+  cat /proc/sys/vm/swappiness
+  sudo sysctl vm.swappiness=10
+  sudo nano /etc/sysctl.conf 
+    vm.swappiness=10
+  
+# Increase swap
+  swapon --show
+  sudo swapoff /swapfile
+  sudo fallocate -l 8G /swapfile
+  sudo mkswap /swapfile
+  sudo swapon /swapfile
+  swapon --show
+ 
+
+ 
+  

@@ -6,7 +6,7 @@ HP Omen 15" 2022
 
 #### When in doubt, use instructions for Ubuntu
 
-#***************  swapfile size must be at least 3G when RAM is just 4G.  Go to bottom of file.
+#***************  swapfile size must be at least 6G.  Prefer 8G.  When RAM is just 4G.  Go to bottom of file.
 #***************  vm.swappiness=10 (from 60) makes system responsive to mouse 
 
 #  Get ready

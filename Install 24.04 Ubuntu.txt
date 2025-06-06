@@ -45,7 +45,7 @@ static 192.168.1.45
 - Do not expect other users to use GitHub.  Either figure out a way to distribute binaries or use GitHub yourself on their computers.
 - Do not become dependent on streaming data, e.g. Particle Cloud, Blynk, Google Cloud.  Eventually they will try to charge you.  I am somewhat dependent on Google Cloud for ocamlfuse G-drive application.
 - Use Python whenever possible.   'Scilab' and 'Matlab' tools may ALL be replaced by Python and the effort will be worth it.
-
+- For PC with small RAM - less than 8 GB, the swap area, either partition of file, should be 2x the RAM size!!
 
 
 # Upgrade from cli
