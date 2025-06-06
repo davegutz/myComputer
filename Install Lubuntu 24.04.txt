@@ -208,3 +208,11 @@ sudo apt install alsa-utils
   sudo chown -R jellyfin /media/daveg
   # use same pwd as user  #################### I had to do this step twice because of chown
 
+# disk usage
+  sudo apt install baobab
+  sudo apt install git-filter-repo
+  get-filter-repo --path <to pack>  # didn't work well.  Just delete large pack files instead
+  cd Downloads
+  sudo apt install gdebi
+  sudo gdebi-gtk &
+  # open .deb files and remove as desired
