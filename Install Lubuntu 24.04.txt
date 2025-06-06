@@ -188,6 +188,17 @@ sudo apt install alsa-utils
   sudo swapon /swapfile
   swapon --show
  
+# Configure sound
+  sudo apt  install ffmpeg
+  sudo apt install -y portaudio19-dev
+  sudo nano /etc/modules-load.d/modules.conf
+  # Add following line to /etc/modules-load.d/modules.conf
+  snd-aloop
+  # To start it for this session
+  sudo modprobe snd-aloop
+  # you can just plug in the usb headset and adjust the sound settings
 
+# The 4GB Lenovo pcs don't have enough cpu bandwidth to run ffmpeg even with low video quality
+# so don't bother with screencast
  
   
