@@ -200,5 +200,11 @@ sudo apt install alsa-utils
 
 # The 4GB Lenovo pcs don't have enough cpu bandwidth to run ffmpeg even with low video quality
 # so don't bother with screencast
- 
-  
+
+# Jellyfin
+  curl -s https://repo.jellyfin.org/install-debuntu.sh | sudo bash
+  sudo usermod -a -G daveg jellyfin
+  # visit  http://localhost:8096
+  sudo chown -R jellyfin /media/daveg
+  # use same pwd as user  #################### I had to do this step twice because of chown
+
