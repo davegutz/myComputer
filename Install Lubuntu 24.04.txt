@@ -39,7 +39,7 @@ Lenovo Laptop
     
   # Connect online accounts google drive stuff
   # to bootstrap look for email subject 'google drive stuff'
-  # Menu - Settings - Session Settings - Autostart - Add - ~/bin/start_google-drive-ocamlfuse
+  # Menu - Desktop Settings - LXQTsettings - autostart - /usr/bin/google-drive-ocamlfuse
   
   # vscode 'snap install code --classic'
     # install particle workbench extension
