@@ -171,6 +171,7 @@ gfx.webrender.all
       Toggle on the "Use hardware acceleration when available" option.
       Relaunch Chrome for the changes to take effect
       
-      
+  # MS Services
+  https://www.xda-developers.com/disable-windows-background-services-boost-performance/
 
   
