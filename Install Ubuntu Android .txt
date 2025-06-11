@@ -1,0 +1,9 @@
+# During install, pick Ubuntu
+
+# Before doing anything
+sudo apt update
+sudo apt upgrade
+
+sudo apt install openssh-server
+
+
