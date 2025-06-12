@@ -168,8 +168,10 @@ sudo apt install alsa-utils
   
 # zoom
   # download zoom deb file
-  cd /Downloads
-  sudo apt install  ./opera-stable_119.0.5497.56_amd64.deb
+  cd ~/Downloads
+  chmod 777 zoom_amd64.deb 
+  sudo apt install ./zoom_amd64.deb
+
 
 # disks
   sudo apt install gnome-disk-utility
