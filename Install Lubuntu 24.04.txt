@@ -216,3 +216,11 @@ sudo apt install alsa-utils
   sudo apt install gdebi
   sudo gdebi-gtk &
   # open .deb files and remove as desired
+  
+# Bluetooth gui (cli is 'bluetoothctl')
+  Lubuntu - System - Discover - 'bluetooth'
+     - 'Bluetooth Manager'
+  It will appear under Lubuntu - Desktop settings
+     
+
+
