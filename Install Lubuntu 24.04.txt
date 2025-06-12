@@ -172,6 +172,14 @@ sudo apt install alsa-utils
   chmod 777 zoom_amd64.deb 
   sudo apt install ./zoom_amd64.deb
 
+# opera
+  # download opera deb file
+  cd ~/Downloads
+#  sudo apt install  ./opera-stable_119.0.5497.56_amd64.deb
+  sudo apt install gdebi
+  gdebi-gtk
+  # browse to and open the .deb file using the gui and remove it
+
 
 # disks
   sudo apt install gnome-disk-utility

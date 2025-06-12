@@ -447,8 +447,12 @@ change 60->0
   
 # zoom
   # download zoom deb file
-  cd /Downloads
-  sudo apt install  ./opera-stable_119.0.5497.56_amd64.deb
+  cd ~/Downloads
+#  sudo apt install  ./opera-stable_119.0.5497.56_amd64.deb
+  sudo apt install gdebi
+  gdebi-gtk
+  # browse to and open the .deb file using the gui and remove it
+
 
 # disks
   sudo apt install gnome-disk-utility
