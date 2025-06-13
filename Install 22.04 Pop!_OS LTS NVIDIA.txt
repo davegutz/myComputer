@@ -214,4 +214,9 @@ change 60->0
   # verify
   sudo systemctl status xrdp
 
+# VSCodium
+  use clangd c++ code extensions (700k + installs)
+    also added C/C++ Runner, CodeLLDB, and C/C++ Compile Run though none being used
+  
+  
 
