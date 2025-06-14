@@ -174,4 +174,19 @@ gfx.webrender.all
   # MS Services
   https://www.xda-developers.com/disable-windows-background-services-boost-performance/
 
+# make VS Code run mySandbox
+  right-click on Particle extension and disable them for the workspace
+  install mingw:  https://www.msys2.org/
+  gcc -- version # to verify success
+  RESTART VS Code
   
+# Use VS Codium instead
+# VSCodium
+  https://dev.to/abdullah_alazmi_12/how-to-install-vscodevscodium-166h
+  installed tdm-gcc-64
+  use clangd c++ code extensions (700k + installs)
+  c/c++ code extensions
+  also clangd:CMake integration
+    also added C/C++ Runner, CodeLLDB, and C/C++ Compile Run though none being used
+
+ 

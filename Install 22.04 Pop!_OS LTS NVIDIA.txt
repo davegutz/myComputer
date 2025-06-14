@@ -215,6 +215,8 @@ change 60->0
   sudo systemctl status xrdp
 
 # VSCodium
+  https://dev.to/abdullah_alazmi_12/how-to-install-vscodevscodium-166h
+  installed tdm-gcc-64
   use clangd c++ code extensions (700k + installs)
     also added C/C++ Runner, CodeLLDB, and C/C++ Compile Run though none being used
   
