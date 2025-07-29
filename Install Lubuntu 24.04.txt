@@ -232,5 +232,10 @@ sudo apt install alsa-utils
      - 'Bluetooth Manager'
   It will appear under Lubuntu - Desktop settings
      
+# KDEconnect
+  sudo apt install kdeconnect
+  sudo ufw allow 1714:1764/tcp
+  sudo ufw allow 1714:1764/udp
+  sudo ufw reload
 
 
