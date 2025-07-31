@@ -238,4 +238,18 @@ sudo apt install alsa-utils
   sudo ufw allow 1714:1764/udp
   sudo ufw reload
 
+# Opera (for single window instance to open drive.google.com without bogging down)
+######doesn't support passkeys yet
+  #sudo apt update
+  #sudo apt install snapd
+  #sudo snap install opera
+  sudo snap remove opera
+  
+# Chrome (for single window instance to open drive.google.com without bogging down)
+######doesn't support passkeys yet either.  It's the more general browser so I installed it for now
+  https://www.google.com/chrome  # download .deb
+  cd Downloads
+  sudo dpkg -i google-chrome-stable_current_amd64.deb
+  # If you encounter dependency issues, run: sudo apt --fix-broken install and then repeat the previous command. 
+
 
