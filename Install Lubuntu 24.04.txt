@@ -233,10 +233,11 @@ sudo apt install alsa-utils
   It will appear under Lubuntu - Desktop settings
      
 # KDEconnect
-  sudo apt install kdeconnect
-  sudo ufw allow 1714:1764/tcp
-  sudo ufw allow 1714:1764/udp
-  sudo ufw reload
+  #sudo apt install kdeconnect
+  #sudo ufw allow 1714:1764/tcp
+  #sudo ufw allow 1714:1764/udp
+  #sudo ufw reload
+  sudo apt remove kdeconnect
 
 # Opera (for single window instance to open drive.google.com without bogging down)
 ######doesn't support passkeys yet
