@@ -227,3 +227,6 @@ change 60->0
   sudo ufw allow 1714:1764/udp
   sudo ufw reload
 
+# Guake
+  sudo apt install guake
+  # set to start on login
