@@ -229,5 +229,12 @@ change 60->0
   use synaptic uninstall
   
 # Guake
-  sudo apt install guake
+  use synaptic to install guake
   # set to start on login
+  # icon appears in top right with wifi and battery
+  # F12 makes it appear
+  
+# Flameshot
+  use synaptic to install flameshot
+  
+  
