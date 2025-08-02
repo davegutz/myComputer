@@ -221,12 +221,13 @@ change 60->0
     also added C/C++ Runner, CodeLLDB, and C/C++ Compile Run though none being used
   
 # KDEconnect
-  use synaptic, look for kdeconnect
-  install, restart
-  sudo ufw allow 1714:1764/tcp
-  sudo ufw allow 1714:1764/udp
-  sudo ufw reload
-
+ #use synaptic, look for kdeconnect
+  #install, restart
+  #sudo ufw allow 1714:1764/tcp
+  #sudo ufw allow 1714:1764/udp
+  #sudo ufw reload
+  use synaptic uninstall
+  
 # Guake
   sudo apt install guake
   # set to start on login
