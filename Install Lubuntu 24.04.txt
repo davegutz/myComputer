@@ -317,3 +317,9 @@ remove ocamlfuse
 
 Your Google Drive is now accessible through the ~/gdrive directory in your Lubuntu system. You can interact with it using your file manager or command-line tools. To unmount, you can typically use fusermount -u ~/gdrive or stop the rclone mount process if it's running in the foreground. 
 ########################### end Rclone + Drive ######################################  
+
+
+# glances system monitor
+  sudo apt install glances
+
+
