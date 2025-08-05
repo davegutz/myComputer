@@ -289,7 +289,7 @@ change 60->0
 (The & allows the command to run in the background, freeing up your terminal.)
 
 
-add Startup Application:  "gdrive"  & "rclone mount gdrive: ~/gdrive"
+add Startup Application:  "gdrive"  & "rclone mount gdrive: ~/gdrive &"
 remove ocamlfuse
 
 Your Google Drive is now accessible through the ~/gdrive directory in your Lubuntu system. You can interact with it using your file manager or command-line tools. To unmount, you can typically use fusermount -u ~/gdrive or stop the rclone mount process if it's running in the foreground. 

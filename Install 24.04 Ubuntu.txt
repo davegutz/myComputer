@@ -1211,7 +1211,7 @@ https://downloads.nomachine.com/download/?id=1&platform=linux
 (The & allows the command to run in the background, freeing up your terminal.)
 
 
-add Startup Application:  "gdrive"  & "rclone mount gdrive: ~/gdrive"
+add Startup Application:  "gdrive"  & "rclone mount gdrive: ~/gdrive &"
 remove ocamlfuse
 
 
