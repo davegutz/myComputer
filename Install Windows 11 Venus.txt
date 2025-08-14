@@ -192,6 +192,16 @@ gfx.webrender.all
  # KDEconnect install --- nope
  
  
+ 
+ 
  # Firefox busy save setting
 about:config
 browser.sessionstore.interval 150000
+found this looking at disk activity in activity monitor app
+
+# Wintoys
+run and check stuff out
+
+# Crystal Disk Info
+https://sourceforge.net/projects/crystaldiskinfo/
+
