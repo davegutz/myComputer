@@ -189,4 +189,9 @@ gfx.webrender.all
   also clangd:CMake integration
     also added C/C++ Runner, CodeLLDB, and C/C++ Compile Run though none being used
 
- # KDEconnect install
+ # KDEconnect install --- nope
+ 
+ 
+ # Firefox busy save setting
+about:config
+browser.sessionstore.interval 150000
