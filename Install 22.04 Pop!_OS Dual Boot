@@ -145,6 +145,21 @@ browser.sessionstore.interval 150000
       sudo apt install gufw
 
 
+  ### not sure what this is.  pop!os - settings - Power - Automatic suspend off,     - screen blank 15 min (I'll do this one, though)
+
+  # Cleanup
+  sudo passwd daveg  # passwords:  ignore warnings
+  sudo passwd # root
+  rm ~/.local/share/keyrings/login.keyring
+  sudo apt autoremove
+  cd
+  sudo apt autoclean
+  sudo apt clean
+  sudo apt install deborphan
+  sudo apt remove $(deborphan)
+
+######################### end setup  ###############################
+
 
 
 #########################works in progress  ######################
