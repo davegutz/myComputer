@@ -91,8 +91,6 @@ paint.net  https://www.dotpdn.com/downloads/pdn.html
 default apps:  firefox, vlc, paint.net, sketchup
 putty Setup per myStaateOfCharge/SOC_Particle/putty/sessions/*.odt
 
-download kitty (fork of putty that stays alive).  Follow putty setup instructions; add Connection - Reconnect options - check both
-
 pyCharm - screencast get to run
 
 pyCharm - movie-scraper get to run
