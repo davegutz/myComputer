@@ -25,14 +25,6 @@ OurHappyHomeGuest5g  OurHappyHomeGuest10
 00:27  firefox:  davegutz@alummit.edu, ste_
 
 For Win11 choose to install pro
-###00:36 Home-->Pro (email search label Warranties + "Magic")
-###Disconnect the product from the internet or put it into airplane mode for the upgrade key
-###Navigate to > Settings > Update & Security > Activation > Change product key
-###Enter the following into the text box: VK7JG-NPHTM-C97JM-9MPGT-3V66T
-###Restart the product
-###Connect to the internet
-###Navigate to > Settings > Update & Security > Activation > Change product key
-###Enter the following into the text box: 8BTNH-9VCJM-B29XV-8KFFB-43KTR
 
 00:41 check-for-updates.   Install and reboot until clean
 ###01:00 install HP Support Assistant 9   https://support.hp.com/us-en/help/hp-support-assistant   continue as guest check for updates
@@ -52,7 +44,7 @@ uninstall Microsoft OneDrive, but leave path for oneNote
 quit Teams (tray)
 power options:   turnoff hard disk - never both battery and plugged in
 Downloads:   view ext, show hidden
-Start: run netplwiz - advanced
+Start: run netplwiz - advanced - ctrl-alt-del
 
 # Apps
 notepad++
@@ -72,8 +64,6 @@ google drive
 vb-audio virtual cable  # restart not required
 jetbrains - pycharm community - quit jetbrains (tray) and remove from startup
 R + Rstudio
-kdenlive https://kdenlive.org/en/download/
-LocalSend from Microsoft Store
 noMachine from https://www.nomachine.com/
 
 Epubor Ultimate Registration
@@ -151,8 +141,9 @@ arduino Community Edition - settings - Arduino:Path   (put path to clie
 
 # Firefox tweaks
 about:config
-layers.acceleration.force-enabled
-gfx.webrender.all
+layers.acceleration.force-enabled true
+gfx.webrender.all true
+browser.sessionstore.interval  150000 (x10 default)
 
 # on laptop fractionally scale display to 125%
 
@@ -164,8 +155,9 @@ gfx.webrender.all
     apply and restart wireless
     # Firefox Tweaks:
       about:config
-      layers.acceleration.force-enabled
-      gfx.webrender.all
+      layers.acceleration.force-enabled true
+      gfx.webrender.all	true
+	browser.sessionstore.interval  x10
     # Chrome tweaks:
       chrome://settings/system
       Toggle on the "Use hardware acceleration when available" option.
