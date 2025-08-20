@@ -61,6 +61,7 @@ sudo do-release-upgrade
   Deauthorize tools like DVDfab, winxdvd, epubor in case can't get back
   Unplug second monitor, other usb's.  May leave mouse and keypad
   Create windows restore point
+  Save github on windows
 
 # insert iso usb
   F1 (rapid F12 on Lenovo laptop, F10 on HP

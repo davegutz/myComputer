@@ -1,0 +1,40 @@
+#  Get ready
+  Phone to approve google requests and usb tethering if needed
+  Make space for linux - disk management utility in windows. Shrink by 350000 on 1 TB drive.  Shrink windows partition.  Note partition #. (8).  Note any others you want to take over (5)
+  Have >4 GB thumbdrive
+  On Windows download iso.  flash using balenaEtcher
+  Turn off bitlocker all drives
+  Deauthorize tools like DVDfab, winxdvd, epubor in case can't get back
+  Unplug second monitor, other usb's.  May leave mouse and keypad
+  Create windows restore point
+  Save github on windows
+
+# insert iso usb
+  F1 (rapid F12 on Lenovo laptop, F10 on HP
+  Omen, F7 on little_guy) during boot.   Set boot order to USB.  *try or install ubuntu - normal installation - install updates (I tried minimal installation - lots of things didn't work right)
+  Choose 'try or install Ubuntu.'  3 min to next step - will hear music
+  Go through menus ~5 min
+    Network - for next step
+    Update to new version (green button)
+    Full installation
+    Custom:
+      #p5 ext4 / all
+      p5 swap        35 GB (larger than 32 GB Ram)
+      p6 ext4 /      21 GB (recommended by web link)
+      p7 ext4 /boot   1 GB (")
+      p8 ext4 /home  balance GB
+    daveg
+  Wait ~12 min for install
+    When prompted to reboot leave stick and wait until prompted to remove it
+    I start with one letter password until end then change using instructions herein 
+
+
+# NOTE:  if end up at grub> command due to crash, type 'exit' to boot into Windows
+
+# NOTE: if first 
+
+ starts Windows instead, re-open BIOS - boot.  At bottom is a strangely worded option. Go in there and you should be able to move Ubuntu to the top.
+
+
+
+
