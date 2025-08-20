@@ -21,7 +21,7 @@
       #p5 ext4 / all
       p5 swap        35 GB (larger than 32 GB Ram)
       p6 ext4 /      21 GB (recommended by web link)
-      p7 ext4 /boot   1 GB (")
+      p7 ext4 /boot   2 GB (") large to hold both windows and pop
       p8 ext4 /home  balance GB
     daveg
   Wait ~12 min for install
@@ -36,5 +36,31 @@
  starts Windows instead, re-open BIOS - boot.  At bottom is a strangely worded option. Go in there and you should be able to move Ubuntu to the top.
 
 
+  sudo apt install os-prober
+  sudo os-prober
+  # grab the output:  /dev/nvme0n1p1@/efi/Microsoft/Boot/bootmgfw.efi
+  sudo mount /dev/nvme0n1p1 /mnt
 
+  sudo su
+  cp -R /mnt/efi/Microsoft /boot/efi/Microsoft
+  ctrl-d to exit
+  
+  sudo nano /boot/efi/loader/loader.conf
+  add 'timeout 8' to this file
+  
+  reboot.  change order so Pop-OS is at the top.  Save & exit
+  
+
+
+To enable the Grub boot menu in a Pop!_OS dual-boot setup, ensure the
+os-prober utility is installed and then run sudo update-grub to detect other operating systems like Windows. Then, modify your EFI bootloader's configuration to set a timeout for the menu to appear before booting into the default OS. You can access the boot menu during startup by pressing a designated key (often F12 or ESC) to choose your operating system. 
+
+(https://www.google.com/search?q=dual+boot+turn+on+grub+popos&client=firefox-b-1-d&sca_esv=a07cb0739b81081f&sxsrf=AE3TifNms6cYYMmseqKs5L_VNjY4jcrqqQ%3A1755691633780&ei=cbqlaMWzL_zWptQPio2i2Qk&ved=0ahUKEwiFsKqBrZmPAxV8q4kEHYqGKJsQ4dUDCBA&uact=5&oq=dual+boot+turn+on+grub+popos&gs_lp=Egxnd3Mtd2l6LXNlcnAiHGR1YWwgYm9vdCB0dXJuIG9uIGdydWIgcG9wb3MyBxAhGKABGAoyBxAhGKABGAoyBxAhGKABGAoyBxAhGKABGApIyB5Q0gZYqxtwAngBkAEAmAGtAaABtgaqAQMwLja4AQPIAQD4AQGYAgigAuAGwgIKEAAYsAMY1gQYR8ICBRAhGKABwgIFECEYqwLCAgUQIRifBZgDAIgGAZAGCJIHAzIuNqAHvR2yBwMwLja4B9AGwgcFMC4zLjXIBxs&sclient=gws-wiz-serp)
+
+
+  sudo apt install update-grub
+
+
+
+  use popshop install synaptic
 
