@@ -107,8 +107,6 @@ nameserver 8.8.4.4
     Tools-preferences-codecs  disable hardware-accelerated-decoding  save
     May have to restart vlc
   
-  # kdenlive https://kdenlive.org/en/download/  select and install flatpak
-
 
   # Configure sound
   sudo nano /etc/modules-load.d/modules.conf
@@ -120,39 +118,6 @@ nameserver 8.8.4.4
 
 
   # google drive stuff
-  sudo add-apt-repository ppa:alessandro-strada/ppa
-  sudo apt update && sudo apt install -y google-drive-ocamlfuse
-  # Special google-drive-ocamlfuse:  need to run with a secret so I stored it in davegutz2006 gmail
-  # run google-drive-ocamlfuse using command line store in email:  search for 'google-drive-ocamlfuse'
-# I had to setup google cloud free trial.  Project 6102.  Enable Google Drive API.
-# After authorizing in browser should see 'Access token retrieved' in term
-    mkdir ~/google-drive
-    google-drive-ocamlfuse ~/google-drive/  # add -debug to this if problems. then  'more /home/daveg/.gdfuse/default/gdfuse.log'
-    nano .gdfuse/default/config
-      stream_large_files=true  # https://www.reddit.com/r/PleX/comments/67d5m6/googledriveocamlfuse_experience_to_share/
-    mkdir ~/bin
-cat << EOF > /home/daveg/bin/start_google-drive-ocamlfuse
-#!/bin/bash
-
-while true; do
-  # check to see if there is a connection by pinging a Google server
-  if ping -q -c 1 -W 1 8.8.8.8 >/dev/null; then
-    # if connected, mount the drive and break the loop
-    google-drive-ocamlfuse /home/daveg/google-drive/; break;
-  else
-    # if not connected, wait for second and then check again
-    sleep 1
-  fi
-done
-EOF
-    chmod +x /home/daveg/bin/start_google-drive-ocamlfuse
-    sudo ln -s  /home/daveg/bin/start_google-drive-ocamlfuse /etc/apm/resume.d/restart_gdo.sh
-    # open Startup Applications and add /home/daveg/bin/start_google-drive-ocamlfuse
-
-
- # from email search for 'restart_gdrive.h script' and download that script to desktop
- # won't be run but commands are useful to restart google-drive ('??????????' in ls -rlt of homes)
-
 
 
   # Another version of Python:  call by version e.g. >python3.12
@@ -445,7 +410,7 @@ restart
 
 # pycharm-community cannot find /usr/local/bin
 # problem with flatpak version of pycharm-community.  Uninstall and reinstall using snap
-
+pycharm-community  # to start it (won't appear in menus)
 
 # Fix missing 'Settings' (if needed)
 sudo apt-get install -y ubuntu-desktop

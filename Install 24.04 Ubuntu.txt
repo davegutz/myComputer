@@ -418,7 +418,12 @@ EOF
     Re-run
   sudo mv /home/daveg/Desktop/GUI_sqlite_scrape.desktop /usr/share/applications/
   Findit in applications and save to favorites
-  
+  # fix movie_Scraper
+  Cinemagoer, a Python package, has stopped working due to changes on the IMDb website that prevent the package from accessing data correctly, requiring users to install the development version from GitHub using the command pip install git+https://github.com/cinemagoer/cinemagoer to resolve the issue
+  open terminal console in pycharm (looks like a cursor '>_')
+  run
+  pip install git+https://github.com/cinemagoer/cinemagoer
+
     
     # myPyScreencast notes
     Use own venv for install to work portably
@@ -1228,4 +1233,5 @@ Your Google Drive is now accessible through the ~/gdrive directory in your Lubun
 # Firefox busy save setting
 about:config
 browser.sessionstore.interval 150000
+
 

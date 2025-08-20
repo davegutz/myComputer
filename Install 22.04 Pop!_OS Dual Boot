@@ -27,6 +27,8 @@
   Wait ~12 min for install
     When prompted to reboot leave stick and wait until prompted to remove it
     I start with one letter password until end then change using instructions herein 
+    
+  If this won't 'install' (menu item grayed out, verify Fat32 
 
 
 # NOTE:  if end up at grub> command due to crash, type 'exit' to boot into Windows
@@ -34,6 +36,26 @@
 # NOTE: if first 
 
  starts Windows instead, re-open BIOS - boot.  At bottom is a strangely worded option. Go in there and you should be able to move Ubuntu to the top.
+
+Open Pop!_Shop gui (Applications) install 
+  sqlitebrowser
+  brasero
+  caffeine (the one with steam rising)
+  vlc (open and turn off hardware accel)
+  sublime text
+  NoMachine
+
+sudo kernelstub -a mem_sleep_default=deep  # prevent not waking after suspend
+  Restart
+
+
+
+# Python project notes:   see 'Install 24.04 Ubuntu.txt'
+
+
+
+
+
 
 
   sudo apt install os-prober
@@ -56,6 +78,8 @@ To enable the Grub boot menu in a Pop!_OS dual-boot setup, ensure the
 os-prober utility is installed and then run sudo update-grub to detect other operating systems like Windows. Then, modify your EFI bootloader's configuration to set a timeout for the menu to appear before booting into the default OS. You can access the boot menu during startup by pressing a designated key (often F12 or ESC) to choose your operating system. 
 
 (https://www.google.com/search?q=dual+boot+turn+on+grub+popos&client=firefox-b-1-d&sca_esv=a07cb0739b81081f&sxsrf=AE3TifNms6cYYMmseqKs5L_VNjY4jcrqqQ%3A1755691633780&ei=cbqlaMWzL_zWptQPio2i2Qk&ved=0ahUKEwiFsKqBrZmPAxV8q4kEHYqGKJsQ4dUDCBA&uact=5&oq=dual+boot+turn+on+grub+popos&gs_lp=Egxnd3Mtd2l6LXNlcnAiHGR1YWwgYm9vdCB0dXJuIG9uIGdydWIgcG9wb3MyBxAhGKABGAoyBxAhGKABGAoyBxAhGKABGAoyBxAhGKABGApIyB5Q0gZYqxtwAngBkAEAmAGtAaABtgaqAQMwLja4AQPIAQD4AQGYAgigAuAGwgIKEAAYsAMY1gQYR8ICBRAhGKABwgIFECEYqwLCAgUQIRifBZgDAIgGAZAGCJIHAzIuNqAHvR2yBwMwLja4B9AGwgcFMC4zLjXIBxs&sclient=gws-wiz-serp)
+
+
 
 
   sudo apt install update-grub
