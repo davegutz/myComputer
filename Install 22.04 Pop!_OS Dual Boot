@@ -48,7 +48,7 @@
   sudo nano /boot/efi/loader/loader.conf
   add 'timeout 8' to this file
   
-  reboot.  change order so Pop-OS is at the top.  Save & exit
+  reboot.  In Bios change order so Pop-OS is at the top.  Save & exit & continue to boot
   
 
 
