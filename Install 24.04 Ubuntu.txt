@@ -240,37 +240,6 @@ sudo apt-get install -y ubuntu-desktop
 sudo apt install gnome-control-center
 
 
-# google drive stuff
-  sudo add-apt-repository ppa:alessandro-strada/ppa
-  sudo apt update && sudo apt install -y google-drive-ocamlfuse
-  # Special google-drive-ocamlfuse:  need to run with a secret so I stored it in davegutz2006 gmail
-  # run google-drive-ocamlfuse using command line store in email:  search for 'google-drive-ocamlfuse'
-# I had to setup google cloud free trial.  Project 6102.  Enable Google Drive API.
-# After authorizing in browser should see 'Access token retrieved' in term
-    mkdir ~/google-drive
-    google-drive-ocamlfuse ~/google-drive/  # add -debug to this if problems. then  'more /home/daveg/.gdfuse/default/gdfuse.log'
-    nano .gdfuse/default/config
-      stream_large_files=true  # https://www.reddit.com/r/PleX/comments/67d5m6/googledriveocamlfuse_experience_to_share/
-    mkdir ~/bin
-cat << EOF > /home/daveg/bin/start_google-drive-ocamlfuse
-#!/bin/bash
-
-while true; do
-  # check to see if there is a connection by pinging a Google server
-  if ping -q -c 1 -W 1 8.8.8.8 >/dev/null; then
-    # if connected, mount the drive and break the loop
-    google-drive-ocamlfuse /home/daveg/google-drive/; break;
-  else
-    # if not connected, wait for second and then check again
-    sleep 1
-  fi
-done
-EOF
-    chmod +x /home/daveg/bin/start_google-drive-ocamlfuse
-    sudo ln -s  /home/daveg/bin/start_google-drive-ocamlfuse /etc/apm/resume.d/restart_gdo.sh
-    # open Startup Applications and add /home/daveg/bin/start_google-drive-ocamlfuse
-
-
 # github desktop
   sudo wget https://github.com/shiftkey/desktop/releases/download/release-3.1.1-linux1/GitHubDesktop-linux-3.1.1-linux1.deb
   sudo apt-get install -y gdebi-core 
@@ -868,7 +837,7 @@ SoundHandler
 ffprobe -v fatal -of default=nw=1:nk=1  -show_streams  -select_streams a  -show_entries stream=codec_type ~/Documents/GitHub/fwgWhisper/samples_good/Janet20230418.m4a 
 
 # audacity
-sudo snap connect audacity:alsa
+sudo snap connect audacity:
 rm /home/daveg/snap/audacity/common/Always use PulseAudio   # to undo alsa step
 
 ffmpeg -sources pulse
@@ -1016,13 +985,13 @@ sudo apt install pavucontrol
     back up to a usb drive formatted to ext4
     
   # Speed up network
-    turn off automatic DNS for settings of wireless network being used ipv4 and ipv6 (temp)
+    click on active network.  Turn off automatic DNS for settings of wireless network being used ipv4 and ipv6 (temp)
     8.8.8.8,8.8.4.4
     apply and restart wireless
     # Firefox Tweaks:
       about:config
-      layers.acceleration.force-enabled
-      gfx.webrender.all
+      layers.acceleration.force-enabled true
+      gfx.webrender.all true
     # Chrome tweaks:
       chrome://settings/system
       Toggle on the "Use hardware acceleration when available" option.
@@ -1192,7 +1161,7 @@ https://downloads.nomachine.com/download/?id=1&platform=linux
         Choose the desired scope for Rclone's access to your Google Drive. For general use, selecting 1 (Full access) is common.
         Leave root_folder_id and service_account_file blank unless you have specific needs.
         
-        Edit Advanced config> 
+        Edit Advanced config> y
           oauth Access Token:    https://myaccount.google.com/apppasswords  name it Rclone  "wbyh scsi xnnt ybgr"
           auth_url:  blank
           token_url: blank
@@ -1206,7 +1175,7 @@ https://downloads.nomachine.com/download/?id=1&platform=linux
     Exit the configuration wizard by typing q. 
 
 
-3. (Optional) Mount Google Drive:
+3. Mount Google Drive:
     Create a local directory to serve as the mount point for your Google Drive: 
 
   mkdir ~/gdrive

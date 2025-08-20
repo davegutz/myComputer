@@ -114,11 +114,7 @@ nameserver 8.8.4.4
   snd-aloop
   # To start it for this session
   sudo modprobe snd-aloop
-  # you can just plug in the usb headset and adjust the sound settings
-
-
-  # google drive stuff
-
+  # you can just plug in the usb headset and adjust the sound setting
 
   # Another version of Python:  call by version e.g. >python3.12
   #**********NOTE:  never replace default python in Debian-based Linux
