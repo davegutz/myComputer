@@ -30,6 +30,40 @@
     
   If this won't 'install' (menu item grayed out, verify Fat32 and other stuff.  Then simply restart with the stick still in and try again.
 
+
+#  Make EFI Boot Menu Work
+# check this in Microsoft first
+  you can confirm your Windows system is using UEFI mode by opening the System Information app and hecking the value of "BIOS Mode," which will be "UEFI" if in UEFI mode. Alternatively, you can se Disk Management to look for an "EFI System Partition" or in Command Prompt with the command reg uery HKLM\System\CurrentControlSet\Control /v PEFirmwareType to see if the DWORD value is 
+  fast start disabled (Control Panel - Power)   CHECK!
+  Bitlocker disabled  CHECK!
+  Windows partition info
+  /dev/nvme0n1p4 uuid 34B0CE20B0CDE906  NTFS 600 G B
+  /dev/nvme0n1p1 1GB D18D-4F8F <----------------------------This is the EFI partition n1p1
+  reboot.  In Bios change order so Pop-OS is at the top.  Save & exit & continue to boot
+  
+  # Map it to linux /boot instructions
+  sudo apt install os-prober
+  sudo os-prober
+  # grab the output:  /dev/nvme0n1p1@/efi/Microsoft/Boot/bootmgfw.efi
+  sudo mount /dev/nvme0n1p1 /mnt
+  sudo su
+  cp -R /mnt/efi/Microsoft /boot/efi/EFI/Microsoft  # first version didn't have EFI
+  ctrl-d to exit
+  sudo nano /boot/efi/loader/loader.conf
+  add 'timeout 8' to this file
+  
+  # create conf in entries folder for each os
+  #  this was made automatically during install:  Pop_OS-current.conf
+       title Pop!_OS
+       linux /EFI/Pop_OS-c6774fc5-6e26-4eee-a040-36c5f2bcb792/vmlinuz.efi
+       initrd /EFI/Pop_OS-c6774fc5-6e26-4eee-a040-36c5f2bcb792/initrd.img
+       options root=UUID=c6774fc5-6e26-4eee-a040-36c5f2bcb792 ro quiet loglevel=0 systemd.show_status=false splash nvidia-drm.modeset=1 mem_sleep_default=deep
+   # example from web for Windows: windows.conf  assumes standard location of windows boot manager (efi partition)
+     windows.conf
+      title Windows
+      efi /EFI/Microsoft/Boot/bootmgfw.efi
+
+
 # Pop!_Shop installs
   brasero
   caffeine (the one with steam rising)
@@ -111,64 +145,22 @@ browser.sessionstore.interval 150000
       sudo apt install gufw
 
 
+  ### not sure what this is.  pop!os - settings - Power - Automatic suspend off,     - screen blank 15 min (I'll do this one, though)
+
+  # Cleanup
+  sudo passwd daveg  # passwords:  ignore warnings
+  sudo passwd # root
+  rm ~/.local/share/keyrings/login.keyring
+  sudo apt autoremove
+  cd
+  sudo apt autoclean
+  sudo apt clean
+  sudo apt install deborphan
+  sudo apt remove $(deborphan)
+
+######################### end setup  ###############################
+
 
 
 #########################works in progress  ######################
-
-#  try to make boot menu work
-
-
-# check this in Microsoft first
-  you can confirm your Windows system is using UEFI mode by opening the System Information app and hecking the value of "BIOS Mode," which will be "UEFI" if in UEFI mode. Alternatively, you can se Disk Management to look for an "EFI System Partition" or in Command Prompt with the command reg uery HKLM\System\CurrentControlSet\Control /v PEFirmwareType to see if the DWORD value is 
-
-  fast start disabled (Control Panel - Power)   CHECK!
-
-  Bitlocker disabled  CHECK!
-
-sing System Information (Recommended Method)
-This is the most straightforward and common method to check your BIOS mode. 
-
-    Open System Information: Press the Windows key + R to open the Run dialog box.
-    Type msinfo32: In the Run box, type msinfo32 and press Enter.
-    Locate BIOS Mode: In the System Information window, find the "System Summary" section.
-    Check the Value: Look for the entry labeled "BIOS Mode". If it says "UEFI," your system is running in UEFI mode.   CHECK!
-
-
-  sudo apt install os-prober
-  sudo os-prober
-  # grab the output:  /dev/nvme0n1p1@/efi/Microsoft/Boot/bootmgfw.efi
-  sudo mount /dev/nvme0n1p1 /mnt
-  sudo su
-  cp -R /mnt/efi/Microsoft /boot/efi/Microsoft
-  ctrl-d to exit
-  
-  sudo nano /boot/efi/loader/loader.conf
-  add 'timeout 8' to this file
-  
-
- # create conf in entries folder for each os
-
- #  this was made automatically during install:  Pop_OS-current.conf
- root@pop-os:/boot/efi/loader/entries# more Pop_OS-current.conf 
-
-title Pop!_OS
-linux /EFI/Pop_OS-c6774fc5-6e26-4eee-a040-36c5f2bcb792/vmlinuz.efi
-initrd /EFI/Pop_OS-c6774fc5-6e26-4eee-a040-36c5f2bcb792/initrd.img
-options root=UUID=c6774fc5-6e26-4eee-a040-36c5f2bcb792 ro quiet loglevel=0 systemd.show_status=false splash nvidia-drm.modeset=1 mem_sleep_default=deep
-
- # example from web for Windows: windows.conf  assumes standard location of windows boot manager (efi partition)
-title Windows
-efi /EFI/Microsoft/Boot/bootmgfw.efi
-
-Windows partition info
-/dev/nvme0n1p4 uuid 34B0CE20B0CDE906  NTFS 600 G B
-/dev/nvme0n1p1 1GB D18D-4F8F
-  reboot.  In Bios change order so Pop-OS is at the top.  Save & exit & continue to boot
-  
-
-
-To enable the boot menu in a Pop!_OS dual-boot setup, ensure the
-os-prober utility is installed and then run sudo update-grub to detect other operating systems like Windows. Then, modify your EFI bootloader's configuration to set a timeout for the menu to appear before booting into the default OS. You can access the boot menu during startup by pressing a designated key (often F12 or ESC) to choose your operating system. 
-
-(https://www.google.com/search?q=dual+boot+turn+on+grub+popos&client=firefox-b-1-d&sca_esv=a07cb0739b81081f&sxsrf=AE3TifNms6cYYMmseqKs5L_VNjY4jcrqqQ%3A1755691633780&ei=cbqlaMWzL_zWptQPio2i2Qk&ved=0ahUKEwiFsKqBrZmPAxV8q4kEHYqGKJsQ4dUDCBA&uact=5&oq=dual+boot+turn+on+grub+popos&gs_lp=Egxnd3Mtd2l6LXNlcnAiHGR1YWwgYm9vdCB0dXJuIG9uIGdydWIgcG9wb3MyBxAhGKABGAoyBxAhGKABGAoyBxAhGKABGAoyBxAhGKABGApIyB5Q0gZYqxtwAngBkAEAmAGtAaABtgaqAQMwLja4AQPIAQD4AQGYAgigAuAGwgIKEAAYsAMY1gQYR8ICBRAhGKABwgIFECEYqwLCAgUQIRifBZgDAIgGAZAGCJIHAzIuNqAHvR2yBwMwLja4B9AGwgcFMC4zLjXIBxs&sclient=gws-wiz-serp)
 
