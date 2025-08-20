@@ -121,8 +121,9 @@ browser.sessionstore.interval 150000
 # check this in Microsoft first
   you can confirm your Windows system is using UEFI mode by opening the System Information app and hecking the value of "BIOS Mode," which will be "UEFI" if in UEFI mode. Alternatively, you can se Disk Management to look for an "EFI System Partition" or in Command Prompt with the command reg uery HKLM\System\CurrentControlSet\Control /v PEFirmwareType to see if the DWORD value is 
 
-  fast start disabled (Control Panel - Power)
-  Bitlocker disabled
+  fast start disabled (Control Panel - Power)   CHECK!
+
+  Bitlocker disabled  CHECK!
 
 sing System Information (Recommended Method)
 This is the most straightforward and common method to check your BIOS mode. 
@@ -130,14 +131,13 @@ This is the most straightforward and common method to check your BIOS mode.
     Open System Information: Press the Windows key + R to open the Run dialog box.
     Type msinfo32: In the Run box, type msinfo32 and press Enter.
     Locate BIOS Mode: In the System Information window, find the "System Summary" section.
-    Check the Value: Look for the entry labeled "BIOS Mode". If it says "UEFI," your system is running in UEFI mode. 
+    Check the Value: Look for the entry labeled "BIOS Mode". If it says "UEFI," your system is running in UEFI mode.   CHECK!
 
 
   sudo apt install os-prober
   sudo os-prober
   # grab the output:  /dev/nvme0n1p1@/efi/Microsoft/Boot/bootmgfw.efi
   sudo mount /dev/nvme0n1p1 /mnt
-
   sudo su
   cp -R /mnt/efi/Microsoft /boot/efi/Microsoft
   ctrl-d to exit
