@@ -1,7 +1,5 @@
 HP Omen 15" 2022
 
-# Pop!OS wouldn't work:  wouldn't auto-detect monitor no matter what settings I tried.  The result was install window too big to fit in display and couldn't de-select encryption.  With encryption, couldn't suspend automatically.  Also, screencasted movies were jerky.
-
 # Lubuntu is Ubuntu clone.  It doesn't have 'snapd' installed by default.  Once that is installed, installation is similar to Ubuntu.  Pycharm-community did not work right so had to download and create shortcut.  x11/ Xorg is installed by default.
 
 ######## Lessons Learned  ##########

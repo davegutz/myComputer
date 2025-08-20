@@ -85,10 +85,11 @@ sketchupmake 2017
 sharex from store for screenshots
 clipgrab:
 	https://clipgrab.org/
-	
+paint.net  https://www.dotpdn.com/downloads/pdn.html
+
 
 default apps:  firefox, vlc, paint.net, sketchup
-putty Setup per myStateOfCharge/SOC_Particle/putty/sessions/*.odt
+putty Setup per myStaateOfCharge/SOC_Particle/putty/sessions/*.odt
 
 download kitty (fork of putty that stays alive).  Follow putty setup instructions; add Connection - Reconnect options - check both
 

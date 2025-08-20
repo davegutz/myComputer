@@ -19,9 +19,10 @@ static 192.168.1.45
 - ####dual boot
 	- Install windows first - it's more selfish
 	- Windows setting 'fast startup' may prevent accessing Linux on reboot.  Disable 'fast startup' in Windows
+     	(Control Panel\Hardware and Sound\Power Options choose what the power button does)
 	- Best to install on separate physical drives
 	- Can access Windows files from Linux but not vice-versa
-	- Time off when switch from one to another.  Either configure Linux to use local time instead of UTC of configure Windows to use UTC.
+	- Time off when switch from one to another.  Either configure Linux to use local time instead of UTC or configure Windows to use UTC.
 	https://www.howtogeek.com/323390/how-to-fix-windows-and-linux-showing-different-times-when-dual-booting/
 	(To make Windows use UTC, disable "Set Time Automatically" in the Settings App, or you can modify the registry)
 	
@@ -32,7 +33,7 @@ static 192.168.1.45
 - Use 'ffmpeg -sources pulse' (or 'ffmpeg -sources alsa') to determine screencast source appropriate for the 'ffmpeg'.  Use the long initial string.
 - 'grub' changes ordering of boot options upon ugrading kernel.   May be important, especially if you cannot view grub due to bad monitor.
 - Acer monitors will not display grub on boot.   Have to learn the grub pattern and perform it blind to get to non-default os e.g. Windows.  Can use a video capture card plus a phone and 'USB Camera' app or capture card plus another PC and 'OBS' to view the new grub pattern.
-- New linux os  have Wayland gui system as default.   Breaks a lot of programs.  Resort to Xorg = X11 instead.
+- New linux os have Wayland gui system as default.   Breaks a lot of programs.  Resort to Xorg = X11 instead.
 - A lot of boot problems can be fixed at end of failed boot using 'Ctrl+Alt+F5' and 'sudo' commands as needed.  Restoring snap applications and snap itself is easy as are desktop managers.
 - 'puTTY' is a tried-and-true cross-platform terminal emulator and will save a lot of work if used on your cross-platform applications.
 - 'ffmpeg' is a tried-and-true cross-platform terminal emulator and will save a lot of work if used on your cross-platform applications.
@@ -53,12 +54,13 @@ sudo do-release-upgrade
 
 #  Get ready
   Phone to approve google requests and usb tethering if needed
-  Make space for linux.  Note partition #. (8).  Note any others you want to take over (5)
+  Make space for linux - disk management utility in windows. Shrink by 350000 on 1 TB drive.  Shrink windows partition.  Note partition #. (8).  Note any others you want to take over (5)
   Have >4 GB thumbdrive
   On Windows download iso.  flash using balenaEtcher
   Turn off bitlocker all drives
   Deauthorize tools like DVDfab, winxdvd, epubor in case can't get back
   Unplug second monitor, other usb's.  May leave mouse and keypad
+  Create windows restore point
 
 # insert iso usb
   F1 (rapid F12 on Lenovo laptop, F10 on HP
