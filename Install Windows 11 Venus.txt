@@ -196,3 +196,9 @@ run and check stuff out
 # Crystal Disk Info
 https://sourceforge.net/projects/crystaldiskinfo/
 
+
+# fix movie_Scraper
+  Cinemagoer, a Python package, has stopped working due to changes on the IMDb website that prevent the package from accessing data correctly, requiring users to install the development version from GitHub using the command pip install git+https://github.com/cinemagoer/cinemagoer to resolve the issue
+  open terminal console in pycharm (looks like a cursor '>_')
+  run
+  pip install git+https://github.com/cinemagoer/cinemagoer
