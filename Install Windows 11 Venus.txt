@@ -27,6 +27,7 @@ OurHappyHomeGuest5g  OurHappyHomeGuest10
 For Win11 choose to install pro
 
 00:41 check-for-updates.   Install and reboot until clean
+omen gaming hub.    Ctrl-shift-esc - startup and make it autostart
 ###01:00 install HP Support Assistant 9   https://support.hp.com/us-en/help/hp-support-assistant   continue as guest check for updates
 ###01:07 AMD Adrenaline app https://www.amd.com/en/support use auto detect  check for updates
 ###01:14 GEForce Experience app: https://www.nvidia.com/en-us/geforce/geforce-experience/download/  login with Google; studio driver; express installation
@@ -202,3 +203,7 @@ https://sourceforge.net/projects/crystaldiskinfo/
   open terminal console in pycharm (looks like a cursor '>_')
   run
   pip install git+https://github.com/cinemagoer/cinemagoer
+
+# Turn off hibernate
+  Control Panel - Power - Sleep - downarrow - hibernate - 0 = never
+  
