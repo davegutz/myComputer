@@ -204,6 +204,3 @@ https://sourceforge.net/projects/crystaldiskinfo/
   run
   pip install git+https://github.com/cinemagoer/cinemagoer
 
-# Turn off hibernate
-  Control Panel - Power - Sleep - downarrow - hibernate - 0 = never
-  
