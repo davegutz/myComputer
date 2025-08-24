@@ -206,3 +206,95 @@ https://sourceforge.net/projects/crystaldiskinfo/
 
 # Enable BSOD fix tool
 Settings - Recovery - Quick Machine Recovery
+
+
+###################################################################################################
+################################### Failed Windows update eg  0x80070002
+
+Different ways to fix Windows 11 update or installation error 0x80070002
+
+You can try different methods to fix Windows 11 update/install error 0x80070002. Most of these methods restore or repair update components to ensure the system is configured correctly so Windows downloads and installs updates properly. They’re also relatively simple to follow and perform.
+
+Method 1: Run the Windows Update troubleshooter
+
+This method uses the Windows Update troubleshooter that checks for update service failures, resets corrupted components, and fixes permissions/registry issues.
+
+Running the troubleshooter automates fixes for common 0x80070002 causes and is generally a good first step to identify and resolve non-critical update issues.
+
+    Open Settings → System → Troubleshoot → Other troubleshooters.
+    Find Windows Update and click Run.
+    Follow the on-screen instructions. If the troubleshooter finds an issue, it should recommend clicking Next for the next step or Cancel if you want to stop the troubleshooting.
+    Retry the update installation.
+
+
+Method 2: Reset Windows Update components
+
+Resetting Windows Update components stops all update-related services and restarts them. Stopping and restarting the components may fix corruption or stuck downloads by forcing a fresh update session.
+
+    Search Command Prompt, right-click on it, and click Run as administrator.
+    Copy and paste the following commands into the command prompt:
+
+net stop wuauserv
+net stop cryptSvc
+net stop bits
+net stop msiserver
+ren C:\Windows\SoftwareDistribution SoftwareDistribution.old
+ren C:\Windows\System32\catroot2 catroot2.old
+net start wuauserv
+net start cryptSvc
+net start bits
+net start msiserver
+
+
+Method 3: Check the date and time settings
+
+Wrong system time can invalidate cryptographic checks, leading to error 0x80070002. Checking and fixing the clock could resolve the issue:
+
+    Open Settings → Time & language → Date & time.
+    Toggle on Set time zone automatically and Set time automatically if available.
+    Click the Sync now button under Additional settings.
+	
+
+Method 4: Run DISM and SFC to repair system files
+
+Running DISM (Deployment Image Servicing and Management) and SFC (System File Checker) fixes Windows component issues that interfere with updates.
+
+This method is helpful because system corruption may cause error 0x80070002. DISM repairs the Windows image from Windows Update or a local source, while SFC scans and restores corrupted files:
+
+    Search Command Prompt, right-click on it, and select Run as administrator.
+    Copy and paste the following commands into the command prompt:
+        DISM /Online /Cleanup-Image /RestoreHealth
+        sfc /scannow
+
+
+Method 5: Download and install the update
+
+You can also manually download and install the update to bypass Windows Update. This method is ideal if the automatic update pipeline is unresponsive, but the system can install updates manually.
+
+    Open Settings → Windows Update → Update history to look for the failed update’s KB number.
+    Go to the Microsoft Update Catalog and search for the KB number.
+    Download and install the update.
+
+
+Method 6: Check registry configuration
+
+You can check the registry configuration to fix persistent update retry failures caused by incorrect registry logic.
+
+This method reviews specific update-related registry keys that control retry limits while resetting/removing keys if values like FlightSettingsMaxAttemptCount or MaxFailures are high. Note that this is an advanced method, so it’s ideal to try the other fixes first.
+
+    Press Win + R, type regedit, and press Enter.
+    Navigate to:
+        HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings
+    Look for the following keys if available:
+        FlightSettingsMaxAttemptCount (Max number of times Windows will attempt to install an update)
+        FlightSettingsMaxFailures (Max number of times an update fails before Windows stops retrying)
+    Change the value of one or both keys if they have values over 15. A good baseline is two for max failure and three for attempt counts, but there typically isn’t a standard value for these keys.
+    Try updating again.
+    Restart your computer if needed.
+
+You can back up the keys by clicking the registry key you want to back up. Tap the File menu, press Export, and then select the location you want to save the backup.
+
+After creating the backup, you can delete the original keys by right-clicking them and pressing Delete.
+
+###################### end Failed Windows update eg  0x80070002
+###################################################################################################
