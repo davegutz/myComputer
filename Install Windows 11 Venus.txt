@@ -204,3 +204,5 @@ https://sourceforge.net/projects/crystaldiskinfo/
   run
   pip install git+https://github.com/cinemagoer/cinemagoer
 
+# Enable BSOD fix tool
+Settings - Recovery - Quick Machine Recovery
