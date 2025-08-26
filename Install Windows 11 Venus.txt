@@ -49,6 +49,8 @@ Start: run netplwiz - advanced - ctrl-alt-del
 
 # Apps
 notepad++
+7-zip
+OBS
 cygdrive
 browse to this file and use cut/paste
 zoom:  sign in using Google
