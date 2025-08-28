@@ -75,8 +75,8 @@ Download URL: https://download.epubor.com/epubor_ultimate.exe
 Registration code: RFVTLU7-7ZT3KW-9C5D69-4FSHUS-S5EZDQ7
 Epubor Ultimate:  let epubor install kindle for pc
 
-dvdfab:  davegutz@alum.mit.edu, ste_
-winxdvd:  davegutz@alum.mit.edu   AAQPS-JODOK-U66T2-C QSU
+dvdfab:  davegutz@alum.mit.edu, ste_  # don't have to contact them
+winxdvd:  davegutz@alum.mit.edu   AAQPS-JODOK-U66T2-CCQSU    # you will have to contact them unless you were able to deauthorize before reinstall
 vlc
 LTspice
 kindle
