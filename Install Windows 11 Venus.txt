@@ -141,24 +141,20 @@ arduino Community Edition - settings - Arduino:Path   (put path to clie
 # Image Resizer (Power Toys)
 # Power Rename
 
-# Firefox tweaks
-about:config
-layers.acceleration.force-enabled true
-gfx.webrender.all true
-browser.sessionstore.interval  150000 (x10 default)
-
 # on laptop fractionally scale display to 125%
 
  ###### Supercharge
     
   # Speed up network
     turn off automatic DNS for settings of wireless network being used ipv4 and ipv6 (temp)
-    8.8.8.8,8.8.4.4
+    8.8.8.8,8.8.4.4  (preffered and alternate for ipv4)
+	2001:4860:4860::8888   2001:4860:4860::8844  for ipv6
     apply and restart wireless
     # Firefox Tweaks:
       about:config
       layers.acceleration.force-enabled true
       gfx.webrender.all	true
+	  browser.sessionstore.interval 150000  # prevents busy saving
 	browser.sessionstore.interval  x10
     # Chrome tweaks:
       chrome://settings/system
@@ -185,14 +181,6 @@ browser.sessionstore.interval  150000 (x10 default)
 
  # KDEconnect install --- nope
  
- 
- 
- 
- # Firefox busy save setting
-about:config
-browser.sessionstore.interval 150000
-found this looking at disk activity in activity monitor app
-
 # Wintoys
 run and check stuff out
 
@@ -217,7 +205,7 @@ Different ways to fix Windows 11 update or installation error 0x80070002
 
 You can try different methods to fix Windows 11 update/install error 0x80070002. Most of these methods restore or repair update components to ensure the system is configured correctly so Windows downloads and installs updates properly. They’re also relatively simple to follow and perform.
 
-Method 1: Run the Windows Update troubleshooter
+Method 1: Run the Windows Update troubleshooter  ********I ran this but  not sure it helped
 
 This method uses the Windows Update troubleshooter that checks for update service failures, resets corrupted components, and fixes permissions/registry issues.
 
@@ -229,7 +217,7 @@ Running the troubleshooter automates fixes for common 0x80070002 causes and is g
     Retry the update installation.
 
 
-Method 2: Reset Windows Update components
+Method 2: Reset Windows Update components  ***********this worked for me 8/2025.  Stopped after this step
 
 Resetting Windows Update components stops all update-related services and restarts them. Stopping and restarting the components may fix corruption or stuck downloads by forcing a fresh update session.
 
@@ -248,7 +236,7 @@ net start bits
 net start msiserver
 
 
-Method 3: Check the date and time settings
+Method 3: Check the date and time settings  ******mine was already set this way
 
 Wrong system time can invalidate cryptographic checks, leading to error 0x80070002. Checking and fixing the clock could resolve the issue:
 
@@ -269,7 +257,7 @@ This method is helpful because system corruption may cause error 0x80070002. DIS
         sfc /scannow
 
 
-Method 5: Download and install the update
+Method 5: Download and install the update  ******** This worked well when updating to 24H2 before permitted.  May have worked for failed install too
 
 You can also manually download and install the update to bypass Windows Update. This method is ideal if the automatic update pipeline is unresponsive, but the system can install updates manually.
 
