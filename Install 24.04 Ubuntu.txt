@@ -1203,4 +1203,12 @@ Your Google Drive is now accessible through the ~/gdrive directory in your Lubun
 about:config
 browser.sessionstore.interval 150000
 
+# comskip for jelly fin
+
+    https://gist.github.com/tomeko/70f2da1caf484000b416784c5aaad713
+ 
+	To install Comskip for Jellyfin, first, install the Comskip binary on your server using your distribution's package manager (e.g., sudo apt install comskip on Ubuntu) or download it directly from sources like the jellyfin-dvr-comskip GitHub repository. Then, download a Comskip wrapper script, such as jellyfin-dvr-comskip.sh from the GitHub repository. Next, in Jellyfin's server dashboard, navigate to the Live TV DVR settings, set "Post-processing application" to the path of the wrapper script, and configure the "Post-processor command line arguments". 
+
+	sudo apt install comskip
+
 
