@@ -176,6 +176,7 @@ Use power plug if hangs
   sudo apt install LocalSend
   sudo apt install xsel
   sudo apt install -y pavucontrol  # for myPyScreencast
+  sudo apt install -y comskip  # for myPyScreencast
   sudo apt-get install ubuntu-restricted-extras
 #  sudo apt install -y vlc  # installed at snap step
     # VLC
@@ -1203,12 +1204,37 @@ Your Google Drive is now accessible through the ~/gdrive directory in your Lubun
 about:config
 browser.sessionstore.interval 150000
 
-# comskip for jelly fin
+# comskip for jelly fin #################not used
 
     https://gist.github.com/tomeko/70f2da1caf484000b416784c5aaad713
  
 	To install Comskip for Jellyfin, first, install the Comskip binary on your server using your distribution's package manager (e.g., sudo apt install comskip on Ubuntu) or download it directly from sources like the jellyfin-dvr-comskip GitHub repository. Then, download a Comskip wrapper script, such as jellyfin-dvr-comskip.sh from the GitHub repository. Next, in Jellyfin's server dashboard, navigate to the Live TV DVR settings, set "Post-processing application" to the path of the wrapper script, and configure the "Post-processor command line arguments". 
 
-	sudo apt install comskip
+	sudo apt install -y comskip
+# end  comskip for jelly fin #################not used
+
+
+
+#############################  comskip for myPyScreencast
+
+# First time setup
+# get .mp4 file from Public
+cd ~/Documents/GitHub/myPyScreencast/jellyfin-dvr-comskip/config/comskip
+comskip ~/Videos/The\ Good\ Place\ \(2016\)\ s01e01.mp4
+cp ~/Videos/*.edl .  # first time only to load to GitHub
+chmod -w ~/Videos/*.edl .  # prevent comcut from rm it
+chmod +w ../comskip
+
+sudo cp comcut /usr/local/bin/
+cp comskip.ini /home/daveg/.comskip.ini
+
+clear; ./comcut "/home/daveg/Videos/The Good Place (2016) s01e01.mp4"   "/home/daveg/Videos/The Good Place (2016) cut s01e01.mp4"
+
+cd; cd Videos
+comcut "The Good Place (2016) s01e01.mp4" cut.mp4
+
+Didn't work very well.  Took 1:30 at start when comm was :30 long.  And last 8 min or so is just gone
+
+
 
 
