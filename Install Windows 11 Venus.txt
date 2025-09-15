@@ -288,3 +288,6 @@ After creating the backup, you can delete the original keys by right-clicking th
 
 ###################### end Failed Windows update eg  0x80070002
 ###################################################################################################
+
+# Install DupeGuru
+https://dupeguru.voltaicideas.net/
