@@ -30,7 +30,7 @@ For Win11 choose to install pro
 omen gaming hub.    Ctrl-shift-esc - startup and make it autostart
 ###01:00 install HP Support Assistant 9   https://support.hp.com/us-en/help/hp-support-assistant   continue as guest check for updates
 ###01:07 AMD Adrenaline app https://www.amd.com/en/support use auto detect  check for updates
-###01:14 GEForce Experience app: https://www.nvidia.com/en-us/geforce/geforce-experience/download/  login with Google; studio driver; express installation
+###01:14 GEForce Experience app: https://www.nvidia.com/en-us/geforce/geforce-experience/download/  login with key; studio driver; express installation
 ###01:24 check-for-updates again and install reboot until clean
 
 don't accept windows optional drivers
@@ -288,3 +288,6 @@ After creating the backup, you can delete the original keys by right-clicking th
 
 ###################### end Failed Windows update eg  0x80070002
 ###################################################################################################
+
+# Install DupeGuru
+https://dupeguru.voltaicideas.net/
