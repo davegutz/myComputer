@@ -1237,9 +1237,14 @@ Didn't work very well.  Took 1:30 at start when comm was :30 long.  And last 8 m
 
 
 
-# kitty terminal emulator  ############ doesn't work in Pop!OS
+# kitty terminal emulator
 curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
-kitten themes
-sudo ln -s ~/.local/kitty.app/bin/kitty /usr/local/bin/kitty
+kitty +kitten themes
+###sudo ln -s ~/.local/kitty.app/bin/kitty /usr/local/bin/kitty
+
+# GParted
+sudo apt install GParted
+or
+Pop!OS install
 
 
