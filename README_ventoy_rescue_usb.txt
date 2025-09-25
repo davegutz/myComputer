@@ -3,6 +3,29 @@ ubuntu-24.04.3-desktop-amd64.iso
 lubuntu-24.04.3-desktop-amd64.iso
 pop-os_22.04_amd64_intel_57.iso
 
+# Tool images
+gparted-live-1.7.0-8-amd64.iso
+systemrescue-12.02-amd64.iso
+imageUSB_MemTest86_v11.5_bld1000  # weeds out bad ram
+
+# gparted-live-1.7.0-8-amd64.iso
+GParted is a bootable partition editor you can use to shrink, expand, and move partitions in an environment that's fully removed from your storage. This is an extremely useful tool for fixing broken dual-boot setups or expanding a stubborn partition. I actually used this just the other day to expand my primary C: drive partition after upgrading to a larger SSD. You can do so using its pretty intuitive GUI interface, which is quite easy to use. GParted is a mainstay in my toolkit, and it should be in yours as well.
+
+
+# clonezilla
+ "How do I clone my OS to a new drive" is a question that so many users have and struggle with solving, especially on the Windows side of things. Cloning drives can be a huge hassle, especially when you only have one device to work with, but it really doesn't have to be that way.
+
+Clonezilla is partition and disk image migration software that can be easily used to do just that, and so much more. The live version can be booted from a USB, and is super lightweight. For individual users, this is the way you clone your old drive to your new one, but for admins of multiple systems, you can use Clonezilla to image many systems at the same time. The local drive to drive cloning has been massively helpful many times, and is definitely something that should be on one of your USB sticks.
+
+# systemrescue is an all purpose image that:
+SystemRescue is a distro built exactly for these moments. It includes a collection of system repair utilities, including GParted, TestDisk, fsarchiver, ddrescue, and more. These tools work with both Windows and Linux, and SystemRescue does a great job of offering a repair environment that can help bring your PC back to life.
+
+The distro works on both BIOS and UEFI systems and handles all major filesystems, including ext4, XFS, Btrfs, NTFS, and network file systems like Samba and NFS. It's the distro you hope you never have to use but would be grateful to have when things go wrong.
+
+
+# MemTest86 - weeds out bad RAM
+If you're doing any kind of RAM overclocking, tuning of timings, or just looking to ensure there's nothing wrong with your memory, MemTest86 is a necessary tool to have at the ready. Memory issues are really difficult to pin down, and if you're only working at the OS level, you'll struggle to really get to the bottom of it. Running MemTest86 overnight will weed out suspected bad DIMMs and even help validate XMP/EXPO setups.
+
 
 # Create windows rescue iso (for simple repairs without full install above)
 To put Windows PE (WinPE) on a Ventoy USB, create a WinPE ISO file using Microsoft's /navWindows ADK and the WinPE add-on, then simply copy the generated ISO file directly to the Ventoy partition on the USB drive.
