@@ -423,6 +423,10 @@ ffmpeg -f pulse -i alsa_output.platform-snd_aloop.0.analog-stereo.monitor -t   1
     # helpful to install pavucontrol and audacity
     sudo apt install pavucontrol
     sudo snap install audacity
+	
+	google gmail token - Running gmail in python requires use of app passwords in Google - Settings - Security - 2-Factor - App passwords
+	will not get screencast emails when the token expires
+
     
     
     

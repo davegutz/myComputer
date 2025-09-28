@@ -95,6 +95,7 @@ default apps:  firefox, vlc, paint.net, sketchup
 putty Setup per myStaateOfCharge/SOC_Particle/putty/sessions/*.odt
 
 pyCharm - screencast get to run
+# Running gmail in python requires use of app passwords in Google - Settings - Security - 2-Factor - App passwords
 
 pyCharm - movie-scraper get to run
 use PySimpleGUI-4-foss instead of PySimpleGUI
