@@ -1251,4 +1251,9 @@ sudo apt install GParted
 or
 Pop!OS install
 
+# File compare 
+sudo snap install notepad-plus-plus
 
+
+# OpenShot video editor
+appImage from https://www.openshot.org/download/
