@@ -292,3 +292,21 @@ After creating the backup, you can delete the original keys by right-clicking th
 
 # Install DupeGuru
 https://dupeguru.voltaicideas.net/
+
+# Bootracer   speed up boot time
+https://greatis.com/bootracer/download.htm
+35 s
+Explorer startup delay set to 2 seconds.
+48.6  # randomness high variation
+I recently disabled several unnecessary services on my Windows PC, such as printer services,
+ mobile hotspot, error reporting, and legacy features like Superfetch (also called SysMain on newer versions)
+disable print spooler
+70s
+disable mobile hotspot
+47s
+disable error reporting
+44s
+disable sysmain
+53s
+
+
