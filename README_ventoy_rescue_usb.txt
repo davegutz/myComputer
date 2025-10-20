@@ -8,6 +8,7 @@ gparted-live-1.7.0-8-amd64.iso
 systemrescue-12.02-amd64.iso
 imageUSB_MemTest86_v11.5_bld1000  # weeds out bad ram
 
+
 # gparted-live-1.7.0-8-amd64.iso
 GParted is a bootable partition editor you can use to shrink, expand, and move partitions in an environment that's fully removed from your storage. This is an extremely useful tool for fixing broken dual-boot setups or expanding a stubborn partition. I actually used this just the other day to expand my primary C: drive partition after upgrading to a larger SSD. You can do so using its pretty intuitive GUI interface, which is quite easy to use. GParted is a mainstay in my toolkit, and it should be in yours as well.
 
@@ -134,5 +135,12 @@ To put Windows PE (WinPE) on a Ventoy USB, create a WinPE ISO file using Microso
 			(>=0.41 beta 1) Hide Microsoft Windows UEFI
 			(>=0.41 beta 1) Check UEFI Boot
 
+# Portable Applications
+
+# Windows - Windows Portable Folder
+  # Run in any windows session
+  # use portableapps.com environment   https://portableapps.com/download
+    on-screen keyboard, notepad++, crystal Disk, vlc, libreoffice, windirstat, paint.net, sharex, firefox, audacity, gnucash, 7-zip, balenaectcher, everything, grepwin, 
+ 
 
 		

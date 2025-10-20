@@ -524,6 +524,9 @@ cd Downloads
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo dpkg -i google-chrome-stable_current_amd64.deb
 
+# Make Chrome cleanup memory:
+Chrome - Settings - Performance - Memory - Manage
+
 # Uninstall Chrome browser stuff
 uninstall 'google chrome' from Ubuntu Software app
 sudo apt remove libu2f-udev
