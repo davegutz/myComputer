@@ -141,6 +141,10 @@ To put Windows PE (WinPE) on a Ventoy USB, create a WinPE ISO file using Microso
   # Run in any windows session
   # use portableapps.com environment   https://portableapps.com/download
     on-screen keyboard, notepad++, crystal Disk, vlc, libreoffice, windirstat, paint.net, sharex, firefox, audacity, gnucash, 7-zip, balenaectcher, everything, grepwin, 
+	
+# Linux - Linux Appimages Folder
+  # LibreWolf (browser), Bitwarden, nm (nomachine), Libreoffice
+  
  
 
 		
