@@ -310,3 +310,8 @@ disable sysmain
 53s
 
 
+# Disable search indexer (battery life)
+	Win+R - services.msc - Windows Search - right click - properties - startup - stop - disable startup  Restart
+  install Everything
+  install grepwin
+
