@@ -1264,8 +1264,11 @@ sudo apt install GParted
 or
 Pop!OS install
 
-# File compare 
+# File compare and Notepad++
+sudo apt update && sudo apt install ttf-mscorefonts-installer
+sudo fc-cache -fv
 sudo snap install notepad-plus-plus
+notepad++ -> Settings - Style Configurator - Default Style - Courier New
 
 
 # OpenShot video editor
