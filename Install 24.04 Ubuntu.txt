@@ -153,7 +153,17 @@ Use power plug if hangs
 # Install apps
   # use App to install synaptic-package-manager
   sudo snap install plexmediaserver # for remote laptop (for trips) as well as basement server
-  sudo snap install --classic pycharm-community
+  
+  # get pycharm
+  https://www.jetbrains.com/pycharm/download/download-thanks.html?platform=linux
+  ####sudo snap install --classic pycharm-community
+  cd Downloads
+  tar -xvzf pycharm-*.tar.gz
+  sudo mv pycharm-*/ /opt/
+  cd /opt/pycharm-*/bin
+  ./pycharm.sh
+  # Once PyCharm is running, you can create a desktop entry for easier launching. Go to Tools > Create Desktop Entry in the PyCharm menu and follow the prompts
+  
   sudo snap install sqlitebrowser
   Open snap gui (Applications)
   Accept updates
