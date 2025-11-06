@@ -434,7 +434,7 @@ ffmpeg -f pulse -i alsa_output.platform-snd_aloop.0.analog-stereo.monitor -t   1
     sudo apt install pavucontrol
     sudo snap install audacity
 	
-	google gmail token - Running gmail in python requires use of app passwords in Google - Settings - Security - 2-Factor - App passwords
+	google gmail token - Running gmail in python requires use of app passwords in Google - Manage account - Security - 2-step verification - App passwords
 	will not get screencast emails when the token expires
 
     
@@ -1054,7 +1054,7 @@ sudo apt install pavucontrol
 
 # screencast python app stops sending email
   #  You need a new app password
-  #  Google - settings - security - app passwords
+  #  Google - Manage account - Security - 2-step verification - App passwords
     # Create app password
 	# Copy and paste into myGmail.py
 	
