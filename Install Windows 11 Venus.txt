@@ -314,4 +314,8 @@ disable sysmain
 	Win+R - services.msc - Windows Search - right click - properties - startup - stop - disable startup  Restart
   install Everything
   install grepwin
+  
+# Photoshop replacement - Affinity by Canva
+https://www.affinity.studio/
+
 
