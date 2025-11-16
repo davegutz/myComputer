@@ -1247,4 +1247,6 @@ sudo apt install GParted
 or
 Pop!OS install
 
+# Correctly sync time in linux on dual boot
+timedatectl set-local-rtc 1 --adjust-system-clock
 
