@@ -95,6 +95,7 @@ default apps:  firefox, vlc, paint.net, sketchup
 putty Setup per myStaateOfCharge/SOC_Particle/putty/sessions/*.odt
 
 pyCharm - screencast get to run
+# Running gmail in python requires use of app passwords in Google - Settings - Security - 2-Factor - App passwords
 
 pyCharm - movie-scraper get to run
 use PySimpleGUI-4-foss instead of PySimpleGUI
@@ -291,3 +292,30 @@ After creating the backup, you can delete the original keys by right-clicking th
 
 # Install DupeGuru
 https://dupeguru.voltaicideas.net/
+
+# Bootracer   speed up boot time
+https://greatis.com/bootracer/download.htm
+35 s
+Explorer startup delay set to 2 seconds.
+48.6  # randomness high variation
+I recently disabled several unnecessary services on my Windows PC, such as printer services,
+ mobile hotspot, error reporting, and legacy features like Superfetch (also called SysMain on newer versions)
+disable print spooler
+70s
+disable mobile hotspot
+47s
+disable error reporting
+44s
+disable sysmain
+53s
+
+
+# Disable search indexer (battery life)
+	Win+R - services.msc - Windows Search - right click - properties - startup - stop - disable startup  Restart
+  install Everything
+  install grepwin
+  
+# Photoshop replacement - Affinity by Canva
+https://www.affinity.studio/
+
+
