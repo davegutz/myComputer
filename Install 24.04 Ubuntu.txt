@@ -1250,3 +1250,21 @@ Pop!OS install
 # Correctly sync time in linux on dual boot
 timedatectl set-local-rtc 1 --adjust-system-clock
 
+# Autostart helpwire
+Adding a .desktop file to the autostart directory 
+
+    Log in to the system as the user who needs HelpWire to run.
+    Navigate to your user's autostart directory: cd ~/.config/autostart/.
+    Create a new file called helpwire.desktop.
+    Edit the file and add the following content, replacing /path/to/helpwire/client/ with the correct path to your HelpWire client's directory:
+    ini
+
+    [Desktop Entry]
+    Name=HelpWire Client
+    Comment=Launch HelpWire Client on startup
+    Exec=/home/daveg/Downloads/HelpWire\ Retired/bin/HelpWire\ Retired
+    Type=Application
+    Terminal=false
+    X-GNOME-Autostart-enabled=true
+
+    Save and close the file. Now HelpWire should launch automatically the next time you log in to the desktop environment. 
