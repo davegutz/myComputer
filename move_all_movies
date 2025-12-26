@@ -1,0 +1,13 @@
+#!/bin/sudo bash
+
+# Move all movies in /Public to /media/daveg/Lib/Movies
+# Intended as easy script called in an ssh session on a phone
+# install into /usr/local/bin/ 
+# sudo cp /home/daveg/Documents/GitHub/myComputer/move_all_movies /usr/local/bin/.
+# sudo chmod +x /usr/local/bin/move_all_movies
+# nano /home/daveg/.bashrc
+#   add   alias movemov='/usr/local/bin/move_all_movies'
+
+
+
+mv -iv /Public/* /media/daveg/Lib/Movies/.
