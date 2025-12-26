@@ -353,3 +353,11 @@ LTspice can automatically generate a symbol from the model file.
     The symbol should now be linked to the OPAx333.LIB model, and you can proceed with your simulations. 
 
 Alternatively, you can place a generic opamp2 symbol and add a .lib OPAx333.LIB SPICE directive to your schematic, then right-click the op-amp symbol and change its Value to the exact subcircuit name found in the library file. 
+
+*********************   Potential overheat fixes
+# The HP Omen liked to overheat and throw 41 BSOD.   In addition to fan cooling schedule change, that helped but didn't eliminate it, I also tried declocking:
+https://www.makeuseof.com/i-finally-fixed-my-noisy-overheating-laptop-with-this-simple-change/
+  - maximum cpu plugged in 99%
+  - max battery 95%
+  - Balanced power plan
+
