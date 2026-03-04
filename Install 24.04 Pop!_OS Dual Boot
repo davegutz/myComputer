@@ -1,0 +1,136 @@
+#  Get ready
+  Phone to approve google requests and usb tethering if needed
+  Make space for linux - disk management utility in windows. Shrink by 350000 on 1 TB drive.  Shrink windows partition.  Note partition #. (8).  Note any others you want to take over (5)
+  Have >4 GB thumbdrive
+  On Windows download iso.  flash using balenaEtcher
+  Turn off bitlocker all drives
+  Deauthorize tools like DVDfab, winxdvd, epubor in case can't get back
+  Unplug second monitor, other usb's.  May leave mouse and keypad
+  Create windows restore point
+  Save github on windows
+
+# insert iso usb
+  F1 (rapid F12 on Lenovo laptop, F10 on HP
+  Omen, F7 on little_guy) during boot.   Set boot order to USB.  *try or install ubuntu - normal installation - install updates (I tried minimal installation - lots of things didn't work right)
+  Choose 'try or install Ubuntu.'  3 min to next step - will hear music
+  Go through menus ~5 min
+    Network - for next step
+    Update to new version (green button)
+    Full installation
+    Custom:
+      p6 pri/ext4        31 GB (larger than 32 GB Ram) gave it name 'custom' in the setup utility GParted
+      p7 swap            22 GB
+      p8 efi /boot   2 GB (") large to hold both windows and pop
+      p9 ext4 /root  balance GB
+    daveg
+  Wait ~12 min for install
+    When prompted to reboot leave stick and wait until prompted to remove it
+    
+  If this won't 'install' (menu item grayed out, verify Fat32 and other stuff.  Then simply restart with the stick still in and try again.
+
+
+sudo apt update
+
+#  Make EFI Boot Menu Work
+sudo apt install refind  # accept all the dangerous looking options
+
+# Pop!_Shop installs
+  brasero
+  caffeine (the one with steam rising)
+  vlc (open and turn off hardware accel)
+  sublime text
+  NoMachine
+  GitHub desktop
+  Synaptic
+
+# Flatpak used in pop!os makes path errors for pycharm-community (won't find special python build in /usr/local/bin).  Have to install it using snap then do some extra setup steps.
+  # uninstall the pycharm-community already installed
+  sudo apt install snapd
+  sudo snap install --classic pycharm-community
+
+sudo kernelstub -a mem_sleep_default=deep  # prevent not waking after suspend
+  Restart
+
+# Zoom desktop
+  https://zoom.us/download?os=linux  # download Ubuntu 64 bit
+  sudo gdebi ./Downloads/zoom_amd64.deb
+  Launch from Apps and signin with Google
+
+# Guake
+  sudo apt install guake
+  # set to start on login
+  
+# Ferdiun
+  Install ferdium using File - System Discover
+  
+# Rclone + Drive
+  see Ubuntu
+
+# glances system monitor
+  sudo apt install glances
+
+# Firefox busy save setting
+about:config
+browser.sessionstore.interval 150000
+
+# Python project notes (movie_Scraper, SOC, etc):   see 'Install 24.04 Ubuntu.txt'
+
+
+# Install apps
+  sudo snap install snapd
+  logout / log back in to organize snapd ########## important!!!!  IT WILL WORK IF YOU DO THIS
+  #sudo snap install plexmediaserver # for remote laptop (for trips) as well as basement server
+  #sudo apt install ./Downloads/code_1.90.2-1718751586_amd64.deb
+  sudo apt install -y fuse libfuse2  # For appImage
+  sudo apt install -y ffmpeg
+  sudo apt install -y git
+  sudo apt install --fix-missing -y python3-pip
+  sudo apt install -y python3-tk  # for pyCharm
+  sudo apt install -y dhcpcd5
+  sudo apt install dos2unix
+#  sudo apt install LocalSend
+  sudo apt install xsel
+  sudo apt install -y pavucontrol  # for myPyScreencast
+  
+
+# Another python version
+  see Ubuntu
+
+  # Configure sound
+  sudo nano /etc/modules-load.d/modules.conf
+  # Add following line to /etc/modules-load.d/modules.conf
+  snd-aloop
+  # To start it for this session
+  sudo modprobe snd-aloop
+  # you can just plug in the usb headset and adjust the sound settings
+
+# Firefox busy save setting
+  about:config
+  browser.sessionstore.interval 150000
+
+   # Speed up network
+    see Ubuntu
+
+# firewall
+      sudo apt install gufw
+
+
+  ### not sure what this is.  pop!os - settings - Power - Automatic suspend off,     - screen blank 15 min (I'll do this one, though)
+
+  # Cleanup
+  sudo passwd daveg  # passwords:  ignore warnings
+  sudo passwd # root
+  rm ~/.local/share/keyrings/login.keyring
+  sudo apt autoremove
+  cd
+  sudo apt autoclean
+  sudo apt clean
+  sudo apt install deborphan
+  sudo apt remove $(deborphan)
+
+######################### end setup  ###############################
+
+
+
+#########################works in progress  ######################
+
