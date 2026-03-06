@@ -38,8 +38,6 @@ sudo apt install refind  # accept all the dangerous looking options
   brasero
   caffeine (the one with steam rising)
   vlc (open and turn off hardware accel)
-  sublime text
-  NoMachine
   GitHub desktop
   Synaptic
 
@@ -48,7 +46,7 @@ sudo apt install refind  # accept all the dangerous looking options
   sudo apt install snapd
   sudo snap install --classic pycharm-community
 
-sudo kernelstub -a mem_sleep_default=deep  # prevent not waking after suspend
+###????????????sudo kernelstub -a mem_sleep_default=deep  # prevent not waking after suspend
   Restart
 
 # Zoom desktop
@@ -103,10 +101,6 @@ browser.sessionstore.interval 150000
   # To start it for this session
   sudo modprobe snd-aloop
   # you can just plug in the usb headset and adjust the sound settings
-
-# Firefox busy save setting
-  about:config
-  browser.sessionstore.interval 150000
 
    # Speed up network
     see Ubuntu
