@@ -41,31 +41,12 @@ sudo apt install refind  # accept all the dangerous looking options
   GitHub desktop
   Synaptic
 
-# Flatpak used in pop!os makes path errors for pycharm-community (won't find special python build in /usr/local/bin).  Have to install it using snap then do some extra setup steps.
+# Flatpak used in pop!os makes path errors for pycharm-community (won't find special python build in /usr/local/bin).  Have to install it using deb then do some extra setup steps.
   # uninstall the pycharm-community already installed
-  sudo apt install snapd
-  sudo snap install --classic pycharm-community
-
-###????????????sudo kernelstub -a mem_sleep_default=deep  # prevent not waking after suspend
-  Restart
+  follow instructions in Ubuntu
 
 # Zoom desktop
-  https://zoom.us/download?os=linux  # download Ubuntu 64 bit
-  sudo gdebi ./Downloads/zoom_amd64.deb
-  Launch from Apps and signin with Google
-
-# Guake
-  sudo apt install guake
-  # set to start on login
-  
-# Ferdiun
-  Install ferdium using File - System Discover
-  
-# Rclone + Drive
-  see Ubuntu
-
-# glances system monitor
-  sudo apt install glances
+using firefox extension
 
 # Firefox busy save setting
 about:config
@@ -73,12 +54,9 @@ browser.sessionstore.interval 150000
 
 # Python project notes (movie_Scraper, SOC, etc):   see 'Install 24.04 Ubuntu.txt'
 
-
 # Install apps
   sudo snap install snapd
   logout / log back in to organize snapd ########## important!!!!  IT WILL WORK IF YOU DO THIS
-  #sudo snap install plexmediaserver # for remote laptop (for trips) as well as basement server
-  #sudo apt install ./Downloads/code_1.90.2-1718751586_amd64.deb
   sudo apt install -y fuse libfuse2  # For appImage
   sudo apt install -y ffmpeg
   sudo apt install -y git
@@ -86,11 +64,10 @@ browser.sessionstore.interval 150000
   sudo apt install -y python3-tk  # for pyCharm
   sudo apt install -y dhcpcd5
   sudo apt install dos2unix
-#  sudo apt install LocalSend
   sudo apt install xsel
   sudo apt install -y pavucontrol  # for myPyScreencast
-  
-
+  sudo apt-get install libxkbcommon-dev  # for just
+ 
 # Another python version
   see Ubuntu
 
@@ -102,16 +79,18 @@ browser.sessionstore.interval 150000
   sudo modprobe snd-aloop
   # you can just plug in the usb headset and adjust the sound settings
 
-   # Speed up network
+# Speed up network
     see Ubuntu
 
 # firewall
       sudo apt install gufw
 
+# caffeine applet
+https://github.com/tropicbliss/cosmic-ext-applet-caffeine
+follow the readme
 
-  ### not sure what this is.  pop!os - settings - Power - Automatic suspend off,     - screen blank 15 min (I'll do this one, though)
 
-  # Cleanup
+# Cleanup
   sudo passwd daveg  # passwords:  ignore warnings
   sudo passwd # root
   rm ~/.local/share/keyrings/login.keyring
@@ -123,6 +102,23 @@ browser.sessionstore.interval 150000
   sudo apt remove $(deborphan)
 
 ######################### end setup  ###############################
+
+
+
+################## apps not installed.  Seeing if need to.  Cosmic is pretty complete as is ####################
+# Guake
+  sudo apt install guake
+  # set to start on login
+  
+# Ferdiun
+  Install ferdium using File - System Discover
+  
+# glances system monitor
+  sudo apt install glances
+####################################end apps not installed
+
+
+
 
 
 
@@ -156,11 +152,11 @@ For putty access add user to 'dialout' group
 sudo adduser daveg dialout
 # logout and log back in
 
-# caffeine-applet
-  clone git     codevardhan/caffeine-applet
-  cd to the git repo
-  sudo snap install just --classic
-  rustup default stable
-  just --set prefix /usr build-release
   
+  
+  # Rclone + Drive
+  see Ubuntu
+
+
+####################################end in progress  ###################
   
