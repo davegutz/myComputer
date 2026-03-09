@@ -206,5 +206,12 @@ restart
 
 #########################works in progress  ######################
 
+# clean SOC_Particle clone
+
+git clone --depth 1 https://github.com/davegutz/mySolarStateOfCharge 
+#master-with-BLE-Serial
+
+git gc --aggressive --prune=now
+
 ####################################end in progress  ###################
   
