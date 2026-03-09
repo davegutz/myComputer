@@ -40,6 +40,8 @@ sudo apt install refind  # accept all the dangerous looking options
   vlc (open and turn off hardware accel)
   GitHub desktop
   Synaptic
+  Notepad Next
+  
 
 # Flatpak used in pop!os makes path errors for pycharm-community (won't find special python build in /usr/local/bin).  Have to install it using deb then do some extra setup steps.
   # uninstall the pycharm-community already installed
@@ -85,7 +87,8 @@ touch ~/.Xauthority && ls -la ~/.Xauthority  # Create missing .Xauthority file
     see Ubuntu
 
 # firewall
-      sudo apt install gufw
+      sudo ufw enable
+      sudo ufw status
 
 # caffeine applet
 https://github.com/tropicbliss/cosmic-ext-applet-caffeine
@@ -113,11 +116,62 @@ sudo adduser daveg dialout
   
   
 # Rclone + Drive
-  see Ubuntu
-rclone mount grive: ~/gdrive &     
-              ################ TODO need auto start on login ##################3
+  see Ubuntu to setup grive
 
-                  
+# Run rclone on startup
+cat << EOF > ~/bin/Rclone
+#!/bin/bash
+rclone mount grive: ~/gdrive &
+EOF
+
+chmod +x ~/bin/Rclone
+
+        
+cat << EOF > ~/.config/autostart/rclone.desktop
+[Desktop Entry]
+Name=rclone
+Exec=/home/daveg/bin/Rclone
+Terminal=false
+Type=Application
+X-Desktop-File-Install-Version=0.27
+EOF
+
+chmod +x /home/daveg/.config/autostart/rclone.desktop
+  
+# test it (give good diagnostics)
+gio launch ~/.config/autostart/rclone.desktop
+ or
+sudo apt install dex
+dex ./.config/autostart/rclone.desktop
+
+
+# Disable trackpad
+Keyboard Shortcut (Recommended for COSMIC):
+        Go to Settings -> Input Devices -> Keyboard -> Keyboard Shortcuts.
+        Navigate to System and find "Toggle touchpad".
+        Assign a keybinding (e.g., Super+F9) to quickly toggle the touchpad on/off.
+
+# To make Pop!_OS COSMIC ignore lid closure
+sudo nano /etc/systemd/logind.conf
+HandleLidSwitch=ignore, HandleLidSwitchExternalPower=ignore, and HandleLidSwitchDocked=ignore
+restart
+
+# Various utilities
+    sudo apt install fzf  # fuzzy find
+    fzf 'test'
+    sudo snap install tldr  # help for commands
+    tldr fzf
+    sudo apt install mtr  # Mark's trace root
+    mtr
+    sudo apt install ripgrep
+    rg 'test'
+
+             
+# Correctly sync time in linux on dual boot
+ timedatectl set-local-rtc 1 --adjust-system-clock
+
+
+                            
 # Cleanup
   sudo passwd daveg  # passwords:  ignore warnings
   sudo passwd # root

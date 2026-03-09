@@ -296,7 +296,7 @@ sudo modprobe snd-aloop
 # you can just plug in the usb headset and adjust the sound settings
 
 
-#### Another version of Python:  call by version e.g. >python3.12
+#### Another version of Python:  call by version e.g. >python3.14
 #**********NOTE:  never replace default python in Debian-based Linux
 # https://ubuntuhandbook.org/index.php/2021/10/compile-install-python-3-10-ubuntu/
 
@@ -319,22 +319,22 @@ sudo modprobe snd-aloop
   # get alternate python to call from venv in pycharm
 
   https://www.python.org/ftp/python/
-  download Python-3.11.9.tar.xz
+  download Python-3.14.0.tar.xz
   cd Downloads/
-  tar -Jxf Python-3.11.9.tar.xz
+  tar -Jxf Python-3.14.0.tar.xz
 
   # compile and install it (do make clean first if adding --enable-shared to an existing build)
-  cd Python-3.11.9/
+  cd Python-3.14.0/
   ./configure --enable-optimizations --enable-shared
   sudo make -j4 && sudo make altinstall
   sudo ldconfig /usr/local/lib  # done once to load shared libraries (maybe 'pip3 install uswgi' works)
      
   # verify
-  python3.11 --version
-  python3.11 -m pip --version
+  python3.14 --version
+  python3.14 -m pip --version
   
   # uninstall
-  cd Downloads/Python-3.11.9/
+  cd Downloads/Python-3.14.0/
   sudo make uninstall
   
   # use
@@ -443,7 +443,7 @@ ffmpeg -f pulse -i alsa_output.platform-snd_aloop.0.analog-stereo.monitor -t   1
       
     # myStateOfCharge notes cont'd..........12
     Emptied py/venv
-    install python 3.12 using notes above.  Pick that
+    install python 3.14 using notes above.  Pick that
     Use pycharm to run 'install.py'   (need to install 'pyinstaller' in interpreter.   won't get error about this until try to run install.py)
     # linux putty
 	    sudo chown daveg /dev/ttyACM0
@@ -451,7 +451,7 @@ ffmpeg -f pulse -i alsa_output.platform-snd_aloop.0.analog-stereo.monitor -t   1
     
     # fwgWhisper notes
     Use own venv for install to work portably
-    only versions >=3.8,<3.12 are supported;  I have been using 3.11.9 (notes elsewhere in this document)
+    only versions >=3.8,<3.12 are supported;  I have been using 3.14.0 (notes elsewhere in this document)
     may have to manually remove non-openai whisper package (don't use pip to install 'whisper')
       #pyaudio
     	sudo apt-get install portaudio19-dev -y
@@ -1000,7 +1000,7 @@ sudo apt install pavucontrol
       
     # firewall
       sudo apt install gufw
-      open 'firewall config' and turn on 'status'  that's it. close it
+      open 'firewall config' from app menu and turn on 'status'  that's it. close it
 
     # cleanup
       sudo apt install bleachbit
