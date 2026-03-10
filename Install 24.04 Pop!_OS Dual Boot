@@ -145,7 +145,7 @@ sudo apt install dex
 dex ./.config/autostart/rclone.desktop
 
 
-# Disable trackpad
+# Disable trackpad / mouse
 Keyboard Shortcut (Recommended for COSMIC):
         Go to Settings -> Input Devices -> Keyboard -> Keyboard Shortcuts.
         Navigate to System and find "Toggle touchpad".
@@ -224,6 +224,23 @@ git commit
 
 
 
+# reliable wifi at cottage and also at Dave Cook's
+that fix worked, even when i leave davespixel on.  what was the fix?
+
+● The fix was adding global fallback DNS servers directly to /etc/systemd/resolved.conf:
+
+  - DNS=8.8.8.8 8.8.4.4 — primary DNS servers (Google)
+  - FallbackDNS=1.1.1.1 1.0.0.1 — fallback DNS servers (Cloudflare)
+
+  Why it worked: systemd-resolved is the system's DNS resolver, but it relies on NetworkManager to tell it
+  which DNS servers to use per network interface. The problem was that NM was pushing DNS servers to
+  systemd-resolved at connection time, but something kept clearing them — likely the DavesPixel hotspot
+  connection competing for the interface, causing NM to cycle between connections and leave systemd-resolved
+  in a state with no configured servers.
+
+  By setting DNS directly in resolved.conf, systemd-resolved always has servers available at the global level,
+   independent of what NM does or doesn't push per-interface. Even when DavesPixel briefly takes over and
+  disrupts the per-interface DNS config, the global DNS entries remain and keep resolution working.
 
 
 ####################################end in progress  ###################
