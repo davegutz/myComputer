@@ -43,7 +43,7 @@ sudo apt install refind  # accept all the dangerous looking options
   Notepad Next
   
 
-# Flatpak used in pop!os makes path errors for pycharm-community (won't find special python build in /usr/local/bin).  Have to install it using deb then do some extra setup steps.
+# Flatpak used in pop!os makes path errors for pycharm-community (won't find special python build in /usr/local/bin).  Have to install it using snap then do some extra setup steps.
   # uninstall the pycharm-community already installed
   follow instructions in Ubuntu
 
@@ -208,10 +208,23 @@ restart
 
 # clean SOC_Particle clone
 
+git clone --depth 1 https://github.com/YOUR-USERNAME/YOUR-REPOSITORY
 git clone --depth 1 https://github.com/davegutz/mySolarStateOfCharge 
 #master-with-BLE-Serial
+github desktop - repository - add - add existing repository to get back in desktop
+
+gh auth login
+gh auth token
 
 git gc --aggressive --prune=now
+git status
+git add <>
+git add --all
+git commit
+
+
+
+
 
 ####################################end in progress  ###################
   
