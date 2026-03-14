@@ -15,7 +15,7 @@ Created: Dave Gutz, 2024-Dec-25
 |-------|----------|----|---------|
 | [INSTALL_24.04_Ubuntu.md](INSTALL_24.04_Ubuntu.md) | HP Omen 15" 2022 | Ubuntu 24.04 LTS | Primary reference guide; Plex server |
 | [INSTALL_24.04_PopOS_Dual_Boot.md](INSTALL_24.04_PopOS_Dual_Boot.md) | HP Omen 15" 2022 | Pop!_OS 24.04 COSMIC | Dual-boot with Windows |
-| [INSTALL_Lubuntu_24.04.md](INSTALL_Lubuntu_24.04.md) | Lenovo Laptop | Lubuntu 24.04 | General workstation; LXQt desktop |
+| [INSTALL_24.04_Lubuntu.md](INSTALL_24.04_Lubuntu.md) | Lenovo Laptop | Lubuntu 24.04 | General workstation; LXQt desktop |
 | [INSTALL_Ubuntu_Venus_Dual_Boot.md](INSTALL_Ubuntu_Venus_Dual_Boot.md) | Venus UM773 Lite | Ubuntu 22.04 LTS | Dual-boot with Windows 11 |
 | [INSTALL_Windows_11_Venus.md](INSTALL_Windows_11_Venus.md) | Venus UM773 Lite | Windows 11 | Windows setup and apps |
 
