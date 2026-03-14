@@ -993,6 +993,7 @@ sudo apt install pavucontrol
       about:config
       layers.acceleration.force-enabled true
       gfx.webrender.all true
+      browser.sessionstore.interval = 150000
     # Chrome tweaks:
       chrome://settings/system
       Toggle on the "Use hardware acceleration when available" option.
