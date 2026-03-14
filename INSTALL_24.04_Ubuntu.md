@@ -31,6 +31,7 @@
 - [16. Lessons Learned](#16-lessons-learned)
 - [17. Performance Tuning](#17-performance-tuning)
 - [18. Jellyfin Media Server](#18-jellyfin-media-server)
+- [19. Google Drive (Rclone)
 
 ---
 
@@ -647,3 +648,35 @@ sudo chown -R jellyfin /media/daveg
 # Allow Jellyfin Incoming in Firewall (gufw)
 # Open browser to server address and fill libraries
 ```
+
+---
+
+## 19. Google Drive (Rclone)
+
+1. Install Rclone:
+
+```bash
+sudo apt install rclone
+rclone config
+```
+Follow the prompts:
+        Enter n to create a new remote.
+        Provide a name for your remote (e.g., gdrive).
+        Select drive from the list of storage types for Google Drive. (18)
+        Accept the default client_id and client_secret by leaving them blank and pressing Enter.
+        Choose the desired scope for Rclone's access to your Google Drive. For general use, selecting 1 (Full access) is common.
+        Leave root_folder_id and service_account_file blank unless you have specific needs.
+        
+        Edit Advanced config> y
+          oauth Access Token:    https://myaccount.google.com/apppasswords  name it Rclone  "epep hdvf omwc bnxy "
+          auth_url:  blank
+          token_url: blank
+        upload_cutoff> 1G  .... all else default
+       
+        When asked about Use auto config?, type y and press Enter. This will open a web browser for authentication with your Google account.
+        Complete the authentication process in your web browser, allowing Rclone access to your Google Drive.
+        Return to the terminal. You will be asked if this is a Team Drive; enter n unless you are using a Team Drive.
+        Confirm the configuration by typing y and pressing Enter. 
+
+    Exit the configuration wizard by typing q. 
+
