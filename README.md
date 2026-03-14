@@ -27,15 +27,10 @@ Created: Dave Gutz, 2024-Dec-25
 | [INSTALL_Linux_Lite_5fd6c4bf.md](INSTALL_Linux_Lite_5fd6c4bf.md) | Lenovo Laptop | Linux Lite | Archived earlier version |
 | [INSTALL_Tiny_Core_Linux.md](INSTALL_Tiny_Core_Linux.md) | Lenovo Laptop / VM | Tiny Core Linux | Lightweight; primarily VirtualBox VM |
 
-|
-### Old
+### Other
 
 | Guide | Hardware | OS | Purpose |
 |-------|----------|----|---------|
-| [INSTALL_22.04.1_Ubuntu_NVIDIA_PLEX.md](INSTALL_22.04.1_Ubuntu_NVIDIA_PLEX.md) | HP Omen 15" 2022 | Ubuntu 22.04.1 LTS | NVIDIA drivers; Plex server |
-| [INSTALL_22.04_LTS_Lubuntu_NVIDIA_PLEX.md](INSTALL_22.04_LTS_Lubuntu_NVIDIA_PLEX.md) | HP Omen 15" 2022 | Lubuntu 22.04 LTS | NVIDIA drivers; Plex server; LXQt desktop |
-| [INSTALL_22.04_PopOS_LTS_NVIDIA_PLEX.md](INSTALL_22.04_PopOS_LTS_NVIDIA_PLEX.md) | HP Omen 15" 2022 | Pop!_OS 22.04 LTS | NVIDIA drivers; Plex server |
-| [INSTALL_22.04_PopOS_LTS_NVIDIA.md](INSTALL_22.04_PopOS_LTS_NVIDIA.md) | HP Omen 15" 2022 | Pop!_OS 22.04 LTS | NVIDIA drivers; dual-boot with Ubuntu |
 | [INSTALL_Ubuntu_Android.md](INSTALL_Ubuntu_Android.md) | Android device | Ubuntu | Ubuntu on Android environment |
 
 ---
@@ -45,6 +40,5 @@ Created: Dave Gutz, 2024-Dec-25
 - **Starting fresh on Ubuntu?** → [INSTALL_24.04_Ubuntu.md](INSTALL_24.04_Ubuntu.md)
 - **Pop!_OS with COSMIC desktop?** → [INSTALL_24.04_PopOS_Dual_Boot.md](INSTALL_24.04_PopOS_Dual_Boot.md)
 - **Lenovo laptop?** → [INSTALL_Lubuntu_24.04.md](INSTALL_Lubuntu_24.04.md)
-- **Plex server on Ubuntu?** → [INSTALL_22.04.1_Ubuntu_NVIDIA_PLEX.md](INSTALL_22.04.1_Ubuntu_NVIDIA_PLEX.md)
 - **Venus Mini PC?** → [INSTALL_Ubuntu_Venus_Dual_Boot.md](INSTALL_Ubuntu_Venus_Dual_Boot.md)
 - **Windows setup?** → [INSTALL_Windows_11_Venus.md](INSTALL_Windows_11_Venus.md)

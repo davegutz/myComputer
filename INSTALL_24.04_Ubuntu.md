@@ -589,6 +589,7 @@ Turn off automatic DNS; set manually:
 ```
 layers.acceleration.force-enabled = true
 gfx.webrender.all = true
+browser.sessionstore.interval = 150000
 ```
 
 **Chrome tweaks** (`chrome://settings/system`):

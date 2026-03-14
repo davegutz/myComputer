@@ -26,9 +26,8 @@
 - [9. Auto Suspend Scheduling](#9-auto-suspend-scheduling)
 - [10. Cleanup](#10-cleanup)
 - [11. HDMI Audio](#11-hdmi-audio)
-- [12. NoMachine Remote Desktop](#12-nomachine-remote-desktop)
-- [13. Google Drive (Rclone)](#13-google-drive-rclone)
-- [14. Optional Tools](#14-optional-tools)
+- [12. Google Drive (Rclone)](#12-google-drive-rclone)
+- [13. Optional Tools](#13-optional-tools)
 
 ---
 
@@ -61,6 +60,8 @@ sudo apt install -y python3-pip
 ```
 
 Lubuntu installs by default: LibreOffice, VLC, Firefox
+    vlc - open and turn off acceleration tools - preferences - input/codecs - disable Hardware-accelerated decoding - save
+    Firefox - see tuning elsewhere in here
 
 **Connect Google Drive:**
 - Check email for "google drive stuff"
@@ -271,6 +272,9 @@ No restart needed.
 
 ## 10. Cleanup
 
+Preferences - Xscreensaver  - Display modes - Blank 10, Cycle 10, Lock 45
+                            - Advanced - Power Management 30 / 60 / 120 - Close
+
 ```bash
 sudo apt autoremove
 sudo apt autoclean
@@ -300,27 +304,40 @@ Open PulseAudio Volume Control → Configuration → Profile: Digital Stereo (HD
 
 ---
 
-## 12. NoMachine Remote Desktop
+## 12. Google Drive (Rclone)
+
+See [INSTALL_24.04_Ubuntu.md](INSTALL_24.04_Ubuntu.md) for Rclone setup.
+
+**Auto-start rclone on login:**
 
 ```bash
-cd Downloads
-sudo cp -p nomachine_9.0.188_11_x86_64.tar.gz /usr
-cd /usr
-sudo tar zxf nomachine_9.0.188_11_x86_64.tar.gz
-sudo /usr/NX/nxserver --install
-# Port: 4000 — allow through firewall (gufw)
-sudo apt install gufw
-# Open "Firewall Configuration" and turn on Status
+mkdir -p ~/bin
+cat << EOF > ~/bin/Rclone
+#!/bin/bash
+rclone mount grive: ~/gdrive &
+EOF
+chmod +x ~/bin/Rclone
+
+cat << EOF > ~/.config/autostart/rclone.desktop
+[Desktop Entry]
+Name=rclone
+Exec=/home/daveg/bin/Rclone
+Terminal=false
+Type=Application
+X-Desktop-File-Install-Version=0.27
+EOF
+chmod +x /home/daveg/.config/autostart/rclone.desktop
 ```
 
----
-
-## 13. Google Drive (Rclone)
+Test the autostart entry:
 
 ```bash
-sudo apt install rclone
-rclone config
+gio launch ~/.config/autostart/rclone.desktop
+# or
+sudo apt install dex
+dex ./.config/autostart/rclone.desktop
 ```
+
 
 Configuration steps:
 1. Enter `n` to create a new remote
@@ -352,7 +369,7 @@ Remove ocamlfuse if previously installed.
 
 ---
 
-## 14. Optional Tools
+## 13. Optional Tools
 
 ### Jellyfin (alternative to Plex)
 
@@ -366,7 +383,9 @@ sudo chown -R jellyfin /media/daveg
 ### Disk Usage
 
 ```bash
+sudo apt install ncdu
 sudo apt install baobab
+sudo apt install git-filter-repo
 ```
 
 ### Bluetooth GUI
