@@ -660,6 +660,7 @@ sudo apt install rclone
 rclone config
 ```
 Follow the prompts:
+
         Enter n to create a new remote.
         Provide a name for your remote (e.g., gdrive).
         Select drive from the list of storage types for Google Drive. (18)
