@@ -5,7 +5,7 @@ Lenovo Laptop
 #### When in doubt, use instructions for Ubuntu
 
 
-#***************  swapfile size must be at least 3G when RAM is just 4G.  Go to bottom of file.
+#***************  swapfile size must be at least 3G when RAM is just 4G.  Go to bottom of file. 8G used.
 #***************  vm.swappiness=10 (from 60) makes system responsive to mouse 
 
 # insert iso usb
@@ -255,7 +255,7 @@ sudo apt install alsa-utils
 
 # Guake
   sudo apt install guake
-  # set to start on login
+  # set to start on logi
   
 # Ferdiun
   Install ferdium using File - System Discover

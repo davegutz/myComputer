@@ -1,0 +1,333 @@
+# Installing Pop!_OS 24.04 (Dual Boot with Windows)
+
+**Hardware:** HP Omen (or similar)
+**OS:** Pop!_OS 24.04 with COSMIC desktop (X11/Xorg)
+**Purpose:** General workstation, dual-boot alongside Windows
+
+> Pop!_OS uses the COSMIC desktop in 24.04.
+> Flatpak (COSMIC Store) sandboxes apps like VS Code and PyCharm — use `.deb` or `snap` instead.
+> For Python project notes (movie_Scraper, SOC, etc.), see [INSTALL_24.04_Ubuntu.md](INSTALL_24.04_Ubuntu.md).
+
+---
+
+## Table of Contents
+
+- [1. Preparation](#1-preparation)
+- [2. Boot and Install](#2-boot-and-install)
+- [3. EFI Boot Menu](#3-efi-boot-menu)
+- [4. Initial Setup](#4-initial-setup)
+- [5. Install Applications](#5-install-applications)
+- [6. VS Code](#6-vs-code)
+- [7. PyCharm and Python](#7-pycharm-and-python)
+- [8. Sound Configuration](#8-sound-configuration)
+- [9. Google Drive (Rclone)](#9-google-drive-rclone)
+- [10. Claude Code](#10-claude-code)
+- [11. Dual-Boot Time Sync](#11-dual-boot-time-sync)
+- [12. Cleanup](#12-cleanup)
+- [13. COSMIC Desktop Tips](#13-cosmic-desktop-tips)
+- [14. Utilities](#14-utilities)
+- [15. Work in Progress](#15-work-in-progress)
+
+---
+
+## 1. Preparation
+
+- Phone ready to approve Google requests and USB tethering if needed
+- Make space for Linux using Windows Disk Management utility:
+  - **Shrink Windows partition by ~350,000 MB** on a 1 TB drive
+  - Note partition numbers
+- Have a >4 GB thumbdrive
+- On Windows: download the ISO and flash using **balenaEtcher**
+- Turn off BitLocker on all drives
+- Deauthorize tools like DVDfab, WinXDVD, ePubor
+- Unplug second monitor and extra USB devices (may leave mouse and keyboard)
+- **Create a Windows restore point**
+- Save GitHub repos on Windows
+
+---
+
+## 2. Boot and Install
+
+Insert ISO USB and boot:
+- **F10** on HP-Omen, **F12** on Lenovo, **F7** on little_guy
+- Set boot order to USB
+
+Choose **"Try or install Ubuntu"** — allow ~3 minutes.
+
+Partition setup (Custom / GParted):
+
+| Partition | Size | Type | Mount |
+|-----------|------|------|-------|
+| p6 | 31 GB | pri/ext4 | (name: 'custom' in GParted) |
+| p7 | 22 GB | swap | |
+| p8 | 2 GB | EFI | `/boot` (large enough to hold both Windows and Pop) |
+| p9 | remaining | ext4 | `/root` |
+
+Username: `daveg`
+
+Wait ~12 minutes for install. When prompted to reboot, leave USB in until prompted to remove it.
+
+> If **"Install"** menu item is grayed out: verify FAT32 and other settings, then restart with USB still in and try again.
+
+---
+
+## 3. EFI Boot Menu
+
+After first boot:
+
+```bash
+sudo apt update
+sudo apt install refind   # accept all the dangerous-looking options
+```
+
+This installs the rEFInd boot manager to make the EFI boot menu work properly with dual boot.
+
+---
+
+## 4. Initial Setup
+
+From Pop!_Shop install:
+- `brasero`
+- `caffeine` (the one with steam rising)
+- `vlc` (open and turn off hardware acceleration)
+- `GitHub Desktop`
+- `Synaptic`
+- `Notepad Next`
+
+```bash
+sudo snap install snapd
+# Log out / log back in — IMPORTANT! IT WILL WORK IF YOU DO THIS
+sudo apt update && sudo apt upgrade
+```
+
+**Firefox Performance:**
+```
+about:config
+browser.sessionstore.interval = 150000
+```
+
+---
+
+## 5. Install Applications
+
+```bash
+sudo apt install -y fuse libfuse2          # AppImage support
+sudo apt install -y ffmpeg
+sudo apt install -y git
+sudo apt install --fix-missing -y python3-pip
+sudo apt install -y python3-tk             # for PyCharm
+sudo apt install -y dhcpcd5
+sudo apt install dos2unix
+sudo apt install xsel
+sudo apt install -y pavucontrol            # for myPyScreencast
+sudo apt-get install libxkbcommon-dev      # for just
+
+# Create missing .Xauthority file (if needed):
+touch ~/.Xauthority && ls -la ~/.Xauthority
+```
+
+**PuTTY** (follow Ubuntu instructions):
+
+```bash
+# Add user to dialout group for serial access:
+sudo adduser daveg dialout
+# Log out and log back in
+```
+
+**Firewall:**
+
+```bash
+sudo ufw enable
+sudo ufw status
+```
+
+---
+
+## 6. VS Code
+
+> **Do NOT install using snap or flatpak (COSMIC Store)** — these sandbox VS Code and it won't build.
+
+```bash
+# Download .deb from https://code.visualstudio.com/docs/?dv=linux64_deb
+sudo apt install ./Downloads/code_1.110.0-1772587980_amd64.deb
+# Ignore the permission error about '_apt' — it's harmless
+```
+
+Start Code and install extensions.
+
+---
+
+## 7. PyCharm and Python
+
+> Flatpak (used in Pop!_OS) causes path errors — PyCharm cannot find custom Python builds in `/usr/local/bin`.
+> **Uninstall the flatpak version and use snap instead.**
+
+```bash
+# Uninstall any existing flatpak version first
+sudo snap install --classic pycharm-community
+```
+
+For alternate Python version, see [INSTALL_24.04_Ubuntu.md](INSTALL_24.04_Ubuntu.md).
+
+---
+
+## 8. Sound Configuration
+
+```bash
+sudo nano /etc/modules-load.d/modules.conf
+# Add:
+snd-aloop
+
+# Load for this session:
+sudo modprobe snd-aloop
+```
+
+Alternatively, plug in a USB headset and adjust sound in GUI.
+
+---
+
+## 9. Google Drive (Rclone)
+
+See [INSTALL_24.04_Ubuntu.md](INSTALL_24.04_Ubuntu.md) for Rclone setup.
+
+**Auto-start rclone on login:**
+
+```bash
+mkdir -p ~/bin
+cat << EOF > ~/bin/Rclone
+#!/bin/bash
+rclone mount grive: ~/gdrive &
+EOF
+chmod +x ~/bin/Rclone
+
+cat << EOF > ~/.config/autostart/rclone.desktop
+[Desktop Entry]
+Name=rclone
+Exec=/home/daveg/bin/Rclone
+Terminal=false
+Type=Application
+X-Desktop-File-Install-Version=0.27
+EOF
+chmod +x /home/daveg/.config/autostart/rclone.desktop
+```
+
+Test the autostart entry:
+
+```bash
+gio launch ~/.config/autostart/rclone.desktop
+# or
+sudo apt install dex
+dex ./.config/autostart/rclone.desktop
+```
+
+---
+
+## 10. Claude Code
+
+```bash
+curl -fsSL https://claude.ai/install.sh | bash
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc && source ~/.bashrc
+claude --version   # verify
+claude             # log in to Anthropic
+```
+
+---
+
+## 11. Dual-Boot Time Sync
+
+Fix clock discrepancy when switching between Linux and Windows:
+
+```bash
+timedatectl set-local-rtc 1 --adjust-system-clock
+```
+
+---
+
+## 12. Cleanup
+
+```bash
+sudo passwd daveg     # ignore warnings
+sudo passwd           # root
+rm ~/.local/share/keyrings/login.keyring
+sudo apt autoremove
+sudo apt autoclean
+sudo apt clean
+sudo apt install deborphan
+sudo apt remove $(deborphan)
+```
+
+---
+
+## 13. COSMIC Desktop Tips
+
+### Disable trackpad
+
+Settings → Input Devices → Keyboard → Keyboard Shortcuts → System → **"Toggle touchpad"** → assign a key (e.g., `Super+F9`).
+
+### Ignore lid closure
+
+```bash
+sudo nano /etc/systemd/logind.conf
+# Set:
+HandleLidSwitch=ignore
+HandleLidSwitchExternalPower=ignore
+HandleLidSwitchDocked=ignore
+```
+
+Restart.
+
+### caffeine applet for COSMIC
+
+See https://github.com/tropicbliss/cosmic-ext-applet-caffeine and follow the README.
+
+---
+
+## 14. Utilities
+
+```bash
+sudo apt install fzf        # fuzzy find
+sudo snap install tldr      # quick command help
+sudo apt install mtr        # traceroute tool
+sudo apt install ripgrep    # fast grep
+```
+
+---
+
+## 15. Work in Progress
+
+### Clean SOC_Particle Clone
+
+```bash
+git clone --depth 1 https://github.com/davegutz/mySolarStateOfCharge
+# Re-add to GitHub Desktop:
+# Repository → Add → Add existing repository
+```
+
+### GitHub CLI
+
+```bash
+gh auth login
+gh auth token
+```
+
+### Git Maintenance
+
+```bash
+git gc --aggressive --prune=now
+git status
+git add --all
+git commit
+```
+
+### Reliable WiFi (DNS Fix)
+
+If WiFi drops or DNS resolution fails (especially with competing hotspots):
+
+```bash
+sudo nano /etc/systemd/resolved.conf
+# Add:
+DNS=8.8.8.8 8.8.4.4
+FallbackDNS=1.1.1.1 1.0.0.1
+```
+
+This ensures DNS works globally regardless of what NetworkManager does per-interface.
