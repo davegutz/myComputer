@@ -429,3 +429,38 @@ Install via File → System Discover
 ```bash
 sudo apt-get install idle-python3.12
 ```
+
+### Add support for keypress in various pyCharm projects
+
+Add a udev rule (permanent fix):
+This is the recommended approach. A udev rule automatically sets the correct permissions when the device node is created during system boot.
+Create a new rules file, for example, /etc/udev/rules.d/99-uinput.rules:
+
+```bash
+sudo nano /etc/udev/rules.d/99-uinput.rules
+```
+Add one of the following lines to the file. The first option adds your user to the input group, which is more secure than MODE="0666":
+
+Option A (Recommended):
+KERNEL=="uinput", SUBSYSTEM=="misc", OPTIONS+="static_node=uinput", GROUP="input", MODE="0660"
+
+Option B (Less secure, grants access to everyone):
+KERNEL=="uinput", MODE="0666"
+
+Apply the changes:
+Reload the udev rules:
+```bash
+sudo udevadm control --reload-rules
+```
+Trigger the rules to be applied immediately:
+```bash
+sudo udevadm trigger
+```
+
+Add your user to the input group (only for Option A above):
+```bash
+sudo usermod -a -G input $USER
+```
+
+Reboot your system for the group membership change to take effect. 
+After following these steps, your pythons scripts should be able to open /dev/uinput for writing without sudo (evdev python >= v3.12).
