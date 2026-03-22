@@ -39,6 +39,8 @@ Insert ISO USB and boot:
 
 Choose **"Normal installation"** (not minimal — minimal leaves things broken).
 
+Setup and choose a single large partition.  Installer will make a swap dynamically.
+
 Restart will prompt to remove USB. System should restart to Lubuntu without BIOS boot.
 
 After restart:
@@ -49,6 +51,27 @@ After restart:
 
 ## 2. Initial Setup
 
+### Swappiness
+
+```bash
+cat /proc/sys/vm/swappiness
+sudo sysctl vm.swappiness=10
+sudo nano /etc/sysctl.conf
+# Add: vm.swappiness=10
+```
+
+### Increase Swap
+
+```bash
+swapon --show
+sudo swapoff /swapfile
+sudo fallocate -l 8G /swapfile  # 24G for venus-littleguy
+sudo mkswap /swapfile
+sudo swapon /swapfile
+swapon --show
+```
+
+### Basic Installs
 ```bash
 sudo apt update
 sudo apt upgrade
@@ -56,16 +79,43 @@ sudo apt autoremove
 sudo apt install -y git
 sudo apt install snapd
 sudo apt install -y ubuntu-restricted-extras
-sudo apt install -y python3-pip
+sudo apt install -y fuse libfuse2      # AppImage support
+sudo apt install -y ffmpeg
+sudo apt install -y dos2unix
+sudo apt install --fix-missing -y python3-pip
+sudo apt install -y python3-tk         # for PyCharm
+sudo apt install -y dhcpcd5
+sudo apt install LocalSend
+# sudo apt install -y vlc Use Discover
+sudo apt install xsel
+sudo apt install -y pavucontrol        # for myPyScreencast
+sudo apt install -y thunar
+sudo apt install -y nautilus
+pavucontrol  # defaults to low volume — set to 100% for screencasting.
 ```
 
-Lubuntu installs by default: LibreOffice, VLC, Firefox
-    vlc - open and turn off acceleration tools - preferences - input/codecs - disable Hardware-accelerated decoding - save
-    Firefox - see tuning elsewhere in here
+Lubuntu installs by default: LibreOffice, Firefox
+accelerated decoding - save
 
-**Connect Google Drive:**
-- Check email for "google drive stuff"
-- Menu → Desktop Settings → LXQt Settings → Autostart → `/usr/bin/google-drive-ocamlfuse`
+### Firefox Security Exceptions
+Add exceptions for: `hulu.com`, `amazon.com`, `play.max.com`, `netflix.com`
+
+###Firefox tweaks (`about:config`):
+```
+layers.acceleration.force-enabled = true
+gfx.webrender.all = true
+browser.sessionstore.interval = 150000
+```
+
+###Chrome tweaks (`chrome://settings/system`):
+- Toggle on hardware acceleration → Relaunch
+
+
+Use System - Discover to install these fine tools:
+    vlc, 
+
+### VLC
+    Tools → Preferences → Codecs → **disable hardware-accelerated decoding** → Save. Restart VLC.
 
 ---
 
@@ -123,6 +173,7 @@ flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.f
 # reboot
 flatpak install flathub com.github.iwalton3.jellyfin-media-player
 flatpak run com.github.iwalton3.jellyfin-media-player
+# answer jellyfin_..._pkg by cut and paste from hint below box durin initial run
 # Remove:
 flatpak remove com.github.iwalton3.jellyfin-media-player
 ```
@@ -154,6 +205,10 @@ Settings → Power → set as desired. Reboot.
 # Open GUI_..py — get it to run using local venv, then:
 install.py
 ```
+
+### myPyScreencast
+- Use its own `.venv`
+- may need to uninstall and reinstall pillow to eliminate the interpreter's confusion
 
 ### PyCharm: movie_Scraper
 
@@ -256,6 +311,7 @@ sudo modprobe snd-aloop
 ## 9. Auto Suspend Scheduling
 
 ```bash
+cp home/daveg/Documents/GitHub/myComputer/suspend_until /home/daveg/bin/.
 chmod +x /home/daveg/bin/suspend_until
 
 sudo crontab -e
@@ -264,6 +320,9 @@ sudo crontab -e
 1 0 * * 0   /home/daveg/bin/suspend_until 10:15   # Sun: 10:15 AM
 
 sudo crontab -l   # verify
+
+nano .bashrc
+  alias suspend=`suspend_until 16:00`
 ```
 
 No restart needed.
@@ -308,65 +367,6 @@ Open PulseAudio Volume Control → Configuration → Profile: Digital Stereo (HD
 
 See [INSTALL_24.04_Ubuntu.md](INSTALL_24.04_Ubuntu.md) for Rclone setup.
 
-**Auto-start rclone on login:**
-
-```bash
-mkdir -p ~/bin
-cat << EOF > ~/bin/Rclone
-#!/bin/bash
-rclone mount grive: ~/gdrive &
-EOF
-chmod +x ~/bin/Rclone
-
-cat << EOF > ~/.config/autostart/rclone.desktop
-[Desktop Entry]
-Name=rclone
-Exec=/home/daveg/bin/Rclone
-Terminal=false
-Type=Application
-X-Desktop-File-Install-Version=0.27
-EOF
-chmod +x /home/daveg/.config/autostart/rclone.desktop
-```
-
-Test the autostart entry:
-
-```bash
-gio launch ~/.config/autostart/rclone.desktop
-# or
-sudo apt install dex
-dex ./.config/autostart/rclone.desktop
-```
-
-
-Configuration steps:
-1. Enter `n` to create a new remote
-2. Name it `gdrive`
-3. Select `drive` for Google Drive (type 18 or search)
-4. Leave `client_id` and `client_secret` blank
-5. Scope: `1` (Full access)
-6. Leave `root_folder_id` and `service_account_file` blank
-7. Advanced config:
-   - OAuth Access Token: https://myaccount.google.com/apppasswords — name it `Rclone`
-   - `auth_url`: blank
-   - `token_url`: blank
-   - `upload_cutoff`: 1G
-8. `Use auto config?`: `y` — authenticate in browser
-9. Team Drive: `n` (unless using Team Drive)
-10. Confirm: `y`
-11. Exit: `q`
-
-**Mount Google Drive:**
-
-```bash
-mkdir ~/gdrive
-rclone mount gdrive: ~/gdrive &
-```
-
-Add startup application: `"gdrive"` with command `"rclone mount gdrive: ~/gdrive &"`
-
-Remove ocamlfuse if previously installed.
-
 ---
 
 ## 13. Optional Tools
@@ -395,11 +395,23 @@ Lubuntu → System → Discover → search "bluetooth" → install "Bluetooth Ma
 ### Chrome Browser
 
 ```bash
-# Download .deb from https://www.google.com/chrome
+sudo apt install libu2f-udev
 cd Downloads
+rm google-chrome-stable*.deb
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo dpkg -i google-chrome-stable_current_amd64.deb
-# If dependency issues: sudo apt --fix-broken install
 ```
+
+**Uninstall Chrome:**
+
+```bash
+# Uninstall 'google chrome' from Ubuntu Software app
+sudo apt remove libu2f-udev
+sudo apt autoremove
+sudo apt autoclean && sudo apt clean
+sudo apt install deborphan && sudo apt remove $(deborphan)
+```
+
 
 ### Guake Terminal
 
@@ -411,13 +423,6 @@ sudo apt install guake
 ### Ferdium
 
 Install via File → System Discover
-
-### Firefox Performance
-
-```
-about:config
-browser.sessionstore.interval = 150000
-```
 
 ### Fix missing idlelib
 

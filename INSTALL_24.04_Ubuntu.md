@@ -107,12 +107,12 @@ sudo apt autoremove
 **Schedule suspend:**
 
 ```bash
-sudo cp Documents/GitHub/myComputer/suspend_until /usr/local/bin/.
+cp Documents/GitHub/myComputer/suspend_until /home/daveg/bin/.
 sudo chmod +x /usr/local/bin/suspend_until
 sudo crontab -e
 # Add:
-1 0 * * 1-6 /usr/local/bin/suspend_until 16:00   # Mon-Sat: wake at 4 PM
-1 0 * * 0   /usr/local/bin/suspend_until 10:15   # Sun: 10:15 AM (Face the Nation 10:30)
+1 0 * * 1-6 /home/daveg/bin/suspend_until 16:00   # Mon-Sat: wake at 4 PM
+1 0 * * 0   /home/daveg/bin/suspend_until 10:15   # Sun: 10:15 AM (Face the Nation 10:30)
 
 sudo crontab -l   # confirm
 # Cron uses computer time (check: date)
@@ -161,6 +161,7 @@ sudo apt install -y pavucontrol        # for myPyScreencast
 sudo snap install --classic pycharm-community
 sudo apt install -y thunar
 sudo apt install -y nautilus
+pavucontrol  # defaults to low volume — set to 100% for screencasting.
 ```
 
 ### VS Code
@@ -330,6 +331,7 @@ sudo mv /home/daveg/Desktop/ClipGrab.desktop /usr/share/applications/
 ### myPyScreencast
 
 - Use its own `.venv`
+- may need to uninstall and reinstall pillow to eliminate the interpreter's confusion
 
 ### SOC_Particle (VS Code / Particle Workbench)
 
@@ -653,7 +655,7 @@ sudo chown -R jellyfin /media/daveg
 
 ## 19. Google Drive (Rclone)
 
-1. Install Rclone:
+**Install Rclone:
 
 ```bash
 sudo apt install rclone
@@ -681,3 +683,56 @@ Follow the prompts:
 
     Exit the configuration wizard by typing q. 
 
+**Mount Google Drive:**
+
+```bash
+mkdir ~/gdrive
+rclone mount gdrive: ~/gdrive &
+```
+
+**Auto-start rclone on login:**
+
+Add startup application: `"gdrive"` with command `"rclone mount gdrive: ~/gdrive &"`
+
+OR
+
+```bash
+mkdir -p ~/bin
+cat << EOF > ~/bin/Rclone
+#!/bin/bash
+# rclone mount gdrive: ~/gdrive &
+rclone mount gdrive: ~/gdrive \
+  --vfs-cache-mode full \
+  --vfs-cache-max-size 50G \
+  --vfs-cache-max-age 24h \
+  --dir-cache-time 1000h \
+  --drive-chunk-size 128M \
+  --buffer-size 64M \
+  --poll-interval 15s \
+  --daemon \
+  &
+EOF
+chmod +x ~/bin/Rclone
+
+mkdir ~/.config/autostart
+cat << EOF > ~/.config/autostart/rclone.desktop
+[Desktop Entry]
+Name=rclone
+Exec=/home/daveg/bin/Rclone
+Terminal=false
+Type=Application
+X-Desktop-File-Install-Version=0.27
+EOF
+chmod +x /home/daveg/.config/autostart/rclone.desktop
+```
+
+Test the autostart entry:
+
+```bash
+gio launch ~/.config/autostart/rclone.desktop
+# or
+sudo apt install dex
+dex ./.config/autostart/rclone.desktop
+```
+
+---

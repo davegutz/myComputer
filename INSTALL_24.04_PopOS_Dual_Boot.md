@@ -149,8 +149,7 @@ sudo ufw status
 
 ```bash
 # Download .deb from https://code.visualstudio.com/docs/?dv=linux64_deb
-sudo apt install ./Downloads/code_1.110.0-1772587980_amd64.deb
-# Ignore the permission error about '_apt' — it's harmless
+sudo gdebi ./Downloads/code_1.112.0-1773778351_amd64.deb
 ```
 
 Start Code and install extensions.
@@ -196,7 +195,17 @@ See [INSTALL_24.04_Ubuntu.md](INSTALL_24.04_Ubuntu.md) for Rclone setup.
 mkdir -p ~/bin
 cat << EOF > ~/bin/Rclone
 #!/bin/bash
-rclone mount grive: ~/gdrive &
+# rclone mount grive: ~/gdrive &
+rclone mount grive: ~/gdrive \
+  --vfs-cache-mode full \
+  --vfs-cache-max-size 50G \
+  --vfs-cache-max-age 24h \
+  --dir-cache-time 1000h \
+  --drive-chunk-size 128M \
+  --buffer-size 64M \
+  --poll-interval 15s \
+  --daemon \
+  &
 EOF
 chmod +x ~/bin/Rclone
 
@@ -331,3 +340,83 @@ FallbackDNS=1.1.1.1 1.0.0.1
 ```
 
 This ensures DNS works globally regardless of what NetworkManager does per-interface.
+
+
+### Install Chrome
+get the 64-bit deb file
+https://www.google.com/chrome/
+
+```bash
+cd Downloads
+sudo dpkg -i  google-chrome-stable_current_amd64.deb
+``` 
+
+### GNOME and X11
+
+https://www.reddit.com/r/pop_os/comments/1pzy02f/installing_gnome_on_pop_os_2404/
+
+```bash
+sudo apt install gnome-session gnome-shell-extension-manager
+# choose gdm3 greeter.
+```
+
+Later you can change greeter to cosmic-greeter by
+```bash
+sudo dpkg-reconfigure cosmic-greeter
+# or
+sudo dpkg-reconfigure gdm3
+```
+
+There are more setup suggestions in the link if issues.  This is a bare bones.  It doesn't have an application launcher so:
+
+```bash
+sudo apt install gnome-core
+```
+
+Optionally to make the gnome-terminal as default need the following:
+```bash
+sudo update-alternatives --config x-terminal-emulator
+```
+
+Install Pop Theme
+```bash
+sudo apt install pop-theme gnome-tweaks
+```
+
+To use cosmic apps:
+	Use cosmic store to install 'Tweaks'
+	Launch tweaks - Color schemes - Available search Adwaita - install - refresh - Installed (last thing verifies)
+
+Install Pop Shell
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+```
+Close terminal then reopen  (Important!!)
+```bash
+nvm install node
+npm install -g typescript
+cd ~/Downloads
+git clone https://github.com/pop-os/shell.git
+sudo apt install git node-typescript make.
+cd ~/Downloads/shell
+make local-install
+```
+
+Log out and log back in to cosmic.  Install extension manager.
+```bash
+flatpak install --user flathub com.mattjakeman.ExtensionManager
+```
+Launcher - search 'extens...' pick 'Extension Manager' - enable Pop Shell
+*********got stuck here.  Could not get Pop Shell to work.  Looks like System 76 disabled things (unsupported)
+GNOME-xorg to start a X11 session
+kgx&  # gnome shell
+gnome-text-editor&
+Alt-F2  # run
+
+Restart GNOME Shell: If the graphical shell becomes unresponsive, you can switch to a different TTY (text-only terminal) using Ctrl + Alt + F2, log in, and run killall -1 gnome-shell or pkill -HUP gnome-shell. The shell will automatically restart.
+
+
+
+
+
+## End works in progress
