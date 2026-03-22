@@ -178,6 +178,14 @@ flatpak run com.github.iwalton3.jellyfin-media-player
 flatpak remove com.github.iwalton3.jellyfin-media-player
 ```
 
+I don't know what the following is for.  I used the flatpak stuff on venus-littleguy
+```bash
+curl -s https://repo.jellyfin.org/install-debuntu.sh | sudo bash
+sudo usermod -a -G daveg jellyfin
+# Visit http://localhost:8096
+sudo chown -R jellyfin /media/daveg
+```
+
 ### puTTY
 
 ```bash
@@ -370,15 +378,6 @@ See [INSTALL_24.04_Ubuntu.md](INSTALL_24.04_Ubuntu.md) for Rclone setup.
 ---
 
 ## 13. Optional Tools
-
-### Jellyfin (alternative to Plex)
-
-```bash
-curl -s https://repo.jellyfin.org/install-debuntu.sh | sudo bash
-sudo usermod -a -G daveg jellyfin
-# Visit http://localhost:8096
-sudo chown -R jellyfin /media/daveg
-```
 
 ### Disk Usage
 
