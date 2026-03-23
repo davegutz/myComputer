@@ -1,0 +1,609 @@
+    1  dex ./.config/autostart/rclone.desktop
+    2  gio launch ~/.config/autostart/rclone.desktop
+    3  xdg-open ~/.config/autostart/rclone.desktop
+    4  nano /etc/systemd/logind.conf
+    5  sudo nano /etc/systemd/logind.conf
+    6  lspci -knn | grep -iA3 net
+    7  lspci -knn
+    8  lspci -knn | grep -iA3 net
+    9  nmcli
+   10  claude
+   11  sudo journalctl -u NetworkManager -f
+   12  dmesg
+   13  sudo dmesg |grep -i iwlwifi
+   14  sudo apt install gufw
+   15  fzf test
+   16  sudo apt install fzf
+   17  fzf test
+   18  fzf 'test'
+   19  fzf -h
+   20  fzf -q 'test'
+   21  tldr fzf
+   22  sudo snap install tldr
+   23  tldr fzf
+   24  sudo apt install mtr
+   25  mtr
+   26  sudo apt instal ripgreq
+   27  sudo apt instal ripgrep
+   28  sudo apt install ripgrep
+   29  rg 'test'
+   30  history
+   31  cd Downloads/
+   32  cd Python-3.14.0/
+   33  sudo make -j4 && sudo make altinstall
+   34  sudo ldconfig /usr/local/lib  # d
+   35  # verify
+   36  python3.14 -m pip --version
+   37  firewall
+   38  gufw
+   39  ufw
+   40  ufw status
+   41  sudo ufw status
+   42  sudo ufw enable
+   43  sudo ufw status
+   44  timedatectl set-local-rtc 1 --adjust-system-clock
+   45  fzf 'Notepad++'
+   46  fzf 'Notepad++' --query
+   47  fzf -q 'Notepad++'
+   48  sudo snap install notepad-plus-plus
+   49  winecfg
+   50  sudo snap remove notepad-plus-plus
+   51  winecfg
+   52  wine Downloads/npp.8.9.1.Installer.x64.exe 
+   53  sudo passwd
+   54  rm ~/.local/share/keyrings/login.keyring
+   55  sudo apt autoremove
+   56  cd
+   57  sudo apt autoclean
+   58  sudo apt clean
+   59  sudo apt install deborphan
+   60  sudo apt remove $(deborphan)
+   61  fzf Notepad++
+   62  fzf --query 'Notepad++'
+   63  du -a|grep Notepad
+   64  du -a|grep Notepad++
+   65  du -a|grep Notepad++.desktop
+   66  cd ./.local/share/applications/wine/Programs/
+   67  ls
+   68  ls /home/daveg/.wine/dosdevices/c:/Program Files/Notepad++
+   69  cd /home/daveg/.wine/dosdevices/c:/Program Files/Notepad++
+   70  cd /home/daveg/.wine/dosdevices/c:/Program\ Files/Notepad++
+   71  ls
+   72  du -a|grep ico
+   73  du -a |grep desktop
+   74  du -a |grep \.desktop
+   75  du -a |grep .desktop
+   76  du -a |grep ".desktop"
+   77  du -a |grep "Notepad++.desktop"
+   78  more ./.local/share/applications/wine/Programs/Notepad++.desktop
+   79  more ./Desktop/Notepad++.desktop 
+   80  du -a|grep Notepad | grep ico
+   81  du -a|grep Notepad | grep 
+   82  du -a|grep Notepad | grep '.png'
+   83  ls
+   84  ls Documents/
+   85  du -a |grep Notepad++.desktop
+   86  claude
+   87  cd Desktop
+   88  ls
+   89  cp Notepad++.desktop /usr/share/applications/.
+   90  sudo cp Notepad++.desktop /usr/share/applications/.
+   91  history |grep wine
+   92  sudo mv /home/daveg//Desktop/GUI_TestSOC.desktop /usr/share/applications/. 
+   93  cd /usr/share/applications
+   94  ls -rlt
+   95  ./GUI_TestSOC.desktop 
+   96  more GUI_TestSOC.desktop 
+   97  l
+   98  more putty.desktop 
+   99  ll putty.desktop 
+  100  ll SOC_Parti*.d*
+  101  ls -rlt
+  102  ll GUI_TestSOC.desktop 
+  103  ll putty.desktop 
+  104  more code.desktop 
+  105  more GUI_TestSOC.desktop 
+  106  /home/daveg/Documents/GitHub/mySolarStateOfCharge/SOC_Particle/pyStateOfCharge/.venv/bin/python3 /home/da
+  107  veg/Documents/GitHub/mySolarStateOfCharge/SOC_Particle/pyStateOfCharge/GUI_TestSOC.py/home/daveg/Documents/GitHub/mySolarStateOfCharge/SOC_Particle/pyStateOfCharge/.venv/bin/python3 /home/da
+  108  veg/Documents/GitHub/mySolarStateOfCharge/SOC_Particle/pyStateOfCharge/GUI_TestSOC.py
+  109  veg/Documents/GitHub/mySolarStateOfCharge/SOC_Particle/pyStateOfCharge/GUI_TestSOC.py/home/daveg/Documents/GitHub/mySolarStateOfCharge/SOC_Particle/pyStateOfCharge/.venv/bin/python3 /home/daveg/Documents/GitHub/mySolarStateOfCharge/SOC_Particle/pyStateOfCharge/GUI_TestSOC.py
+  110  /home/daveg/Documents/GitHub/mySolarStateOfCharge/SOC_Particle/pyStateOfCharge/GUI_TestSOC.py/home/daveg/Documents/GitHub/mySolarStateOfCharge/SOC_Particle/pyStateOfCharge/.venv/bin/python3 /home/daveg/Documents/GitHub/mySolarStateOfCharge/SOC_Particle/pyStateOfCharge/GUI_TestSOC.py
+  111  /home/daveg/Documents/GitHub/mySolarStateOfCharge/SOC_Particle/pyStateOfCharge/.venv/bin/python3     /home/daveg/Documents/GitHub/mySolarStateOfCharge/SOC_Particle/pyStateOfCharge/GUI_TestSOC.py
+  112  ls /home/daveg/Documents/GitHub/mySolarStateOfCharge//SOC_Particle/pyStateOfCharge/.venv/bin
+  113  ls /home/daveg/Documents/GitHub/mySolarStateOfCharge//SOC_Particle/pyStateOfCharge/.venv
+  114  /home/daveg/Documents/GitHub/mySolarStateOfCharge/SOC_Particle/pyStateOfCharge/.venv/bin/python3     /home/daveg/Documents/GitHub/mySolarStateOfCharge/SOC_Particle/pyStateOfCharge/GUI_TestSOC.py
+  115  claude
+  116  xprop WM_CLASS
+  117  cd /usr/share/applications
+  118  more GUI_TestSOC.desktop 
+  119  ./GUI_TestSOC.desktop 
+  120  sudo ./GUI_TestSOC.desktop 
+  121  dex GUI_TestSOC.desktop 
+  122  history
+  123  gio launch GUI_TestSOC.desktop 
+  124  ls -rlt
+  125  more code.desktop
+  126  ls
+  127  ls *.png
+  128  ls *.jpeg
+  129  ls *.jpg
+  130  ls vscode*
+  131  ls -rlt
+  132  more code.desktop
+  133  dex GUI_TestSOC.desktop 
+  134  xprop WM_CLASS
+  135  sudo sed -i 's|Icon=/home/daveg/Documents/ npp.jpeg|Icon=/home/daveg/Documents/npp.png|' /usr/share/applications/Notepad++.desktop
+  136  sudo sed -i 's|StartupWMClass=notepad++.exe|StartupWMClass=Notepad++.exe|' /usr/share/applications/Notepad++.desktop
+  137  sudo sed -i 's|StartupWMClass=Notepad++.exe|StartupWMClass=notepad++|' /usr/share/applications/Notepad++.desktop
+  138  sudo nano Notepad++.desktop 
+  139  sudo sed -i 's|StartupWMClass=Notepad++.exe|StartupWMClass=notepad++|' /usr/share/applications/Notepad++.desktop
+  140  sudo nano Notepad++.desktop 
+  141  ls /home/daveg/.wine/dosdevices/c:/Program Files
+  142  ls /home/daveg/.wine/dosdevices/c:/Program\ Files
+  143  ls /home/daveg/.wine/dosdevices/c:/Program\ Files/No
+  144  ls /home/daveg/.wine/dosdevices/c:/Program\ Files/Notepad++
+  145  sudo nano Notepad++.desktop 
+  146  cd 
+  147  cd Documents/GitHub/
+  148  git clone --depth 1 davegutz/mySolarStateOfCharge
+  149  git clone --depth 1 https://github.com/davegutz/mySolarStateOfCharge 
+  150  cd mySolarStateOfCharge/
+  151  git gc --aggressive --prune=now
+  152  cd
+  153  du -a | grep vscode
+  154  du -a | grep 'vscode.'
+  155  du -a | grep 'vscode.' |grep png
+  156  claude
+  157  ffmpeg -sources pulse
+  158  cd Documents/GitHub/movie_Scraper/
+  159  ls
+  160  rm -rf .venv
+  161  sudo snap remove pycharm-community
+  162  sudo snap install --classic pycharm-community
+  163  sudo snap remove pycharm-community
+  164  claude
+  165  cd Documents/GitHub/movie_Scraper/
+  166  ls -rlt
+  167  more launch_debug.sh 
+  168  cd ../mySolarStateOfCharge/
+  169  ls
+  170  cd SOC_Particle/
+  171  cd pyStateOfCharge/
+  172  ls
+  173  rm -rf .venv
+  174  python --version
+  175  python3 --version
+  176  ls
+  177  rm -rf .idea
+  178  ls
+  179  rm -rf .venv
+  180  where python
+  181  which python
+  182  where python3
+  183  which python3
+  184  which python3.12
+  185  which python3.14
+  186  rm -rf .venv
+  187  ls .venv
+  188  more .venv/pyvenv.cfg 
+  189  git status
+  190  git commit -a
+  191  git push
+  192  gh auth login
+  193  sudo snap install gh
+  194  sudo apt install gh
+  195  gh auth login
+  196  gh auth token
+  197  gh auth login
+  198  git push
+  199  git status
+  200  sudo snap install --classic pycharm-community
+  201  sudo mv /home/daveg/Desktop/GUI_sqlite_scrape.desktop /usr/share/applications/.
+  202  history |grep app
+  203  cd /usr/share/applications
+  204  ls
+  205  ls -rlt
+  206  dex GUI_sqlite_scrape.desktop 
+  207  ./GUI_sqlite_scrape.desktop 
+  208  more GUI_TestSOC.desktop 
+  209  ls -rlt
+  210  sudo rm GUI_sqlite_scrape.desktop 
+  211  ./GUI_sqlite_scrape.desktop 
+  212  dex GUI_sqlite_scrape.desktop 
+  213  ls -rlt
+  214  sudo ./GUI_sqlite_scrape.desktop 
+  215  dex GUI_sqlite_scrape.desktop 
+  216  ./GUI_sqlite_scrape.desktop 
+  217  dex GUI_sqlite_scrape.desktop 
+  218  more GUI_sqlite_scrape.desktop 
+  219  sudo nano /usr/share/applications/GUI_sqlite_scrape.desktop
+  220  cat /tmp/GUI_sqlite_scrape_launch.log
+  221  ls -rlt
+  222  dex GUI_TestSOC.desktop 
+  223  dex GUI_TestSOC.desktop &
+  224  gio launch GUI_TestSOC.desktop
+  225  ./GUI_TestSOC.desktop 
+  226  more GUI_TestSOC.desktop 
+  227  /home/daveg/Documents/GitHub/movie_Scraper/.venv/bin/python /home/daveg/Documents/GitHub/mySolarStateOfCharge/SOC_Particle/pyStateOfCharge
+  228  more GUI_sqlite_scrape.desktop 
+  229  /home/daveg/Documents/GitHub/movie_Scraper/.venv/bin/python /home/daveg/Documents/GitHub/mySolarStateOfCharge/SOC_Particle/pyStateOfCharge/GUI_TestSOC.py 
+  230  cd Documents/GitHub/myComputer/
+  231  git status
+  232  git add Install\ 24.04\ Pop\!_OS\ Dual\ Boot 
+  233  git status
+  234  git commit
+  235  git push
+  236  cd Desktop/
+  237  ls
+  238  dex GUI_sqlite_scrape.desktop 
+  239  gio launch GUI_sqlite_scrape.desktop GUI_sqlite_scrape.desktop 
+  240  ls -rlt
+  241  sudo mv /home/daveg/Desktop/GUI_sqlite_scrape.desktop /usr/share/applications/.
+  242  ls
+  243  ./GUI_TestSOC.desktop 
+  244  dex GUI_TestSOC.desktop 
+  245  more GUI_TestSOC.desktop 
+  246  /home/daveg/Documents/GitHub/mySolarStateOfCharge/SOC_Particle/pyStateOfCharge/.venv/bin/python3 /home/daveg/Documents/GitHub/mySolarStateOfCharge/SOC_Part
+  247  icle/pyStateOfCharge/GUI_TestSOC.py
+  248  /home/daveg/Documents/GitHub/mySolarStateOfCharge/SOC_Particle/pyStateOfCharge/.venv/bin/python3 /home/daveg/Documents/GitHub/mySolarStateOfCharge/SOC_Particle/pyStateOfCharge/GUI_TestSOC.py 
+  249  /home/daveg/Documents/GitHub/mySolarStateOfCharge/SOC_Particle/pyStateOfCharge/.venv/bin/python3 /home/daveg/Documents/GitHub/mySolarStateOfCharge/SOC_Part
+  250  /home/daveg/Documents/GitHub/mySolarStateOfCharge/SOC_Particle/pyStateOfCharge/.venv/bin/python3 /home/daveg/Documents/GitHub/mySolarStateOfCharge/SOC_Particle/pyStateOfCharge/GUI_TestSOC.py 
+  251  dex GUI_TestSOC.desktop 
+  252  claude
+  253  history |grep rclone
+  254  rclone mount grive: ~/gdrive & 
+  255  cd Documents/GitHub/myComputer/
+  256  git add -a
+  257  git status
+  258  git add --all
+  259  git commit
+  260  git push
+  261  sudo bash -c 'echo -e "\n[main]\ndns=systemd-resolved" >> /etc/NetworkManager/NetworkManager.conf'
+  262  sudo systemctl restart NetworkManager
+  263  sudo resolvectl dns wlo1 8.8.8.8 8.8.4.4
+  264  sudo resolvectl domain wlo1 '~.'
+  265  sudo resolvectl dns wlo1 8.8.8.8 8.8.4.4
+  266  sudo resolvectl domain wlo1 '~.'
+  267  sudo resolvectl dns wlo1 8.8.8.8 8.8.4.4
+  268  sudo resolvectl domain wlo1 '~.'
+  269  /etc/NetworkManager/NetworkManager.conf
+  270  sudo tail /etc/NetworkManager/NetworkManager.conf
+  271  sudo systemctl restart NetworkManager
+  272  sudo nano /etc/NetworkManager/NetworkManager.conf
+  273  sudo systemctl restart NetworkManager
+  274  resolvectl status wlo1
+  275  sudo sed -i 's/^#DNS=$/DNS=8.8.8.8 8.8.4.4/' /etc/systemd/resolved.conf
+  276  sudo sed -i 's/^#FallbackDNS=$/FallbackDNS=1.1.1.1 1.0.0.1/' /etc/systemd/resolved.conf
+  277  ● Read 1 file (ctrl+o to expand)
+  278  ● The root cause is clear: DNS servers are working (the router and 8.8.8.8 both respond to queries), but
+  279  sudo systemctl restart systemd-resolved
+  280  resolvectl status
+  281  curl -s -o /dev/null -w "%{http_code}" https://www.google.com
+  282  sudo tail /etc/NetworkManager/NetworkManager.conf
+  283  claude
+  284  lsblk
+  285  cd Documents/GitHub/mySolarStateOfCharge/
+  286  cd SOC_Particle/
+  287  git add --all
+  288  git status
+  289  git commit
+  290  git push
+  291  git add --all
+  292  git status
+  293  git commit
+  294  git push
+  295  cd Documents/GitHub/myComputer/
+  296  ls n-rlt
+  297  ls -rlt
+  298  git add --all
+  299  git status
+  300  git commit
+  301  git push
+  302  git add --all
+  303  git status
+  304  git commit
+  305  git push
+  306  git add --all
+  307  git status
+  308  git commit
+  309  git push
+  310  grep swapiness *.txt
+  311  grep swap *.txt
+  312  grep -i swappiness *.txt
+  313  git add --all
+  314  git status
+  315  git commit
+  316  git push
+  317  git add --all
+  318  git status
+  319  git commit
+  320  git push
+  321  grep -i rclone *.md
+  322  git add --all
+  323  git status
+  324  git commit
+  325  git push
+  326  git add --all
+  327  git status
+  328  git commit
+  329  git push
+  330  git add --all
+  331  git status
+  332  git commit
+  333  git push
+  334  git add --all
+  335  git status
+  336  git commit
+  337  git push
+  338  claude
+  339  cd Documents/GitHub/mySolarStateOfCharge/SOC_Particle/
+  340  ls
+  341  git add -all
+  342  git add --all
+  343  git status
+  344  git commit
+  345  git push
+  346  git add --all
+  347  git status
+  348  git commit
+  349  git push
+  350  git add --all
+  351  git status
+  352  git commit
+  353  git push
+  354  mv datasheets/Schematics/* doc
+  355  cd ..
+  356  git add --all
+  357  git status
+  358  git commit
+  359  git push
+  360  lsblk
+  361  mkusb
+  362  sudo apt install mkusb
+  363  cd ../myComputer/
+  364  ls
+  365  claude
+  366  cd Documents/GitHub/mySolarStateOfCharge/
+  367  git add --all
+  368  git status
+  369  git commit
+  370  git push
+  371  git add --all
+  372  git status
+  373  git commit
+  374  git push
+  375  cat << EOF > ~/bin/Rclone
+  376  #!/bin/bash
+  377  # rclone mount grive: ~/gdrive &
+  378  rclone mount grive: ~/gdrive   --vfs-cache-mode full   --vfs-cache-max-size 50G   --vfs-cache-max-age 24h   --dir-cache-time 1000h   --drive-chunk-size 128M   --buffer-size 64M   --poll-interval 15s   --daemon   &
+  379  EOF
+  380  more ~/bin/Rclone
+  381  sudo nano /etc/polkit-1/localauthority/10-vendor.d/com.ubuntu.pkla
+  382  ls /etc/polkit-1/localauthority/10-vendor.d
+  383  ls /etc/polkit-1/localauthority
+  384  ls /etc/polkit-1
+  385  ls /etc/polkit-1/localauthority.conf.d/
+  386  ls /etc/polkit-1/rules.d/
+  387  sudo ls /etc/polkit-1/rules.d/
+  388  grep "Disable hibernate by default in upower" /var/lib/polkit-1/*
+  389  sudo grep "Disable hibernate by default in upower" /var/lib/polkit-1/*
+  390  sudo grep "Disable hibernate by default in upower" /var/lib/*
+  391  sudo grep "Disable hibernate by default in upower" /var/lib/polkit-1/*
+  392  sudo ls /var/lib/polkit-1/
+  393  sudo ls /var/lib/polkit-1/localauthority
+  394  sudo ls /var/lib/polkit-1/localauthority/10-vendor.d
+  395  sudo ls /var/lib/polkit-1/localauthority/10-vendor.d/com.ubuntu.desktop.pkla
+  396  sudo grep -i "Disable hibernate" /var/lib/polkit-1/localauthority/10-vendor.d/com.ubuntu.desktop.pkla
+  397  sudo nano /var/lib/polkit-1/localauthority/10-vendor.d/com.ubuntu.desktop.pkla
+  398  sudo ls /etc/polkit-1
+  399  sudo ls /etc/polkit-1/rules.d/
+  400  ls
+  401  sudo nano /etc/polkit-1/rules.d/10-enable-hibernate.rules
+  402  pw-play
+  403  cd Documents/GitHub/mySolarStateOfCharge/
+  404  ls SOC_Particle/
+  405  git add SOC_Particle/DecisionTables.ods 
+  406  git status
+  407  git commit
+  408  git push'
+  409  git push
+  410  cp SOC_Particle/gen_decision_tables.py SOC_Particle/gen_decision_tablesOld.py 
+  411  cd SOC_Particle/
+  412  ls -rlt
+  413  python gen_decision_tables.py
+  414  python3 gen_decision_tables.py
+  415  c
+  416  python3 gen_decision_tables.py
+  417  ls -rlt
+  418  python3 gen_decision_tables.py
+  419  cd Documents/GitHub/mySolarStateOfCharge/
+  420  git add -all
+  421  git add --all
+  422  git statu
+  423  git status
+  424  git commit
+  425  git push
+  426  diff SOC_Particle/gen_decision_tablesOld.py SOC_Particle/gen_decision_tables.py
+  427  git add --all
+  428  git status
+  429  git status SOC_Particle/
+  430  git status
+  431  git commit
+  432  git push
+  433  git add --all
+  434  git status
+  435  git commit
+  436  git push
+  437  git add --all
+  438  git status
+  439  git commit
+  440  git push
+  441  claude
+  442  ls gdrive
+  443  ls gdrive/GitHubArchive/
+  444  ls gdrive/GitHubArchive/SOC_Particle/
+  445  ls gdrive/GitHubArchive/SOC_Particle/dataReduction/
+  446  ls gdrive/GitHubArchive/SOC_Particle/dataReduction/g20250612a
+  447  ls -rlt gdrive/GitHubArchive/SOC_Particle/dataReduction/g20250612a
+  448  ls -rlt gdrive/GitHubArchive/SOC_Particle/dataReduction/g20250612a/hist20260318.csv 
+  449  more gdrive/GitHubArchive/SOC_Particle/dataReduction/g20250612a/hist20260318.csv 
+  450  cd Documents/GitHub/mySolarStateOfCharge/SOC_Particle/
+  451  ls
+  452  ls -afc
+  453  ls -afc .vscode
+  454  cd
+  455  sudo apt install ./Downloads/code_1.110.0-1772587980_amd64.deb
+  456  ls Downloads/
+  457  ls Downloads/code*
+  458  ls -rlt Downloads/code*
+  459  sudo apt install ./Downloads/code_1.112.0-1773778351_amd64.deb
+  460  sudo apt update
+  461  sudo apt install ./Downloads/code_1.112.0-1773778351_amd64.deb
+  462  sudo apt remove ./Downloads/code_1.112.0-1773778351_amd64.deb
+  463  sudo apt autoremove
+  464  sudo apt remove ./Downloads/code_1.112.0-1773778351_amd64.deb
+  465  sudo apt remove code
+  466  sudo apt install ./Downloads/code_1.112.0-1773778351_amd64.deb
+  467  sudo apt remove code
+  468  sudo apt remove ./Downloads/code_1.112.0-1773778351_amd64.deb
+  469  sudo apt remove code
+  470  sudo gdebi ./Downloads/code_1.112.0-1773778351_amd64.deb
+  471  cd Documents/GitHub/mySolarStateOfCharge/SOC_Particle/
+  472  nano project.properties
+  473  cd ..
+  474  git status
+  475  git push
+  476  cd
+  477  ls
+  478  ls -afc
+  479  ls -afc1 |grep -i trashj
+  480  ls -afc1 |grep -i trash
+  481  cd /
+  482  sudo du -a |grep -i trash |grep daveg
+  483  sudo du -a |grep -i trash |grep daveg |grep Brooksby
+  484  sudo du -a  |grep "Brooksby Assets"
+  485  sudo du -a  |grep "Brooksby Assets" |grep ods
+  486  cp "./home/daveg/.config/libreoffice/4/user/backup/Brooksby Assets.ods.bak" "./home/daveg/Desktop/Brooksby Assets0.ods"
+  487  cp "./home/daveg/.cache/rclone/vfs/grive{OgfZc}/Brooksby/Pre-Residency Meeting/Bank/Brooksby Assets.ods" "./home/daveg/Desktop/Brooksby Assets1.ods"
+  488  cp "./home/daveg/.cache/rclone/vfsMeta/grive{OgfZc}/Brooksby/Pre-Residency Meeting/Bank/Brooksby Assets.ods" "./home/daveg/Desktop/Brooksby Assets2.ods"
+  489  ls "./home/daveg/gdrive/0 - Taylor/Pre-Residency Meeting"
+  490  ls "./media/
+  491  ls "./media/"
+  492  ls "./media/daveg"
+  493  ls "./media/daveg/USB321FD/"
+  494  ls "./media/daveg/USB321FD/0 - Taylor"
+  495  cp -r "./home/daveg/gdrive/0 - Taylor/Pre-Residency Meeting" "./media/daveg/USB321FD/0 - Taylor"
+  496  ls "./media/daveg/USB321FD/0 - Taylor"
+  497  ls "./media/daveg/USB321FD/0 - Taylor/Pre-Residency Meeting"/
+  498  claude
+  499  ollama pull llama3.1:8b
+  500  ollama pull qwen2.5-coder:1.5b-base
+  501  ollama pull nomic-embed-text:latest
+  502  claude
+  503  cd Documents/GitHub/mySolarStateOfCharge/
+  504  git status
+  505  git add
+  506  git add --all
+  507  git status
+  508  git commit
+  509  git push
+  510  git add --all
+  511  git commit
+  512  git push
+  513  git add --all
+  514  git status
+  515  git commit
+  516  git push
+  517  cd /home/daveg/Documents/GitHub/mySolarStateOfCharge/SOC_Particle
+  518  curl -fsSL https://ollama.com/install.sh | sh
+  519  git add --all
+  520  git status
+  521  git commit
+  522  git push
+  523  sudo apt install gnome-session gnome-shell-extension-manager
+  524  wine uninstaller
+  525  ``sudo apt install gnome-core
+  526  history
+  527  sudo apt install gnome-core
+  528  sudo update-alternatives --config x-terminal-emulator
+  529  sudo apt install pop-theme gnome-tweaks
+  530  cosmic-tweaks
+  531  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+  532  nvm install node
+  533  npm install -g typescript
+  534  git clone https://github.com/pop-os/shell.git
+  535  cd
+  536  make local-install
+  537  cd ~/Downloads/
+  538  make local-install
+  539  ls -rlt
+  540  git clone https://github.com/pop-os/shell.git
+  541  ls -rlt
+  542  cd shell
+  543  make local-install
+  544  flatpak install --user flathub com.mattjakeman.ExtensionManager
+  545  cosmic-tweaks
+  546  cd
+  547  ls -rlt
+  548  rm -rf shell
+  549  sudo apt install git node-typescript make.
+  550  sudo apt install git node-typescript make
+  551  cd ~/Downloads/shell/
+  552  make local-install
+  553  gnome-extensions-app
+  554  sudo update-alternatives --config x-terminal-emulator
+  555  term
+  556  xterm&
+  557  sudo apt install xterm&
+  558  xterm&
+  559  sudo apt install xterm&
+  560  lls
+  561  ls
+  562  xterm&
+  563  sudo update-alternatives --config x-terminal-emulator
+  564  sudo apt install xterm
+  565  sudo dpkg-reconfigure cosmic-greeter
+  566  sudo apt install gnome-software
+  567  gnome-software
+  568  launcher
+  569  gnome-launcher
+  570  gnome-terminal
+  571  gnome-console
+  572  kgx
+  573  sudo apt install gnome-console
+  574  gnome-console
+  575  kgx
+  576  gnome-console
+  577  kgx
+  578  gnome-terminal
+  579  kgx&
+  580  gnome-terminal
+  581  gnome-shell&
+  582  gnome-text-editor
+  583  gnome-text-editor&
+  584  sudo dpkg-reconfigure gdm3
+  585  ssh -t daveg@192.168.0.148 /bin/sh
+  586  ssh daveg@192.168.0.148
+  587  history | grep git
+  588  cd Documents/GitHub/myComputer/
+  589  git add --all
+  590  git status
+  591  git commit
+  592  git push
+  593  git add --all
+  594  git status
+  595  git commit
+  596  git push
+  597  git add --all
+  598  git status
+  599  git commit
+  600  git push
+  601  ssh daveg@a92.168.0.148
+  602  ssh daveg@192.168.0.148
+  603  ssh -t daveg@192.168.0.148 /bin/sh
+  604  ssh -t daveg@192.168.0.148
+  605  continue
+  606  Continjue
+  607  Continue
+  608  history
+  609  history > ./Documents/GitHub/myComputer/popos_cosmic_install_history.txt
