@@ -187,16 +187,94 @@ Alternatively, plug in a USB headset and adjust sound in GUI.
 
 ## 9. Google Drive (Rclone)
 
-See [INSTALL_24.04_Ubuntu.md](INSTALL_24.04_Ubuntu.md) for Rclone setup.
+**Install Rclone:
+
+```bash
+sudo apt install rclone
+rclone config
+```
+Follow the prompts:
+
+        Enter n to create a new remote.
+        e/n/d/r/c/s/q>  n
+        name>  gdrive
+        Option Storage:  find Drive (usually 18)
+        client:id>  
+        client_secret>  
+        scope>  1
+        service_account_file>  
+        Edit Advanced config?
+        y/n>  y
+          oauth Access Token:    https://myaccount.google.com/apppasswords  name it Rclone  "epep hdvf omwc bnxy"
+          auth_url>  
+          token_url> 
+          root_folder_id>  
+          auth_owner_only>  
+          use_trash>  
+          copy_shortcut_content>  
+          skip_gdocs>  
+          skip_checksum_gphotos>  
+          shared_with_me>  
+          trashed_only>  
+          starred_only>  
+          export_formats>  
+          import_formats>  
+          allow_import_name_change>  
+          list_chunk>  
+          impersonate>  
+          upload_cutoff> 1G
+          chunk_size>  
+          acknowledge_abuse>  
+          keep_revision_forever>  
+          v2_download_min_size>  
+          pacer_min_sleep>  
+          pacer_burst>  
+          server_side_across_configs>  
+          disable_http2>  
+          stop_on_upload_limit>  
+          stop_on_download_limit>  
+          skip_shortcuts>  
+          skip_dangling_shortcuts>  
+          resource_key>  
+          encoding>  
+
+          Edit advanced config? blank
+
+          Already have a token - refresh?  blank
+
+          Use auto config?
+          y/n>  y
+            Complete the authentication process in your web browser, allowing Rclone access to your Google Drive.
+            Return to the terminal
+
+          Configure this as a Shared Drive (Team Drive)? n (blank)
+          y/n>  n (blank)
+
+      Keep this "gdrive" remote?
+      y/e/d> y (blank)  
+
+    Exit the configuration wizard by typing q
+    e/n/d/r/c/s/q> q
+
+**Mount Google Drive:**
+
+```bash
+mkdir ~/gdrive
+rclone mount gdrive: ~/gdrive &
+```
 
 **Auto-start rclone on login:**
+
+Add startup application: `"gdrive"` with command `"rclone mount gdrive: ~/gdrive &"`
+
+OR
 
 ```bash
 mkdir -p ~/bin
 cat << EOF > ~/bin/Rclone
 #!/bin/bash
-# rclone mount grive: ~/gdrive &
-rclone mount grive: ~/gdrive \
+# rclone mount gdrive: ~/gdrive &
+rclone mount gdrive: ~/gdrive \
   --vfs-cache-mode full \
   --vfs-cache-max-size 50G \
   --vfs-cache-max-age 24h \
@@ -204,11 +282,15 @@ rclone mount grive: ~/gdrive \
   --drive-chunk-size 128M \
   --buffer-size 64M \
   --poll-interval 15s \
+  --multi-thread-streams 4 \
+  --tpslimit 5 \
+  --tpslimit-burst 5 \
   --daemon \
   &
 EOF
 chmod +x ~/bin/Rclone
 
+mkdir ~/.config/autostart
 cat << EOF > ~/.config/autostart/rclone.desktop
 [Desktop Entry]
 Name=rclone
@@ -218,6 +300,15 @@ Type=Application
 X-Desktop-File-Install-Version=0.27
 EOF
 chmod +x /home/daveg/.config/autostart/rclone.desktop
+```
+
+Test the autostart entry:
+
+```bash
+gio launch ~/.config/autostart/rclone.desktop
+# or
+sudo apt install dex
+dex ./.config/autostart/rclone.desktop
 ```
 
 Test the autostart entry:
@@ -419,7 +510,33 @@ Alt-F2  # run
 Restart GNOME Shell: If the graphical shell becomes unresponsive, you can switch to a different TTY (text-only terminal) using Ctrl + Alt + F2, log in, and run killall -1 gnome-shell or pkill -HUP gnome-shell. The shell will automatically restart.
 
 
+### speed up Drive
+echo "test gdrive" >testfile
+rclone copy testfile 
+htop
 
+gdrive: -P  #  Watch:
+Transfer speed
+CPU usage (top or htop)
+Network usage (iftop)
 
+If CPU is pegged → encryption/checksums are the bottleneck.
+If network is low → concurrency/settings issue.
+
+rclone copy testfile gdrive: --transfers 8 --checkers 16 --fast-list -P
+
+rclone copy testfile gdrive: --transfers 16 --checkers 32 --fast-list -P
+
+rclone copy testfile gdrive: --transfers 16 --checkers 32 --fast-list --multi-thread-streams 4 --multi-thread-cutoff 10M --drive-chunk-size 64M --buffer-size 64M -P
+
+Other possibilities
+--ignore-checksum
+--bwlimit off
+
+Logging for clues (retries, rate limiting, timeouts)
+rclone copy testfile gdrive: -vv --log-file=rclone.log
+
+# best result (avoid --fast-list, bw_limit off no effect)
+rclone copy Downloads/google-chrome-stable_current_amd64.deb gdrive:  --multi-thread-streams 4 --tpslimit 5 --tpslimit-burst 5 -vv --log-file=rclone.log  -P
 
 ## End works in progress
