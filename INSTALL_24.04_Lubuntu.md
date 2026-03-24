@@ -331,7 +331,7 @@ sudo crontab -e
 sudo crontab -l   # verify
 
 nano .bashrc
-  alias suspend=`suspend_until 16:00`
+  alias suspend='suspend_until 16:00'
 ```
 
 No restart needed.
