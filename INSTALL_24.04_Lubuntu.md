@@ -463,3 +463,19 @@ sudo usermod -a -G input $USER
 
 Reboot your system for the group membership change to take effect. 
 After following these steps, your pythons scripts should be able to open /dev/uinput for writing without sudo (evdev python >= v3.12).
+
+
+### Reliable WiFi (DNS Fix)
+
+If WiFi drops or DNS resolution fails (especially with competing hotspots):
+
+```bash
+sudo nano /etc/systemd/resolved.conf
+# Add:
+DNS=8.8.8.8 8.8.4.4
+FallbackDNS=1.1.1.1 1.0.0.1
+```
+
+This ensures DNS works globally regardless of what NetworkManager does per-interface.
+
+

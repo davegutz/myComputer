@@ -258,6 +258,9 @@ timedatectl set-local-rtc 1 --adjust-system-clock
 sudo passwd daveg     # ignore warnings
 sudo passwd           # root
 rm ~/.local/share/keyrings/login.keyring
+sudo apt update
+sudo apt -y upgrade
+sudo apt -y autoremove
 sudo apt autoremove
 sudo apt autoclean
 sudo apt clean
