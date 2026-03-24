@@ -4,9 +4,9 @@
 **OS:** Linux Lite (Xfce desktop, X11/Xorg)
 
 > This is an earlier/archived version of the Linux Lite install notes.
-> For the current and more complete version, see [INSTALL_Linux_Lite.md](INSTALL_Linux_Lite.md).
+> For the current and more complete version, see [INSTALL_Linux_Lite](INSTALL_Linux_Lite.md).
 > Linux Lite is based on Ubuntu. It lacks `snapd` by default.
-> For most software, refer to [INSTALL_24.04_Ubuntu.md](INSTALL_24.04_Ubuntu.md) ("I..").
+> For most software, refer to [INSTALL_24.04_Ubuntu](INSTALL_24.04_Ubuntu.md) ("I..").
 
 ---
 
@@ -61,7 +61,7 @@ sudo apt install -y ubuntu-restricted-extras
 
 ## 3. Install Applications
 
-For VS Code, GitHub, Plex, and PyCharm, see [INSTALL_24.04_Ubuntu.md](INSTALL_24.04_Ubuntu.md).
+For VS Code, GitHub, Plex, and PyCharm, see [INSTALL_24.04_Ubuntu](INSTALL_24.04_Ubuntu.md).
 
 ---
 

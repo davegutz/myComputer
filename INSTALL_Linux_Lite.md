@@ -6,7 +6,7 @@
 
 > Linux Lite is based on Ubuntu. It lacks `snapd` by default — install it first.
 > PyCharm Community did not work from the default install; see the snap install steps below.
-> For most software, refer to [INSTALL_24.04_Ubuntu.md](INSTALL_24.04_Ubuntu.md) ("I..").
+> For most software, refer to [INSTALL_24.04_Ubuntu](INSTALL_24.04_Ubuntu.md) ("I..").
 
 ---
 
@@ -72,7 +72,7 @@ sudo do-release-upgrade
 
 ## 3. Install Applications
 
-For VS Code, PyCharm, GitHub, Plex, and puTTY, see [INSTALL_24.04_Ubuntu.md](INSTALL_24.04_Ubuntu.md).
+For VS Code, PyCharm, GitHub, Plex, and puTTY, see [INSTALL_24.04_Ubuntu](INSTALL_24.04_Ubuntu.md).
 
 ```bash
 sudo apt install -y python3-tk   # required for PyCharm (no restart needed)
@@ -113,7 +113,7 @@ sudo apt install deborphan
 sudo apt remove $(deborphan)
 ```
 
-Set passwords (per [INSTALL_24.04_Ubuntu.md](INSTALL_24.04_Ubuntu.md)):
+Set passwords (per [INSTALL_24.04_Ubuntu](INSTALL_24.04_Ubuntu.md)):
 
 ```bash
 sudo passwd daveg

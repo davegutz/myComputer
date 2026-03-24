@@ -374,7 +374,7 @@ Open PulseAudio Volume Control → Configuration → Profile: Digital Stereo (HD
 
 ## 12. Google Drive (Rclone)
 
-See [INSTALL_24.04_Ubuntu.md](INSTALL_24.04_Ubuntu.md) for Rclone setup.
+See [INSTALL_24.04_Ubuntu](INSTALL_24.04_Ubuntu.md) for Rclone setup.
 
 ---
 
@@ -484,7 +484,8 @@ This ensures DNS works globally regardless of what NetworkManager does per-inter
 ## 14. Work In Progress
 
 ### Chrome Remote Desktop
+See [INSTALL_Chrome_Remote_Desktop](INSTALL_Chrome_Remote_Desktop.md) for Rclone setup.
 
-See [INSTALL Chrome Remote Desktop.md](INSTALL Chrome Remote Desktop.md) for Rclone setup.
-
+### noMachine Desktop Share
+See [INSTALL_noMachine](INSTALL_noMachine.md) for Rclone setup.
 

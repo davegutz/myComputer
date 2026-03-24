@@ -736,3 +736,11 @@ dex ./.config/autostart/rclone.desktop
 ```
 
 ---
+
+
+### Chrome Remote Desktop
+See [INSTALL_Chrome_Remote_Desktop](INSTALL_Chrome_Remote_Desktop.md) for Rclone setup.
+
+### noMachine Desktop Share
+See [INSTALL_noMachine](INSTALL_noMachine.md) for Rclone setup.
+

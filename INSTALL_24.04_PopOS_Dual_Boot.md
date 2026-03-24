@@ -6,7 +6,7 @@
 
 > Pop!_OS uses the COSMIC desktop in 24.04.
 > Flatpak (COSMIC Store) sandboxes apps like VS Code and PyCharm — use `.deb` or `snap` instead.
-> For Python project notes (movie_Scraper, SOC, etc.), see [INSTALL_24.04_Ubuntu.md](INSTALL_24.04_Ubuntu.md).
+> For Python project notes (movie_Scraper, SOC, etc.), see [INSTALL_24.04_Ubuntu](INSTALL_24.04_Ubuntu.md).
 
 ---
 
@@ -166,7 +166,7 @@ Start Code and install extensions.
 sudo snap install --classic pycharm-community
 ```
 
-For alternate Python version, see [INSTALL_24.04_Ubuntu.md](INSTALL_24.04_Ubuntu.md).
+For alternate Python version, see [INSTALL_24.04_Ubuntu](INSTALL_24.04_Ubuntu.md).
 
 ---
 
@@ -538,5 +538,13 @@ rclone copy testfile gdrive: -vv --log-file=rclone.log
 
 # best result (avoid --fast-list, bw_limit off no effect)
 rclone copy Downloads/google-chrome-stable_current_amd64.deb gdrive:  --multi-thread-streams 4 --tpslimit 5 --tpslimit-burst 5 -vv --log-file=rclone.log  -P
+
+
+### Chrome Remote Desktop
+See [INSTALL_Chrome_Remote_Desktop](INSTALL_Chrome_Remote_Desktop.md) for Rclone setup.
+
+### noMachine Desktop Share
+See [INSTALL_noMachine](INSTALL_noMachine.md) for Rclone setup.
+
 
 ## End works in progress
