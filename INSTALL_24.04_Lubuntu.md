@@ -28,6 +28,7 @@
 - [11. HDMI Audio](#11-hdmi-audio)
 - [12. Google Drive (Rclone)](#12-google-drive-rclone)
 - [13. Optional Tools](#13-optional-tools)
+- [14. Work In Progress](#13-work-in-progress)
 
 ---
 
@@ -477,5 +478,13 @@ FallbackDNS=1.1.1.1 1.0.0.1
 ```
 
 This ensures DNS works globally regardless of what NetworkManager does per-interface.
+
+---
+
+## 14. Work In Progress
+
+### Chrome Remote Desktop
+
+See [INSTALL Chrome Remote Desktop.md](INSTALL Chrome Remote Desktop.md) for Rclone setup.
 
 
