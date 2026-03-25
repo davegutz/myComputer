@@ -20,6 +20,7 @@ Select blank for 'Start the system on server startup' for security
 Machine IDs:
 ```html
 windows11:  gv-cl-09-dw-fg
-HP Omen Pop!os:  k8-nj-f2-85-nx
-Minisforum venus-littleguy:  qd-xv-1d-ty-jg
+HP Omen Pop!os:  kb-8d-ib-2e-sr  040 099 798
+Minisforum venus:  qd-xv-1d-ty-jg 621 116 960
+Mary_Mac:  cd-bu-ca-lg-15  089 983 742
 ```
