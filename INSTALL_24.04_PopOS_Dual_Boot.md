@@ -119,6 +119,8 @@ sudo apt install -y python3-tk             # for PyCharm
 sudo apt install -y dhcpcd5
 sudo apt install dos2unix
 sudo apt install xsel
+sudo apt install -y thunar
+sudo apt install -y nautilus
 sudo apt install -y pavucontrol            # for myPyScreencast
 sudo apt-get install libxkbcommon-dev      # for just
 
