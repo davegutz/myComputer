@@ -178,14 +178,17 @@ flatpak run com.github.iwalton3.jellyfin-media-player
 # Remove:
 flatpak remove com.github.iwalton3.jellyfin-media-player
 ```
-
-I don't know what the following is for.  I used the flatpak stuff on venus-littleguy
+Install server
 ```bash
 curl -s https://repo.jellyfin.org/install-debuntu.sh | sudo bash
 sudo usermod -a -G daveg jellyfin
 # Visit http://localhost:8096
 sudo chown -R jellyfin /media/daveg
 ```
+Start
+Browse to Start bookmarks in Firefox and visit Jellyfin
+User is Jellyfin
+
 
 ### puTTY
 
