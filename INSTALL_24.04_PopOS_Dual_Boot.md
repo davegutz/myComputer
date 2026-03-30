@@ -549,4 +549,48 @@ See [INSTALL_Chrome_Remote_Desktop](INSTALL_Chrome_Remote_Desktop.md) for Rclone
 See [INSTALL_noMachine](INSTALL_noMachine.md) for Rclone setup.
 
 
+### SageMath from source (recommended)
+https://sagemanifolds.obspm.fr/install_ubuntu.html
+
+Dependencies:
+```bash
+sudo apt install automake bc binutils bzip2 ca-certificates cliquer cmake curl ecl eclib-tools fflas-ffpack flintqs g++ gengetopt gfan gfortran git glpk-utils gmp-ecm lcalc libatomic-ops-dev libboost-dev libbraiding-dev libbz2-dev libcdd-dev libcdd-tools libcliquer-dev libcurl4-openssl-dev libec-dev libecm-dev libffi-dev libflint-dev libfreetype-dev libgc-dev libgd-dev libgf2x-dev libgiac-dev libgivaro-dev libglpk-dev libgmp-dev libgsl-dev libhomfly-dev libiml-dev liblfunction-dev liblrcalc-dev liblzma-dev libm4rie-dev libmpc-dev libmpfi-dev libmpfr-dev libncurses-dev libntl-dev libopenblas-dev libpari-dev libpcre3-dev libplanarity-dev libppl-dev libprimesieve-dev libpython3-dev libqhull-dev libreadline-dev librw-dev libsingular4-dev libsqlite3-dev libssl-dev libsuitesparse-dev libsymmetrica2-dev zlib1g-dev libzmq3-dev libzn-poly-dev m4 make nauty openssl palp pari-doc pari-elldata pari-galdata pari-galpol pari-gp2c pari-seadata patch perl pkg-config planarity ppl-dev python3-setuptools python3-venv r-base-dev r-cran-lattice singular sqlite3 sympow tachyon tar texinfo tox xcas xz-utils 
+
+sudo apt install texlive-latex-extra texlive-xetex latexmk pandoc dvipng 
+
+mkdir ~/SageMath
+cd SageMath
+git clone --branch master https://github.com/sagemath/sage.git
+cd sage
+make configure
+./configure
+```
+Determine the number of cores
+```bash
+nproc --all
+```
+
+Put 2x result after J in following:
+```bash
+MAKE="make -j32" make  # 32 is number of threads which may be 2x number of cores
+```
+
+This will take a while - get coffee.
+
+Sym link:
+```bash
+sudo ln -sf $(pwd)/sage /usr/local/bin
+```
+
+Run in any directory:
+```
+sage -n
+```
+
+Use Jupyter
+```
+sage -n jupyterlab
+```
+
+
 ## End works in progress
