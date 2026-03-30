@@ -408,12 +408,14 @@ git clone --depth 1 https://github.com/davegutz/mySolarStateOfCharge
 # Repository → Add → Add existing repository
 ```
 
+
 ### GitHub CLI
 
 ```bash
 gh auth login
 gh auth token
 ```
+
 
 ### Git Maintenance
 
@@ -423,6 +425,7 @@ git status
 git add --all
 git commit
 ```
+
 
 ### Reliable WiFi (DNS Fix)
 
@@ -438,16 +441,7 @@ FallbackDNS=1.1.1.1 1.0.0.1
 This ensures DNS works globally regardless of what NetworkManager does per-interface.
 
 
-### Install Chrome
-get the 64-bit deb file
-https://www.google.com/chrome/
-
-```bash
-cd Downloads
-sudo dpkg -i  google-chrome-stable_current_amd64.deb
-``` 
-
-### GNOME and X11
+## GNOME and X11
 
 https://www.reddit.com/r/pop_os/comments/1pzy02f/installing_gnome_on_pop_os_2404/
 
@@ -542,14 +536,25 @@ rclone copy testfile gdrive: -vv --log-file=rclone.log
 rclone copy Downloads/google-chrome-stable_current_amd64.deb gdrive:  --multi-thread-streams 4 --tpslimit 5 --tpslimit-burst 5 -vv --log-file=rclone.log  -P
 
 
+### Install Chrome
+get the 64-bit deb file
+https://www.google.com/chrome/
+
+```bash
+cd Downloads
+sudo dpkg -i  google-chrome-stable_current_amd64.deb
+``` 
+
+
 ### Chrome Remote Desktop
 See [INSTALL_Chrome_Remote_Desktop](INSTALL_Chrome_Remote_Desktop.md) for Rclone setup.
+
 
 ### noMachine Desktop Share
 See [INSTALL_noMachine](INSTALL_noMachine.md) for Rclone setup.
 
 
-### SageMath from source (recommended)
+## SageMath from source (recommended)
 https://sagemanifolds.obspm.fr/install_ubuntu.html
 
 Dependencies:
