@@ -565,7 +565,7 @@ sudo apt install texlive-latex-extra texlive-xetex latexmk pandoc dvipng
 
 mkdir ~/SageMath
 cd SageMath
-git clone --branch master https://github.com/sagemath/sage.git
+git clone --branch master https://github.com/sagemath/sage.git  # this takes a long time
 cd sage
 make configure
 ./configure
