@@ -551,7 +551,17 @@ See [INSTALL_Chrome_Remote_Desktop](INSTALL_Chrome_Remote_Desktop.md) for Rclone
 
 
 ### noMachine Desktop Share
-See [INSTALL_noMachine](INSTALL_noMachine.md) for Rclone setup.
+See [INSTALL_noMachine](INSTALL_noMachine.md) 
+
+
+### RStudio-desktop
+Get the Deb
+```html
+https://posit.co/download/rstudio-desktop/
+```
+```bash
+sudo gdebi ~/Downloads/rstudio-*-amd64.deb
+```
 
 
 ## SageMath from source (recommended)
