@@ -672,3 +672,4 @@ Fix: GitHub Desktop slow commits (3+ min delay)
 	  
 ## End works in progress
 
+Settings:  turned off 'automatically refresh" and changed shell from GNOME to xterm
