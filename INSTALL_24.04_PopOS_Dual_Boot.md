@@ -426,6 +426,11 @@ git add --all
 git commit
 ```
 
+### Speed up Git and GitHub
+ # Pack loose objects (will dramatically speed up git status/index operations)
+  git -C ~/Documents/GitHub/myLifeSaver gc
+  git -C ~/Documents/GitHub/mySolarStateOfCharge gc
+
 
 ### Reliable WiFi (DNS Fix)
 
