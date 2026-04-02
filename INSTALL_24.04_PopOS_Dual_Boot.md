@@ -614,5 +614,60 @@ sage -n jupyterlab
 ```
 
 
-## End works in progress
 
+### Speed up rclone
+Update(bin/Rclone)
+  ⎿  Added 16 lines, removed 1 line
+       1  #!/bin/bash
+       2  # rclone mount gdrive: ~/gdrive &
+       3 -rclone mount gdrive: ~/gdrive   --vfs-cache-mode full   --vfs-cache-max-s
+         -ize 50G   --vfs-cache-max-age 24h   --dir-cache-time 1000h   --drive-chun
+         -k-size 128M   --buffer-size 64M   --poll-interval 15s   --multi-thread-st
+         -reams 4   --tpslimit 5   --tpslimit-burst 5   --daemon   &
+       3 +rclone mount gdrive: ~/gdrive \
+       4 +  --vfs-cache-mode full \
+       5 +  --vfs-cache-max-size 50G \
+       6 +  --vfs-cache-max-age 24h \
+       7 +  --dir-cache-time 1000h \
+       8 +  --drive-chunk-size 128M \
+       9 +  --buffer-size 256M \
+      10 +  --poll-interval 15s \
+      11 +  --multi-thread-streams 8 \
+      12 +  --transfers 8 \
+      13 +  --tpslimit 10 \
+      14 +  --tpslimit-burst 20 \
+      15 +  --vfs-read-chunk-size 128M \
+      16 +  --vfs-read-chunk-size-limit off \
+      17 +  --daemon \
+      18 +  &
+	  
+	  
+### Speed up github desktop
+Fix: GitHub Desktop slow commits (3+ min delay)
+
+  Symptom: GitHub Desktop takes 3+ minutes to commit even a single-line change to a small file.
+
+  Cause: Git LFS (Large File Storage) was configured globally in ~/.gitconfig, but git-lfs was not
+  installed. On every commit, git tried to run git-lfs filter-process, hung waiting for a binary that
+  didn't exist, then eventually timed out.
+
+  Diagnosis:
+  git config --list | grep lfs         # shows LFS entries present
+  which git-lfs                        # returns nothing — not installed
+
+  Fix: Remove the stale LFS filter config globally:
+  git config --global --unset filter.lfs.smudge
+  git config --global --unset filter.lfs.process
+  git config --global --unset filter.lfs.required
+  git config --global --unset filter.lfs.clean
+
+  Verify:
+  git config --global --list | grep lfs   # should return nothing
+
+  Note: If you ever need LFS in the future, install it first (sudo apt install git-lfs), then
+  re-enable with git lfs install.
+
+  ---
+  Now do a test commit to confirm the speed is back to normal.
+	  
+## End works in progress
