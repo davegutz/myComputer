@@ -430,6 +430,7 @@ git commit
  # Pack loose objects (will dramatically speed up git status/index operations)
   git -C ~/Documents/GitHub/myLifeSaver gc
   git -C ~/Documents/GitHub/mySolarStateOfCharge gc
+  git -C ~/Documents/GitHub/myComputer gc
 
 
 ### Reliable WiFi (DNS Fix)
