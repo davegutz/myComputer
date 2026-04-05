@@ -643,33 +643,105 @@ Update(bin/Rclone)
 	  
 	  
 ### Speed up github desktop
-Fix: GitHub Desktop slow commits (3+ min delay)
+buggy in Cosmic.  don't use
+use gg instead because it uses command line.  Find it in pyStateOfCharge
 
-  Symptom: GitHub Desktop takes 3+ minutes to commit even a single-line change to a small file.
+more ~/.local/bin/gg
+#!/bin/sh
+# gg — launch git_gui.py in the current working directory
+exec "/home/daveg/Documents/GitHub/mySolarStateOfCharge/SOC_Particle/pyStateOfCharge/.venv/bin/python3" "/home/daveg/Documents/GitHub/mySolarStateOfCharge/SOC_Particle/pyStateOfCharge/git_gui.py" "$@"
 
-  Cause: Git LFS (Large File Storage) was configured globally in ~/.gitconfig, but git-lfs was not
-  installed. On every commit, git tried to run git-lfs filter-process, hung waiting for a binary that
-  didn't exist, then eventually timed out.
 
-  Diagnosis:
-  git config --list | grep lfs         # shows LFS entries present
-  which git-lfs                        # returns nothing — not installed
+### gnucash-mcp
+Install the libdbd-sqlite3 or relevant database connector package
+Create new folder Finance\ local/GnuCash\ 2026-0315-0325\ local\ sq3
+```bash
+sudo apt update
+sudo apt install libdbd-sqlite3
+```
+Restart GnuCash - save as - type sq3 - Gutz_Joint_sq3
 
-  Fix: Remove the stale LFS filter config globally:
-  git config --global --unset filter.lfs.smudge
-  git config --global --unset filter.lfs.process
-  git config --global --unset filter.lfs.required
-  git config --global --unset filter.lfs.clean
+Install uv, a fast Python package manager
+```bash
+#pip install uv
+#sudo apt install python3-uv
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
 
-  Verify:
-  git config --global --list | grep lfs   # should return nothing
+Configure Claude Desktop: Add the server to your claude_desktop_config.json file (located in ~/Library/Application Support/Claude/ on macOS):
 
-  Note: If you ever need LFS in the future, install it first (sudo apt install git-lfs), then
-  re-enable with git lfs install.
+{
+  "mcpServers": {
+    "gnucash": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--directory",
+        "/path/to/gnucash-mcp",
+        "python",
+        "-m",
+        "gnucash_mcp"
+      ],
+      "env": {
+        "GNUCASH_BOOK_PATH": "/path/to/your/book.gnucash"
+      }
+    }
+  }
+}
 
-  ---
-  Now do a test commit to confirm the speed is back to normal.
-	  
+AI Overview
+Running the GnuCash MCP server allows Claude AI to read and manage your financial data, typically set up by
+converting your books to SQLite, installing UV, and configuring Claude Desktop. This enables AI to query account balances and transactions directly. 
+This video provides a general overview of how to set up and use MCP servers with AI tools:
+Related video thumbnail
+1m
+Kody Simpson
+YouTube• Aug 3, 2025
+Steps to Run GnuCash MCP
+
+    Prepare GnuCash: Save your GnuCash file as an SQLite database (File → Save As → SQLite).
+    Install Prerequisites: Install uv, a fast Python package manager.
+    Clone the Server: Clone the gnucash-mcp repository to your local machine.
+    Configure Claude Desktop: Add the server to your claude_desktop_config.json file (located in ~/Library/Application Support/Claude/ on macOS):
+
+```bash
+nano ~/.claude/settings.local.json
+```
+  #  add comma  },
+  "mcpServers": {
+    "gnucash": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--directory",
+        "/path/to/gnucash-mcp",
+        "python",
+        "-m",
+        "gnucash_mcp"
+      ],
+      "env": {
+        "GNUCASH_BOOK_PATH": "/path/to/your/book.gnucash"
+      }
+    }
+  }
+
+and:
+
+```bash
+claude mcp add-json gnucash '{"command":"uv","args":["run","--directory","/path/to/your/install/gnucash-mcp","python","-m","gnucash_mcp","--debug","--audit-format=text"],"env":{"GNUCASH_BOOK_PATH":"/path/to/your/books.gnucash"}}'
+```
+
+Add GNUCASH_BOOK_PATH to settings.json at top after first {
+```bash
+nano ~/.claude/settings.json
+  "env": {
+    "GNUCASH_BOOK_PATH": "/home/daveg/Finance local/GnuCash 2026-0315-0325 local sql3/Gutz_Joint_sq3.gnucash"
+  },
+```
+
+Restart Claude: Restart Claude Desktop for the changes to take effect
+
+Ensure the environment variable GNUCASH_BOOK_PATH points specifically to your SQLite file, not the XML file, as this is necessary for the server to operat
+
 ## End works in progress
 
-Settings:  turned off 'automatically refresh" and changed shell from GNOME to xterm
