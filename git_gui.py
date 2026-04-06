@@ -1,5 +1,5 @@
 #! /bin/sh
-"exec" "`dirname $0`/.venv/bin/python3" "$0" "$@"
+"exec" "python3" "$0" "$@"
 # git_gui.py
 # 2026-Apr-02  Dave Gutz  Create
 # Copyright (C) 2026 Dave Gutz
@@ -28,12 +28,12 @@ mkdir ~/.local/bin
 cat << EOF > ~/.local/bin/gg
 #!/bin/sh
 # gg — launch git_gui.py in the current working directory
-exec "/home/daveg/Documents/GitHub/mySolarStateOfCharge/SOC_Particle/pyStateOfCharge/.venv/bi
-n/python3" "/home/daveg/Documents/GitHub/mySolarStateOfCharge/SOC_Particle/pyStateOfCharge/gi
-t_gui.py" "$@"
+exec "python3" "/home/daveg/Documents/GitHub/myComputer/git_gui.py" "$@"
 EOF
 
 chmod +x ~/.local/bin/gg
+
+# To run, cd to the working directory of the repository
 
 '''
 
