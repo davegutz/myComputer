@@ -28,13 +28,14 @@ mkdir ~/.local/bin
 cat << EOF > ~/.local/bin/gg
 #!/bin/sh
 # gg — launch git_gui.py in the current working directory
-exec "python3" "/home/daveg/Documents/GitHub/myComputer/git_gui.py" "$@"
+exec "python3" "/home/<put your path here>/git_gui.py" "$@"
 EOF
 
 chmod +x ~/.local/bin/gg
 
 # To run, cd to the working directory of the repository
 
+gg&
 '''
 
 # Set terminal window title
