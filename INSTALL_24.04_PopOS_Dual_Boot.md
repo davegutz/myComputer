@@ -743,5 +743,25 @@ Restart Claude: Restart Claude Desktop for the changes to take effect
 
 Ensure the environment variable GNUCASH_BOOK_PATH points specifically to your SQLite file, not the XML file, as this is necessary for the server to operat
 
+
+### git_gui program (gg)
+
+```bash
+mkdir -p ~/.local/bin
+
+cat << EOF > ~/.local/bin/gg
+#!/bin/sh
+# gg — launch git_gui.py in the current working directory
+exec "python3" "/home/daveg/Documents/GitHub/myComputer/git_gui.py" "$@"
+EOF
+
+chmod +x ~/.local/bin/gg
+```
+
+
+
+
+
+
 ## End works in progress
 
