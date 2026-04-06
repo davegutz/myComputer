@@ -1,6 +1,6 @@
 #! /bin/sh
 "exec" "python3" "$0" "$@"
-# git_gui.py
+# git_gui.py:  A quick-and-dirty GUI interface to a set of cli command to streamline workflow due to buggy operation of GitHub on Pop!os Cosmic
 # 2026-Apr-02  Dave Gutz  Create
 # Copyright (C) 2026 Dave Gutz
 #
@@ -11,15 +11,7 @@
 #
 # Simple Tkinter GUI for running common git commands.
 # Always operates in the directory from which this script was launched.
-
-import sys
-import os
-import subprocess
-import threading
-import tkinter as tk
-from tkinter import scrolledtext, simpledialog, messagebox
-
-'''
+"""
 Install:
 
 mkdir ~/.local
@@ -36,7 +28,15 @@ chmod +x ~/.local/bin/gg
 # To run, cd to the working directory of the repository
 
 gg&
-'''
+"""
+
+import sys
+import os
+import subprocess
+import threading
+import tkinter as tk
+from tkinter import scrolledtext, simpledialog, messagebox
+
 
 # Set terminal window title
 sys.stdout.write("\033]0;Git GUI\007")
