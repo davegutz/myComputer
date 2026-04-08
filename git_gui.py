@@ -60,9 +60,9 @@ INSPECT_BUTTONS = [
 
 ACTION_BUTTONS = [
     ("Add All",    ["git", "add", "--all"]),
-    ("Restore Staged", ["git", "restore", "--staged", "."]),
     ("Commit...",  None),   # prompts for message
     ("Push",       ["git", "push"]),
+    ("Restore Staged", ["git", "restore", "--staged", "."]),
     ("Fetch",      ["git", "fetch"]),
     ("Pull",       ["git", "pull"]),
 ]
@@ -98,7 +98,6 @@ class GitGui:
     def _build_buttons(self):
         outer = tk.Frame(self.root, bg=BG_COLOR)
         outer.pack(fill=tk.X, padx=6, pady=(6, 2))
-
         # Row labels
         tk.Label(outer, text="Inspect", bg=BG_COLOR, fg=SEP_COLOR,
                  font=('Courier', 11, 'bold')).grid(row=0, column=0, sticky='w', padx=(0, 6))

@@ -426,11 +426,11 @@ git add --all
 git commit
 ```
 
-### Speed up Git and GitHub
- # Pack loose objects (will dramatically speed up git status/index operations)
-  git -C ~/Documents/GitHub/myLifeSaver gc
-  git -C ~/Documents/GitHub/mySolarStateOfCharge gc
-  git -C ~/Documents/GitHub/myComputer gc
+### Speed up Git and GitHub (also see gitgui)
+# Pack loose objects (will dramatically speed up git status/index operations)
+git -C ~/Documents/GitHub/myLifeSaver gc
+git -C ~/Documents/GitHub/mySolarStateOfCharge gc
+git -C ~/Documents/GitHub/myComputer gc
 
 
 ### Reliable WiFi (DNS Fix)
@@ -644,12 +644,7 @@ Update(bin/Rclone)
 	  
 ### Speed up github desktop
 buggy in Cosmic.  don't use
-use gg instead because it uses command line.  Find it in pyStateOfCharge
-
-more ~/.local/bin/gg
-#!/bin/sh
-# gg — launch git_gui.py in the current working directory
-exec "/home/daveg/Documents/GitHub/mySolarStateOfCharge/SOC_Particle/pyStateOfCharge/.venv/bin/python3" "/home/daveg/Documents/GitHub/mySolarStateOfCharge/SOC_Particle/pyStateOfCharge/git_gui.py" "$@"
+use gitgui instead because it uses command line
 
 
 ### gnucash-mcp
@@ -744,23 +739,64 @@ Restart Claude: Restart Claude Desktop for the changes to take effect
 Ensure the environment variable GNUCASH_BOOK_PATH points specifically to your SQLite file, not the XML file, as this is necessary for the server to operat
 
 
-### git_gui program (gg)
+### git_gui program (gitgui)
 
 ```bash
 mkdir -p ~/.local/bin
 
-cat << EOF > ~/.local/bin/gg
+cat << EOF > ~/.local/bin/gitgui
 #!/bin/sh
 # gg — launch git_gui.py in the current working directory
 exec "python3" "/home/daveg/Documents/GitHub/myComputer/git_gui.py" "$@"
 EOF
 
-chmod +x ~/.local/bin/gg
+chmod +x ~/.local/bin/gitgui
 ```
 
 
+### zsh
+```bash
+sudo apt update && sudo apt upgrade
+sudo apt install -y zsh
+zsh --version
+whereis zsh
+# Oh-My-Zsh
+sudo apt install -y git-core curl fonts-powerline
+# /sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+wget --no-check-certificate http://install.ohmyz.sh -O - | sh
+which zsh
+sudo nano /etc/shells  # add something like "/usr/bin/zsh"
+chsh  # change default shell.  Answer "/usr/bin/zsh"
 
 
+# Oh-My-Zsh plugins
+https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins
+nano ~/.zshrc
+plugins=(git git-auto-fetch git-commit git-prompt gitignore history history-substring-search git-escape-magic themes uv z zsh-navigation-tools zsh-git-escape-magic aliases copypath dirhistory. dirpersist)  # example.  Then save-exit and run:
+source ~/.zshrc
+
+# Oh-My-Zsh Theme
+sudo nano ~/.zshrc
+ZSH_THEME="agnoster"  # example
+source ~/.zshrc
+
+# random themes
+sudo nano ~/.zshrc
+ZSH_THEME="random"  # another example
+ZSH_THEME_RANDOM_CANDIDATES=("agnoster" "grml" "robbyrussell")
+source ~/.zshrc
+
+# set update interval
+sudo nano ~/.zshrc
+UPDATE_ZSH_DAYS=1
+source ~/.zshrc
+
+# gg (hopefully oh-my-zsh ends need for gg on Cosmic)
+nano ~/.zshrc
+alias 
+
+# uninstall_oh_my_zsh  # to uninstall oh_my_zsh
+```
 
 
 ## End works in progress
