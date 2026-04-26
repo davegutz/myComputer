@@ -771,9 +771,16 @@ chsh  # change default shell.  Answer "/usr/bin/zsh"
 
 # Oh-My-Zsh plugins
 https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins
+git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
+git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git $ZSH_CUSTOM/plugins/zsh-autocomplete
+
 nano ~/.zshrc
-plugins=(git git-auto-fetch git-commit git-prompt gitignore history history-substring-search git-escape-magic themes uv z zsh-navigation-tools zsh-git-escape-magic aliases copypath dirhistory. dirpersist)  # example.  Then save-exit and run:
+plugins=(zsh-autosuggestions zsh-syntax-highlighting zsh-autocomplete git git-auto-fetch git-commit git-prompt gitignore history history-substring-search git-escape-magic themes uv z zsh-navigation-tools zsh-git-escape-magic aliases copypath dirhistory dirpersist)
+# example.  Then save-exit and run:
 source ~/.zshrc
+
+
 
 # Oh-My-Zsh Theme
 sudo nano ~/.zshrc
