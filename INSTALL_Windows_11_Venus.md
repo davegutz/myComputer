@@ -384,3 +384,96 @@ The HP Omen liked to overheat and throw Error 41 BSODs. In addition to fan cooli
 - Use **Balanced** power plan
 
 Reference: https://www.makeuseof.com/i-finally-fixed-my-noisy-overheating-laptop-with-this-simple-change/
+
+---
+
+## 13. New Unproven Stuff
+
+### gnucash-mcp
+
+Install the libdbd-sqlite3 or relevant database connector package
+- Get the sqlite-tools-win32-x86-*.zip bundle, which includes the sqlite3.exe shell.
+```bash
+   sqlite-dll-win-x64-3530000.zip
+```
+- Extract the contents and add the folder path to the Windows system environment variable "Path" -->'C:\Users\daveg\Downloads\sqlite-dll-win-x64-3530000'
+
+
+Clone the Repository: Open PowerShell or Command Prompt and run:
+```bash
+git clone https://github.com/ninetails-io/gnucash-mcp.git
+cd gnucash-mcp
+```
+
+Install uv
+```bash
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+uv sync
+```
+
+Install Dependencies:
+```bash
+  # Using uv (recommended):
+  uv sync
+  # Using pip:
+  python.exe -m pip install --upgrade pip
+  pip install -r requirements.txt
+```
+Get this:
+```bash
+Error: no requirements.txt.
+```
+Use Claude to write(requirements.txt)
+```bash
+     Wrote 3 lines to requirements.txt
+      1 mcp[cli]>=1.0.0
+      2 piecash>=1.2.0
+      3 python-dateutil>=2.8.0
+```
+Try again:
+```bash
+ pip install -r requirements.txt
+```
+
+Install Claude Desktop:
+https://claude.com/download
+
+
+Configure Claude Desktop:
+ edit "C:\Users\daveg\AppData\Roaming\Claude\claude_desktop_config.json"
+  Add the following to the configuration (ensure paths are absolute and use double backslashes):
+```json
+{
+  "mcpServers": {
+    "gnucash": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--directory",
+        "C:\\Users\\daveg\\gnucash-mcp",
+        "python",
+        "-m",
+        "gnucash_mcp",
+        "--debug",
+        "--audit-format=text"
+      ],
+      "env": {
+        "GNUCASH_BOOK_PATH": "G:\\My Drive\\Finance remote\\GnuCash 2026-0416-0425 Claude remote\\Gutz_Joint_Claude_sq.gnucash",
+        "PYTHONPATH": "C:\\Users\\daveg\\gnucash-mcp\\src"
+      }
+    }
+  },
+  "preferences": {
+    "coworkScheduledTasksEnabled": true,
+    "ccdScheduledTasksEnabled": true,
+    "sidebarMode": "chat",
+    "coworkWebSearchEnabled": true
+  }
+}
+```
+Restart & Verify: Restart Claude Desktop. A hammer icon should appear, indicating the tools are available.
+
+You need to use this to get Claude Desktop to actually restart after closing
+```bash
+ Stop-Process -Name "claude" -Force
+```
