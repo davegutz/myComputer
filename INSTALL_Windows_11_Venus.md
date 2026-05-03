@@ -458,7 +458,7 @@ Configure Claude Desktop:
         "--audit-format=text"
       ],
       "env": {
-        "GNUCASH_BOOK_PATH": "G:\\My Drive\\Finance remote\\GnuCash 2026-0416-0425 Claude remote\\Gutz_Joint_Claude_sq.gnucash",
+        "GNUCASH_BOOK_PATH": "C:\\Users\\daveg\\Documents\\GnuCash 2026-0416-0425 Claude local\\Gutz_Joint_Claude_sq.gnucash",
         "PYTHONPATH": "C:\\Users\\daveg\\gnucash-mcp\\src"
       }
     }
@@ -473,7 +473,14 @@ Configure Claude Desktop:
 ```
 Restart & Verify: Restart Claude Desktop. A hammer icon should appear, indicating the tools are available.
 
-You need to use this to get Claude Desktop to actually restart after closing
+You may need to use this to get Claude Desktop to actually restart after closing
 ```bash
  Stop-Process -Name "claude" -Force
 ```
+
+
+4 transactions still unposted in this batch: CreativeBug $4.95, Amazon $55.66, Costco Gas $68.18, MetLife $57.84.
+
+
+Examples:
+
