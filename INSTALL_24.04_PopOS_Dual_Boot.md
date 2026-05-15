@@ -713,6 +713,19 @@ alias
 # uninstall_oh_my_zsh  # to uninstall oh_my_zsh
 ```
 
+### Caffeinee equivalent
+
+# Start it
+systemd-inhibit --what=idle --who=Debugging --why=Debugging --mode=block sleep inf &
+
+# Check it
+systemd-inhibit --list
+
+# Stop it
+pkill -f systemd-inhibit
+
+
+
 
 ## End works in progress
 
