@@ -496,11 +496,18 @@ See [INSTALL_noMachine](INSTALL_noMachine.md) for Rclone setup.
 To set up Proton VPN and NextDNS on your TP-Link TL-WR1502X travel router, you must first configure the router as a VPN client using Proton's OpenVPN files, and then manually input your custom NextDNS IPv4 addresses in the IPv4 settings.
 
 Step 1: Download Proton VPN ConfigurationLog in to your account at Proton VPN.
+```bash
+https://account.protonvpn.com/downloads
+```
 	Go to the Downloads section and scroll down to OpenVPN configuration files.Select Router as the platform and OpenVPN UDP (or TCP) as the protocol.
 	Choose the server location you want and click Download.
 	Extract the downloaded file. You will need the .ovpn configuration file and the special Service Credentials (Username/Password) listed in your dashboard, which are different from your normal login.
 
 Step 2: Set up Proton VPN on the RouterConnect to your TL-WR1502X's Wi-Fi or plug in via Ethernet, and open a web browser to http://tplinkwifi.net or http://192.168.0.1.Log in using your router's admin credentials.
+	
+```bash
+http://192.168.1.1/webpages/index.html#/vpnClient	
+```
 	Go to Advanced > VPN Client and toggle the feature to Enable.Under the Server List, click Add.Set the VPN Type to OpenVPN. Give it a name (e.g., ProtonVPN), and click Browse or Upload to import the .ovpn file you downloaded.
 	Enter the specific OpenVPN Username and Password from your Proton VPN dashboard.
 	uname:	I5nijajmI7JqvX6s
