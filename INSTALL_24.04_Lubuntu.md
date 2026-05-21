@@ -492,3 +492,28 @@ See [INSTALL_Chrome_Remote_Desktop](INSTALL_Chrome_Remote_Desktop.md) for Rclone
 ### noMachine Desktop Share
 See [INSTALL_noMachine](INSTALL_noMachine.md) for Rclone setup.
 
+### VPN/DNS on Travel Router
+To set up Proton VPN and NextDNS on your TP-Link TL-WR1502X travel router, you must first configure the router as a VPN client using Proton's OpenVPN files, and then manually input your custom NextDNS IPv4 addresses in the IPv4 settings.
+
+Step 1: Download Proton VPN ConfigurationLog in to your account at Proton VPN.
+	Go to the Downloads section and scroll down to OpenVPN configuration files.Select Router as the platform and OpenVPN UDP (or TCP) as the protocol.
+	Choose the server location you want and click Download.
+	Extract the downloaded file. You will need the .ovpn configuration file and the special Service Credentials (Username/Password) listed in your dashboard, which are different from your normal login.
+
+Step 2: Set up Proton VPN on the RouterConnect to your TL-WR1502X's Wi-Fi or plug in via Ethernet, and open a web browser to http://tplinkwifi.net or http://192.168.0.1.Log in using your router's admin credentials.
+	Go to Advanced > VPN Client and toggle the feature to Enable.Under the Server List, click Add.Set the VPN Type to OpenVPN. Give it a name (e.g., ProtonVPN), and click Browse or Upload to import the .ovpn file you downloaded.
+	Enter the specific OpenVPN Username and Password from your Proton VPN dashboard.
+	uname:	I5nijajmI7JqvX6s
+	pwd:     cmvjTOo9Jzb9weqsBZBrTuQ3FLpJB0ou
+	remove 'auth-user-pass' line from ovpn files
+	Save the profile.Enable the new connection to start the VPN tunnel.
+	Add devices
+
+Step 3: Add Custom NextDNS ServersLog in to your account on NextDNS.
+	Go to the Setup tab and locate your assigned NextDNS IPv4 addresses (e.g., 45.90.28.0 and 45.90.30.0). Copy these down.
+	In your router's admin panel, go to Network > DHCP Server (or Internet > IPv4) depending on your firmware version.Locate the Primary DNS and Secondary DNS fields.Uncheck the "Auto" or "Obtain from ISP" option if necessary, and paste your NextDNS IPv4 addresses.Save and apply the settings. 
+	Reboot your router so all connected devices route their DNS lookups through NextDNS.For tips on how to properly set up WireGuard as an alternative on similar routers to maximize speeds and network stability:
+
+### Thunderbird
+Sign in using google mail and password for Google
+
