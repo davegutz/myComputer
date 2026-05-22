@@ -28,7 +28,7 @@
 - [11. HDMI Audio](#11-hdmi-audio)
 - [12. Google Drive (Rclone)](#12-google-drive-rclone)
 - [13. Optional Tools](#13-optional-tools)
-- [14. Work In Progress](#13-work-in-progress)
+- [14. Work In Progress](#14-work-in-progress)
 
 ---
 
@@ -40,7 +40,7 @@ Insert ISO USB and boot:
 
 Choose **"Normal installation"** (not minimal — minimal leaves things broken).
 
-Setup and choose a single large partition.  Installer will make a swap dynamically.
+Setup and choose a single large partition. Installer will make a swap dynamically.
 
 Restart will prompt to remove USB. System should restart to Lubuntu without BIOS boot.
 
@@ -73,6 +73,7 @@ swapon --show
 ```
 
 ### Basic Installs
+
 ```bash
 sudo apt update
 sudo apt upgrade
@@ -87,36 +88,37 @@ sudo apt install --fix-missing -y python3-pip
 sudo apt install -y python3-tk         # for PyCharm
 sudo apt install -y dhcpcd5
 sudo apt install LocalSend
-# sudo apt install -y vlc Use Discover
+# sudo apt install -y vlc  (use Discover instead)
 sudo apt install xsel
 sudo apt install -y pavucontrol        # for myPyScreencast
 sudo apt install -y thunar
 sudo apt install -y nautilus
-pavucontrol  # defaults to low volume — set to 100% for screencasting.
+pavucontrol  # defaults to low volume — set to 100% for screencasting
 ```
 
-Lubuntu installs by default: LibreOffice, Firefox
-accelerated decoding - save
+Lubuntu installs by default: LibreOffice, Firefox.
 
 ### Firefox Security Exceptions
+
 Add exceptions for: `hulu.com`, `amazon.com`, `play.max.com`, `netflix.com`
 
-###Firefox tweaks (`about:config`):
+### Firefox tweaks (`about:config`)
+
 ```
 layers.acceleration.force-enabled = true
 gfx.webrender.all = true
 browser.sessionstore.interval = 150000
 ```
 
-###Chrome tweaks (`chrome://settings/system`):
+### Chrome tweaks (`chrome://settings/system`)
+
 - Toggle on hardware acceleration → Relaunch
 
-
-Use System - Discover to install these fine tools:
-    vlc, 
-
 ### VLC
-    Tools → Preferences → Codecs → **disable hardware-accelerated decoding** → Save. Restart VLC.
+
+Install via System → Discover.
+
+Tools → Preferences → Codecs → **disable hardware-accelerated decoding** → Save. Restart VLC.
 
 ---
 
@@ -174,21 +176,21 @@ flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.f
 # reboot
 flatpak install flathub com.github.iwalton3.jellyfin-media-player
 flatpak run com.github.iwalton3.jellyfin-media-player
-# answer jellyfin_..._pkg by cut and paste from hint below box durin initial run
+# answer jellyfin_..._pkg by cut and paste from hint below box during initial run
 # Remove:
 flatpak remove com.github.iwalton3.jellyfin-media-player
 ```
-Install server
+
+**Install server:**
+
 ```bash
 curl -s https://repo.jellyfin.org/install-debuntu.sh | sudo bash
 sudo usermod -a -G daveg jellyfin
 # Visit http://localhost:8096
 sudo chown -R jellyfin /media/daveg
 ```
-Start
-Browse to Start bookmarks in Firefox and visit Jellyfin
-User is Jellyfin
 
+**Start:** Browse to Start bookmarks in Firefox and visit Jellyfin. User is `jellyfin`.
 
 ### puTTY
 
@@ -343,8 +345,9 @@ No restart needed.
 
 ## 10. Cleanup
 
-Preferences - Xscreensaver  - Display modes - Blank 10, Cycle 10, Lock 45
-                            - Advanced - Power Management 30 / 60 / 120 - Close
+Open **Xscreensaver** (Preferences → Xscreensaver):
+- Display Modes: Blank 10, Cycle 10, Lock 45
+- Advanced → Power Management: 30 / 60 / 120 → Close
 
 ```bash
 sudo apt autoremove
@@ -415,7 +418,6 @@ sudo apt autoclean && sudo apt clean
 sudo apt install deborphan && sudo apt remove $(deborphan)
 ```
 
-
 ### Guake Terminal
 
 ```bash
@@ -433,41 +435,42 @@ Install via File → System Discover
 sudo apt-get install idle-python3.12
 ```
 
-### Add support for keypress in various pyCharm projects
+### Add support for keypress in pyCharm projects
 
-Add a udev rule (permanent fix):
-This is the recommended approach. A udev rule automatically sets the correct permissions when the device node is created during system boot.
-Create a new rules file, for example, /etc/udev/rules.d/99-uinput.rules:
+A udev rule automatically sets correct permissions on `/dev/uinput` at boot.
+
+Create `/etc/udev/rules.d/99-uinput.rules`:
 
 ```bash
 sudo nano /etc/udev/rules.d/99-uinput.rules
 ```
-Add one of the following lines to the file. The first option adds your user to the input group, which is more secure than MODE="0666":
 
-Option A (Recommended):
+Add one of the following:
+
+**Option A (Recommended):** Adds your user to the input group.
+```
 KERNEL=="uinput", SUBSYSTEM=="misc", OPTIONS+="static_node=uinput", GROUP="input", MODE="0660"
+```
 
-Option B (Less secure, grants access to everyone):
+**Option B (Less secure):** Grants access to everyone.
+```
 KERNEL=="uinput", MODE="0666"
+```
 
 Apply the changes:
-Reload the udev rules:
+
 ```bash
 sudo udevadm control --reload-rules
-```
-Trigger the rules to be applied immediately:
-```bash
 sudo udevadm trigger
 ```
 
-Add your user to the input group (only for Option A above):
+For Option A, also add your user to the input group:
+
 ```bash
 sudo usermod -a -G input $USER
 ```
 
-Reboot your system for the group membership change to take effect. 
-After following these steps, your pythons scripts should be able to open /dev/uinput for writing without sudo (evdev python >= v3.12).
-
+Reboot for group membership to take effect. Python scripts can then open `/dev/uinput` without `sudo` (evdev >= v3.12).
 
 ### Reliable WiFi (DNS Fix)
 
@@ -487,89 +490,115 @@ This ensures DNS works globally regardless of what NetworkManager does per-inter
 ## 14. Work In Progress
 
 ### Chrome Remote Desktop
-See [INSTALL_Chrome_Remote_Desktop](INSTALL_Chrome_Remote_Desktop.md) for Rclone setup.
+
+See [INSTALL_Chrome_Remote_Desktop](INSTALL_Chrome_Remote_Desktop.md) for setup.
 
 ### noMachine Desktop Share
-See [INSTALL_noMachine](INSTALL_noMachine.md) for Rclone setup.
+
+See [INSTALL_noMachine](INSTALL_noMachine.md) for setup.
 
 ### VPN/DNS on Travel Router
-To set up Proton VPN and NextDNS on your TP-Link TL-WR1502X travel router, you must first configure the router as a VPN client using Proton's OpenVPN files, and then manually input your custom NextDNS IPv4 addresses in the IPv4 settings.
 
-Step 1: Download Proton VPN ConfigurationLog in to your account at Proton VPN.
-```bash
-https://account.protonvpn.com/downloads
+Configure the TP-Link TL-WR1502X as a VPN client using Proton's OpenVPN files, then set custom NextDNS IPv4 addresses in the router's IPv4 settings.
+
+**Step 1: Download Proton VPN Configuration**
+
+Log in at <https://account.protonvpn.com/downloads>. Go to Downloads → OpenVPN configuration files. Select Router as the platform and OpenVPN UDP (or TCP). Choose a server location and click Download. Extract the `.ovpn` file — you will also need the Service Credentials (Username/Password) from your dashboard, which differ from your normal login credentials.
+
+**Step 2: Set up Proton VPN on the Router**
+
+Connect to the TL-WR1502X via Wi-Fi or Ethernet and open:
+
 ```
-	Go to the Downloads section and scroll down to OpenVPN configuration files.Select Router as the platform and OpenVPN UDP (or TCP) as the protocol.
-	Choose the server location you want and click Download.
-	Extract the downloaded file. You will need the .ovpn configuration file and the special Service Credentials (Username/Password) listed in your dashboard, which are different from your normal login.
-
-Step 2: Set up Proton VPN on the RouterConnect to your TL-WR1502X's Wi-Fi or plug in via Ethernet, and open a web browser to http://tplinkwifi.net or http://192.168.0.1.Log in using your router's admin credentials.
-	
-```bash
-http://192.168.1.1/webpages/index.html#/vpnClient	
+http://192.168.1.1/webpages/index.html#/vpnClient
 ```
-	Go to Advanced > VPN Client and toggle the feature to Enable.Under the Server List, click Add.Set the VPN Type to OpenVPN. Give it a name (e.g., ProtonVPN), and click Browse or Upload to import the .ovpn file you downloaded.
-	Enter the specific OpenVPN Username and Password from your Proton VPN dashboard.
-	uname:	I5nijajmI7JqvX6s
-	pwd:     cmvjTOo9Jzb9weqsBZBrTuQ3FLpJB0ou
-	remove 'auth-user-pass' line from ovpn files
-	Enable VPN kill switch
-	Save the profile.  Enable the new connection to start the VPN tunnel.
-	Add devices
 
-Step 3: Add Custom NextDNS ServersLog in to your account on NextDNS.
-	Go to the Setup tab and locate your assigned NextDNS IPv4 addresses (e.g., 45.90.28.0 and 45.90.30.0). Copy these down.
-	In your router's admin panel, go to Network > DHCP Server (or Internet > IPv4) depending on your firmware version.Locate the Primary DNS and Secondary DNS fields.Uncheck the "Auto" or "Obtain from ISP" option if necessary, and paste your NextDNS IPv4 addresses.Save and apply the settings. 
-	Reboot your router so all connected devices route their DNS lookups through NextDNS.For tips on how to properly set up WireGuard as an alternative on similar routers to maximize speeds and network stability:
+Go to Advanced → VPN Client → Enable. Under Server List, click Add. Set VPN Type to OpenVPN, give it a name (e.g., `ProtonVPN`), and upload the `.ovpn` file. Enter the OpenVPN credentials from your dashboard:
 
-Sign in to Captive Portal like HWPL
-- turn off VPN to connect with 'Captive Portal Authenticators' like HWPL
-- try to connect and visit
-```bash
+```
+uname: I5nijajmI7JqvX6s
+pwd:   cmvjTOo9Jzb9weqsBZBrTuQ3FLpJB0ou
+```
+
+- Remove the `auth-user-pass` line from the `.ovpn` file
+- Enable VPN kill switch
+- Save the profile and enable the connection
+- Add devices
+
+**Step 3: Add Custom NextDNS Servers**
+
+Log in at NextDNS → Setup tab and note your assigned IPv4 addresses (e.g., `45.90.28.0` and `45.90.30.0`). In the router admin panel, go to Network → DHCP Server (or Internet → IPv4). Set Primary DNS and Secondary DNS to your NextDNS addresses. Save and reboot the router.
+
+**Captive Portal (e.g., HWPL)**
+
+Turn off VPN to connect through captive portal authenticators, then navigate to:
+
+```
 http://neverssl.com
 ```
 
+---
+
 ### NextDNS and ProtonVPN on Linux
 
-To use NextDNS with ProtonVPN on Ubuntu, the most reliable method is to configure your system's network settings to use your NextDNS IPv4/IPv6 addresses while letting ProtonVPN take care of the VPN encryption. This ensures your DNS queries remain private, you don't face internet connection drops, and you can still use ProtonVPN's kill switch safely.  It may not work with Captive Portal?
+Configure system DNS to use NextDNS IPv4/IPv6 addresses while ProtonVPN handles encryption. May not work with captive portals.
 
-- Step 1: Get Your NextDNS IP Addresses. Log in to your NextDNS Dashboard. Navigate to the Setup tab. Note down the IPv4 and IPv6 addresses listed (e.g., 45.90.28.0 and 2a07:a8c0::).
-```bash
-45.90.28.54, 45.90.30.54
+**Step 1: Get Your NextDNS IP Addresses**
 
-2a07:a8c0::bb:2878, 2a07:a8c1::bb:2878
+Log in to the NextDNS Dashboard → Setup tab. Note:
+
+```
+IPv4: 45.90.28.54, 45.90.30.54
+IPv6: 2a07:a8c0::bb:2878, 2a07:a8c1::bb:2878
 ```
 
-- Step 2: Configure Your Ubuntu Network Settings.  Since ProtonVPN routes network traffic through your OS, you need to point your base connection’s DNS to NextDNS.  Open your Ubuntu Settings. Go to Network (or Wi-Fi, depending on your connection). Click the gear icon (Settings) next to your active network connection. Go to the IPv4 tab. Toggle DNS to Manual. Enter your NextDNS IPv4 address into the DNS field and click Apply. Repeat the exact same steps in the IPv6 tab using your NextDNS IPv6 address. 
+**Step 2: Configure Ubuntu Network Settings**
 
-install ProtonVPN:
+Open Settings → Network (or Wi-Fi) → gear icon → IPv4 tab → DNS → Manual. Enter your NextDNS IPv4 address and click Apply. Repeat in the IPv6 tab with the IPv6 address.
+
+**Install ProtonVPN:**
+
 ```bash
-https://protonvpn.com/support/official-linux-vpn-ubuntu
 wget https://repo.protonvpn.com/debian/dists/stable/main/binary-all/protonvpn-stable-release_1.0.8_all.deb
 sudo apt update
 sudo dpkg -i ./protonvpn-stable-release_1.0.8_all.deb && sudo apt update
 sudo apt install proton-vpn-gnome-desktop
 ```
 
+See also: <https://protonvpn.com/support/official-linux-vpn-ubuntu>
 
-- Step 3: Configure ProtonVPN  If you are using the official ProtonVPN Linux application, you may need to disable the built-in NetShield Ad-blocker feature to prevent it from interfering with your custom NextDNS settings.  Open the ProtonVPN GUI app.  Go to Settings > Connection. Ensure NetShield Ad-blocker is OFF (it cannot be used simultaneously with a custom DNS).  Under Custom DNS, toggle the switch ON and add your NextDNS IPv4 addresses.  45.90.28.54, 45.90.30.54 Click Save and Connect to your desired VPN server.
+**Step 3: Configure ProtonVPN**
 
-- Step 4: Verify Your SetupTo ensure everything is working correctly and your DNS queries are securely going through NextDNS without leaking:  Disconnect and reconnect to the VPN to apply changes.  Open a browser and confirm your profiles are recognized.
-```bash
-https://test.nextdns.io/:
+Open the ProtonVPN GUI → Settings → Connection:
+- Turn **NetShield Ad-blocker OFF** (incompatible with custom DNS)
+- Under Custom DNS, toggle ON and add: `45.90.28.54`, `45.90.30.54`
+- Click Save, then connect to a VPN server.
+
+**Step 4: Verify**
+
+Disconnect and reconnect to apply changes, then confirm in a browser:
+
+```
+https://test.nextdns.io/
 https://ip.me/
 ```
 
+---
+
 ### Thunderbird
-Sign in using google mail and password for Google
+
+Sign in using Google mail and password for Google.
 
 ### Enable/Disable touchpad
+
 ```bash
-xinput list # note number N of touchpad
+xinput list   # note number N of touchpad
 xinput disable <N>
 xinput enable <N>
 ```
-add a bash shortcut to it
+
+Add a bash shortcut:
+
 ```bash
-nano .inputrc  # add 
+nano .inputrc  # add alias
 ```
