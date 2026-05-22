@@ -513,7 +513,8 @@ http://192.168.1.1/webpages/index.html#/vpnClient
 	uname:	I5nijajmI7JqvX6s
 	pwd:     cmvjTOo9Jzb9weqsBZBrTuQ3FLpJB0ou
 	remove 'auth-user-pass' line from ovpn files
-	Save the profile.Enable the new connection to start the VPN tunnel.
+	Enable VPN kill switch
+	Save the profile.  Enable the new connection to start the VPN tunnel.
 	Add devices
 
 Step 3: Add Custom NextDNS ServersLog in to your account on NextDNS.
@@ -521,6 +522,54 @@ Step 3: Add Custom NextDNS ServersLog in to your account on NextDNS.
 	In your router's admin panel, go to Network > DHCP Server (or Internet > IPv4) depending on your firmware version.Locate the Primary DNS and Secondary DNS fields.Uncheck the "Auto" or "Obtain from ISP" option if necessary, and paste your NextDNS IPv4 addresses.Save and apply the settings. 
 	Reboot your router so all connected devices route their DNS lookups through NextDNS.For tips on how to properly set up WireGuard as an alternative on similar routers to maximize speeds and network stability:
 
+Sign in to Captive Portal like HWPL
+- turn off VPN to connect with 'Captive Portal Authenticators' like HWPL
+- try to connect and visit
+```bash
+http://neverssl.com
+```
+
+### NextDNS and ProtonVPN on Linux
+
+To use NextDNS with ProtonVPN on Ubuntu, the most reliable method is to configure your system's network settings to use your NextDNS IPv4/IPv6 addresses while letting ProtonVPN take care of the VPN encryption. This ensures your DNS queries remain private, you don't face internet connection drops, and you can still use ProtonVPN's kill switch safely.  It may not work with Captive Portal?
+
+- Step 1: Get Your NextDNS IP Addresses. Log in to your NextDNS Dashboard. Navigate to the Setup tab. Note down the IPv4 and IPv6 addresses listed (e.g., 45.90.28.0 and 2a07:a8c0::).
+```bash
+45.90.28.54, 45.90.30.54
+
+2a07:a8c0::bb:2878, 2a07:a8c1::bb:2878
+```
+
+- Step 2: Configure Your Ubuntu Network Settings.  Since ProtonVPN routes network traffic through your OS, you need to point your base connection’s DNS to NextDNS.  Open your Ubuntu Settings. Go to Network (or Wi-Fi, depending on your connection). Click the gear icon (Settings) next to your active network connection. Go to the IPv4 tab. Toggle DNS to Manual. Enter your NextDNS IPv4 address into the DNS field and click Apply. Repeat the exact same steps in the IPv6 tab using your NextDNS IPv6 address. 
+
+install ProtonVPN:
+```bash
+https://protonvpn.com/support/official-linux-vpn-ubuntu
+wget https://repo.protonvpn.com/debian/dists/stable/main/binary-all/protonvpn-stable-release_1.0.8_all.deb
+sudo apt update
+sudo dpkg -i ./protonvpn-stable-release_1.0.8_all.deb && sudo apt update
+sudo apt install proton-vpn-gnome-desktop
+```
+
+
+- Step 3: Configure ProtonVPN  If you are using the official ProtonVPN Linux application, you may need to disable the built-in NetShield Ad-blocker feature to prevent it from interfering with your custom NextDNS settings.  Open the ProtonVPN GUI app.  Go to Settings > Connection. Ensure NetShield Ad-blocker is OFF (it cannot be used simultaneously with a custom DNS).  Under Custom DNS, toggle the switch ON and add your NextDNS IPv4 addresses.  45.90.28.54, 45.90.30.54 Click Save and Connect to your desired VPN server.
+
+- Step 4: Verify Your SetupTo ensure everything is working correctly and your DNS queries are securely going through NextDNS without leaking:  Disconnect and reconnect to the VPN to apply changes.  Open a browser and confirm your profiles are recognized.
+```bash
+https://test.nextdns.io/:
+https://ip.me/
+```
+
 ### Thunderbird
 Sign in using google mail and password for Google
 
+### Enable/Disable touchpad
+```bash
+xinput list # note number N of touchpad
+xinput disable <N>
+xinput enable <N>
+```
+add a bash shortcut to it
+```bash
+nano .inputrc  # add 
+```
