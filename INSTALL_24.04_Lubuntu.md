@@ -605,9 +605,6 @@ nano .inputrc  # add alias
 
 ## Investigate loss of BooleanV edit
 
-parameters.cpp#119-119
-where are BooleanV parameters instantiated and how do I know the address and size of reserved address for them
-
 /model sonnet
 where are BooleanV parameters instantiated and how do I know the address and size of reserved address for them
 Let me search the codebase for BooleanV instantiations and related address/size information.
