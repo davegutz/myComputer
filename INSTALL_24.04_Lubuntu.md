@@ -633,8 +633,20 @@ https://github.com/ninja-build/ninja/releases
      and extract to Downloads)
 
     You might need to close VS Code, delete your build folder (if it exists), and open VS Code again.
+    You should now be good to go! (If VSCode is not able to provide autocompletion, then something went wrong during the installation of clangd.)
 
-You should now be good to go! (If VSCode is not able to provide autocompletion, then something went wrong during the installation of clangd.)
+- lots of path changes added.  Complaints about compiler --> uninstall after gleaning some useful cleanup tips.  Doesn't integrate well with Particle Workbench
+
+- uninstall clangd / reinstall intellisense
+	(CTRL+,), and set Cmake: Generator to blank
+	- extensions - clangd - uninstall
+	- extensions - intellisense - install
+	" bad Cmake executable
+sudo apt-get update
+sudo apt-get -y install cmake
+
+sudo apt-add-repository universe
+sudo apt-get -y install cmake-extras
 
 
 # include Particle.h
