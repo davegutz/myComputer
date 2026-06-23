@@ -603,94 +603,74 @@ Add a bash shortcut:
 nano .inputrc  # add alias
 ```
 
-## Investigate loss of BooleanV edit
+### clangd for VS Code
 
-/model sonnet
-where are BooleanV parameters instantiated and how do I know the address and size of reserved address for them
-Let me search the codebase for BooleanV instantiations and related address/size information.
+** Eliminate Arduino formatting **
+- add	"#include "Particle.h" to top of .ino.
+- Rename .ino to .cpp
+	
+** Install clangd to VSCODE**
+- disable Microsoft intelligence
+- install clangd extension to VSCODE
 
-set_addr() + eeram_size() virtual methods on Variable
-eeram_size() override on every subclass (BooleanV returns sizeof(uint32_t), others their natural size)
-Address assignment loop in SavedPars::SavedPars(SerialRAM *ram) after initialize()
-Fill in the empty mem_print() stub
-Edit Variable.h
-Added 3 lines
-Now add eeram_size() to BooleanV (reserves uint32_t as requested):
+If you are familiar with IntelliSense (which is installed by default in Visual Studio and Visual Studio Code), clangd is the same kind of thing, but better (less laggy, more complete). It will provide autocompletion, suggestions, detect bugs, etc.
 
-Edit Variable.h
-Added 1 line
-Those Serial errors are pre-existing IDE false positives from the Particle framework not being in the IntelliSense path — not caused by my changes. Continuing with the remaining subclasses:
+    First, install the clangd extension: .
 
-Edit Variable.h
-Added 1 line
-Edit Variable.h
-Added 1 line
-Edit Variable.h
-Added 1 line
-Edit Variable.h
-Added 1 line
-Edit Variable.h
-Added 1 line
-Edit Variable.h
-Added 1 line
-Edit Variable.h
-Added 1 line
-Now wire up the address assignment loop in SavedPars::SavedPars(SerialRAM *ram) and fill in mem_print():
+    It should then prompt you to disable IntelliSense: say yes. If you miss that step, go in the Settings, search for C_Cpp.intelliSenseEngine and set it to Disabled.
 
-Edit parameters.cpp
-Added 7 lines
-Now fill in the empty mem_print() stub:
+    It should then prompt you to download the actual language server: say yes. If it doesn't show up, then CTRL+SHIFT+P and run clangd: Download language server. If it is unable to download it, you can download it manually here.
+    
+    Now go to your Settings (CTRL+,), search for clangd arguments and add --compile-commands-dir=${workspaceFolder}/build and --enable-config
+    Now install Ninja. Then, go back to your settings (CTRL+,), and set Cmake: Generator to Ninja.
+    
+(download linux .zip from 
+    
+```
+https://github.com/ninja-build/ninja/releases
+```
+    
+     and extract to Downloads)
 
-Edit parameters.cpp
-Added 4 lines
-MAX_EERAM is defined in SerialRAM.h so it's already visible. Let me verify the final state of both changed sections:
+    You might need to close VS Code, delete your build folder (if it exists), and open VS Code again.
 
-Read parameters.cpp (lines 239-263)
-Read parameters.cpp (lines 301-312)
-Good. The EERAM layout after this will be (all 24 SavedPars variables in sequence):
-
-Variable	Type	EERAM bytes
-amp_	FloatV	4
-booted_	BooleanV	4 (uint32_t reservation)
-cutback_gain_slr_	FloatV	4
-debug_	IntV	4
-delta_q_model_	DoubleV	8
-delta_q_	DoubleV	8
-Dw_	FloatV	4
-freq_	FloatV	4
-ib_bias_all_	FloatV	4
-ib_bias_amp_	FloatV	4
-ib_bias_noa_	FloatV	4
-ib_disch_slr_	FloatV	4
-ib_force_	Int8tV	1
-iflt_	Uint16tV	2
-ihis_	Uint16tV	2
-inj_bias_	FloatV	4
-isum_	Uint16tV	2
-modeling_	Uint8tV	1
-preserving_	Uint8tV	1
-Tb_bias_hdwe_	FloatV	4
-Time_now_	ULongV	4
-type_	Uint8tV	1
-Vb_bias_hdwe_	FloatV	4
-vsat_add_	FloatV	4
-Total: 88 bytes out of 2048 available, starting at 0x0000. Calling mem_print() (e.g. from a debug command) will dump the full map with addresses and sizes.
-
-One caveat: variables constructed during initialize() write to EERAM at addr 0 before the address loop runs. Those spurious writes are harmless — they touch only addr 0 and get overwritten once you call get() on each variable to load the real saved values.
+You should now be good to go! (If VSCode is not able to provide autocompletion, then something went wrong during the installation of clangd.)
 
 
-when in the GitHub repository mySolarStateOfCharge was similar logic to what was just added was removed.
-Let me search the git history for when address assignment logic was removed.
+# include Particle.h
 
-Found it. Commit 24a87ea9b8 ("compareRunVer inc") is when assign_addr() was removed from all Variable subclasses and the base class. Here's the full picture:
+CompileFlags: # Tweak the parse settings, example directory given to show format
+  Add:
+    -I/home/daveg/.particle/toolchains/deviceOS/6.2.1/user/inc
+    -I/home/daveg/.particle/toolchains/deviceOS/6.2.1/system/inc
 
-Timeline in mySolarStateOfCharge:
+## gemini-cli install
+sudo apt update
+sudo apt purge -y nodejs npm
+sudo apt autoremove -y
+nvm install 20
+nvm use 20
+nvm alias default 20
+node -v
 
-b2b745dd9d — "fix bool memory allocation for Variable.h": added/fixed assign_addr(uint16_t next) on BooleanV to reserve sizeof(uint32_t) instead of sizeof(bool) — this is exactly the pattern we just re-implemented
+https://antigravity.google/
+cd ~/Downloads
+tar -xzvf Antigravity.tar.gz
+sudo mv Antigravity-x64 /opt/
+sudo chmod +x /opt/Antigravity-x64/antigravity
+sudo ln -sf /opt/Antigravity-x64/antigravity /usr/local/bin/antigravity
+sudo chown root:root /opt/Antigravity-x64/chrome-sandbox
+sudo chmod 4755 /opt/Antigravity-x64/chrome-sandbox
 
-24a87ea9b8 — "compareRunVer inc": deleted assign_addr() from every subclass (BooleanV, DoubleV, FloatV, IntV, Int8tV, Uint16tV, Uint8tV, ULongV) and its declaration from the base Variable class
+source ~/.bashrc
+antigravity --version
+antigravity --cli
 
-The original design used assign_addr(uint16_t next) which took the current address, set addr_.a16, and returned next + sizeof(type) — a slightly different calling convention than the set_addr() + eeram_size() split I implemented. Both achieve the same result; the split version is arguably cleaner since it separates concerns.
+vscode - extensions - antigravity cli launcher - install
 
-The removal in 24a87ea9b8 appears to have been unintentional (the commit message "compareRunVer inc" doesn't suggest a deliberate removal of EERAM address management). The implementation we just added restores and extends that capability.
+pycharm - settings - plugins - marketplace - antigravity companion
+ - an icon appears - launch - yes - wait to login htpps 
+ --- use arrows to scrolldown below hyperlink to find code entry area
+ 
+
 
