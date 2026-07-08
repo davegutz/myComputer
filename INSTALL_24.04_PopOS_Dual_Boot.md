@@ -725,6 +725,54 @@ systemd-inhibit --list
 pkill -f systemd-inhibit
 
 
+### GitHub cli for Cosmic
+
+
+
+cat << EOF > /home/daveg/.local/bin/gitgui
+#!/bin/sh
+# gg — launch git_gui.py in the current working directory
+exec "python3" "/home/daveg/Documents/GitHub/myComputer/git_gui.py" ""
+EOF
+
+chmod +x /home/daveg/.local/bin/gitgui
+
+gitgui&
+
+### Antigravity (gemini-cli) install
+sudo apt update
+sudo apt purge -y nodejs npm
+sudo apt autoremove -y
+sudo apt install curl nodejs npm -y
+sudo npm install -g @google/gemini-cli
+
+#nvm install 20
+#nvm use 20
+#nvm alias default 20
+node -v
+
+https://antigravity.google/
+cd ~/Downloads
+tar -xzvf Antigravity.tar.gz
+sudo mv Antigravity-x64 /opt/
+sudo chmod +x /opt/Antigravity-x64/antigravity
+sudo ln -sf /opt/Antigravity-x64/antigravity /usr/local/bin/antigravity
+sudo chown root:root /opt/Antigravity-x64/chrome-sandbox
+sudo chmod 4755 /opt/Antigravity-x64/chrome-sandbox
+
+edit ~/.bashrc
+export PATH="/home/daveg/.local/bin:$PATH"
+antigravity --version
+antigravity --cli
+
+# Let vscode install launcher by following this pad
+vscode - extensions - antigravity cli launcher - install
+# close and restart antigravity terminal inside vscode
+
+pycharm - settings - plugins - marketplace - antigravity companion
+ - a lightning bold icon appears in top right - launch - yes - wait to login htpps 
+ --- use arrows to scrolldown below hyperlink to find code entry area
+ 
 
 
 ## End works in progress
