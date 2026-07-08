@@ -656,13 +656,16 @@ CompileFlags: # Tweak the parse settings, example directory given to show format
     -I/home/daveg/.particle/toolchains/deviceOS/6.2.1/user/inc
     -I/home/daveg/.particle/toolchains/deviceOS/6.2.1/system/inc
 
-## gemini-cli install
+## Antigravity (gemini-cli) install
 sudo apt update
 sudo apt purge -y nodejs npm
 sudo apt autoremove -y
-nvm install 20
-nvm use 20
-nvm alias default 20
+sudo apt install curl nodejs npm -y
+sudo npm install -g @google/gemini-cli
+
+#nvm install 20
+#nvm use 20
+#nvm alias default 20
 node -v
 
 https://antigravity.google/
@@ -674,14 +677,17 @@ sudo ln -sf /opt/Antigravity-x64/antigravity /usr/local/bin/antigravity
 sudo chown root:root /opt/Antigravity-x64/chrome-sandbox
 sudo chmod 4755 /opt/Antigravity-x64/chrome-sandbox
 
-source ~/.bashrc
+edit ~/.bashrc
+export PATH="/home/daveg/.local/bin:$PATH"
 antigravity --version
 antigravity --cli
 
+# Let vscode install launcher by following this pad
 vscode - extensions - antigravity cli launcher - install
+# close and restart antigravity terminal inside vscode
 
 pycharm - settings - plugins - marketplace - antigravity companion
- - an icon appears - launch - yes - wait to login htpps 
+ - a lightning bold icon appears in top right - launch - yes - wait to login htpps 
  --- use arrows to scrolldown below hyperlink to find code entry area
  
 
