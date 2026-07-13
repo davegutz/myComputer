@@ -107,13 +107,7 @@ sudo pacman -S github-desktop
 sudo pacman -S git
 ```
 
-* Do you have an NVIDIA graphics card? (This often requires a specific kernel parameter fix).
-* Does cosmic-greeter (the native login screen) work if you try it one more time with sudo systemctl enable --now cosmic-greeter?
-
-
-```
-
-From CachyOS Package Installer menu:
+** From CachyOS Package Installer menu:**
 - `audacity`
 - `pycharm-community-edition`
 - `Code`
@@ -122,25 +116,18 @@ From CachyOS Package Installer menu:
 - `libreoffice-still`
 - `vlc` (open and turn off hardware acceleration)
 
-# Visual Studio Code
+** Visual Studio Code:**
 sudo pacman -S --needed base-devel git
+sudo pacman -S perl-archive-zip  # avoid crc32 error
 git clone https://aur.archlinux.org/visual-studio-code-bin.git
 cd visual-studio-code-bin
 makepkg -si
+# Open code and install extensions 'Workbench' (for Particle) and 'Antigravity CLI Launcher' (for Gemini).
+Open the SOC_PARTICLE folder (not src)
+
+sudo apt install -y libarchive-zip-perl    # provides crc32 — Particle Workbench needs it
 
 
-Open Shelly and enable most of the options except one
-
-
-????
-- `Synaptic`
-- `Notepad Next`
-
-```bash
-sudo snap install snapd
-# Log out / log back in — IMPORTANT! IT WILL WORK IF YOU DO THIS
-sudo apt update && sudo apt upgrade
-```
 
 **Firefox Performance:**
 ```
@@ -150,12 +137,11 @@ browser.sessionstore.interval = 150000
 
 ---
 
-## 5. Install Applications
+## 5. Install More Applications
 
 ```bash
 sudo apt install -y fuse libfuse2          # AppImage support
 sudo apt install -y ffmpeg
-sudo apt install -y git
 sudo apt install --fix-missing -y python3-pip
 sudo apt install -y python3-tk             # for PyCharm
 sudo apt install -y dhcpcd5
