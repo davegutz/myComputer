@@ -40,7 +40,17 @@
   - Note partition numbers
 - Have a >4 GB thumbdrive
 - On Windows: download the ISO and flash using **balenaEtcher**
-After shrinking C: (Windows Disk Management + G parted)
+  - Create a new Windows install USB >=5GB:
+    - https://www.microsoft.com/en-us/software-download/windows10 → Download Now
+    - Double-click media creation tool → Create USB media for another PC
+ 
+  ``` https://www.microsoft.com/en-us/software-download/windows11 ```
+  - Deauthorize licenses before reinstalling:
+    - DVDFab: deauthorize `davegutz@alum.mit.edu`
+    - WinXDVD: remove license
+    - ePubor: Tools → License Manager → Deregister
+
+  After shrinking C: (Windows Disk Management + G parted)
 
 | Partition |  Size    | Type    | Mount                       |
 |-----------|----------|---------|-----------------------------|
