@@ -40,18 +40,19 @@
   - Note partition numbers
 - Have a >4 GB thumbdrive
 - On Windows: download the ISO and flash using **balenaEtcher**
-After shrinking C: (Windows Disk Management)
+After shrinking C: (Windows Disk Management + G parted)
 
 | Partition |  Size    | Type    | Mount                       |
 |-----------|----------|---------|-----------------------------|
-| (C:)      | 322.41 GB| NTFS    | 
-| (D:)      |   3.99 GB| FAT32   | 
-|  unall    | 261.51 GB|
-| p1        |1022    MB| 
-| p5        | 798    MB|
-| p6        |  21.49 GB| pri/ext4| (name: 'custom' in GParted) |
-| p7        |  30.27 GB| swap    |                             |
-| p8        |   1.86 GB| EFI     | `/boot`        | (large enough to hold Windows, Pop, and Cachy) |
+| p1        |1022    MB| FAT     | not mounted Linux           |
+| p2        |   4.3  GB| FAT EFI | (D:)                        |
+| p3        |  17    MB| ext4    | not mounted Linux           |
+| p4        | 322.41 GB| NTFS    | (C:)                        |
+|           | 261.51 GB|         | free                        |
+| p5        | 798    MB| NTFS    | not mounted Linux           |
+| p6        |  21.49 GB| swap    | (name: 'custom' in GParted) |
+| p7        |  30.27 GB| ext4    | 'dummy'                     |
+| p8        |   1.86 GB| FAT EFI | `/boot`  (large enough to hold Windows, Pop, and Cachy) |
 | p9        | 288.18 GB| ext4    | `/root`                     |
 
 
@@ -64,20 +65,19 @@ Insert ISO USB and boot:
 Choose **"Try or install xxx"** — allow ~3 minutes.
 
 Partition setup (Custom / GParted):
-After shrinking C: (Windows Disk Management)
 
 | Partition |  Size    | Type    | Mount                       |
 |-----------|----------|---------|-----------------------------|
-| (C:)      | 322.41 GB| NTFS    | 
-| (D:)      |   3.99 GB| FAT32   | 
-|  unall    | 261.51 GB|
-| p1        |1022    MB| 
-| p5        | 798    MB|
-| p6        |  21.49 GB| pri/ext4| (name: 'custom' in GParted) |
-| p7        |  30.27 GB| swap    |                             |
-| p8        |   1.86 GB| EFI     | `/boot`        | (large enough to hold Windows, Pop, and Cachy) |
+| p1        |1022    MB| FAT     | not mounted Linux           |
+| p2        |   4.3  GB| FAT EFI | (D:)                        |
+| p3        |  17    MB| ext4    | not mounted Linux           |
+| p4        | 322.41 GB| NTFS    | (C:)                        |
+|           | 261.51 GB|         | free                        |
+| p5        | 798    MB| NTFS    | not mounted Linux           |
+| p6        |  21.49 GB| swap    | (name: 'custom' in GParted) |
+| p7        |  30.27 GB| ext4    | 'dummy'                     |
+| p8        |   1.86 GB| FAT EFI | `/boot`  (large enough to hold Windows, Pop, and Cachy) |
 | p9        | 288.18 GB| ext4    | `/root`                     |
-
 
 Username: `daveg`
 
