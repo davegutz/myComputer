@@ -112,6 +112,84 @@ This installs the rEFInd boot manager to make the EFI boot menu work properly wi
 
 ## 4. Initial Setup
 
+Command line
+```bash
+sudo pacman -Syu  # update
+sudo pacman -S github-desktop
+sudo pacman -S git
+sudo pacman -S cosmic  
+sudo pacman -S cosmic-session
+# logout and log back in to activate--NOT WORKING
+
+systemctl status display-manager
+sudo systemctl restart lightdm  # should activate directly
+ls /usr/share/wayland-sessions/  # see if files exist
+sudo systemctl daemon-reload  # force-reload
+sudo reboot  # reqd for lightdm to rebuild session cache --DIDN'T WORK
+
+# 1. Install the native cosmic greeter packages
+sudo pacman -S greetd cosmic-greeter
+# 2. Disable LightDM
+# 3. Enable the cosmic login manager
+sudo systemctl disable lightdm --now; sudo systemctl enable greetd --now;
+
+(#if your screen goes black or you encounter an issue switching over, you can drop into a text terminal at any time by pressing Ctrl + Alt + F3 to revert back.
+sudo systemctl disable greetd --now
+sudo systemctl enable lightdm --now
+)
+
+
+Since you are running GNOME 50, your system is using GDM (GNOME Display Manager). The "COSMIC" option is likely missing because GDM has automatically disabled Wayland sessions (often due to NVIDIA drivers) or the selection menu is hidden. [1, 2, 3, 4, 5] 
+Fix this by forcing GDM to allow Wayland sessions. [6] 
+## 1. Enable Wayland in GDM [7] 
+The most common cause for missing Wayland sessions (like COSMIC) in GDM is a specific configuration line. [8] 
+
+   1. Open the GDM configuration file:
+   
+   sudo nano /etc/gdm/custom.conf
+   
+   2. Look for the line WaylandEnable=false.
+   3. Comment it out by adding a # to the start of the line, or change false to true:
+   
+   #WaylandEnable=false
+   
+   (If you don't see this line, add WaylandEnable=true under the [daemon] section).
+   4. Press Ctrl+O, Enter to save, and Ctrl+X to exit. [9, 10, 11, 12] 
+
+## 2. Restart GDM
+Apply the change by restarting the display manager: [13] 
+
+sudo systemctl restart gdm
+
+## 3. Locate the "Gear" Icon [14] 
+In GDM, the desktop session menu is hidden by default until you select a user.
+
+   1. On the login screen, click your username first.
+   2. Look for a gear icon (⚙️) in the bottom right corner (or sometimes bottom left/center depending on the theme).
+   3. Click the gear and select COSMIC.
+   4. Enter your password and login. [15, 16, 17] 
+
+## 4. Verify Session File (If it still fails)
+If the gear icon still doesn't appear, ensure the COSMIC session file is actually in the correct folder that GDM reads:
+
+ls /usr/share/wayland-sessions/
+
+
+* Success: You see cosmic.desktop.
+* Failure: If the folder is empty or missing cosmic.desktop, reinstall the session:
+
+sudo pacman -S cosmic-session
+
+[1] 
+
+If the gear icon is present but selecting "COSMIC" kicks you back to the login screen immediately, tell me:
+
+* Do you have an NVIDIA graphics card? (This often requires a specific kernel parameter fix).
+* Does cosmic-greeter (the native login screen) work if you try it one more time with sudo systemctl enable --now cosmic-greeter?
+
+
+```
+
 From Pop!_Shop install:
 - `brasero`
 - `caffeine` (the one with steam rising)
