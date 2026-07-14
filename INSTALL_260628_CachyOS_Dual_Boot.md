@@ -1,7 +1,7 @@
 # Installing CachyOS (Dual Boot with Windows)
 
 **Hardware:** HP Omen (or similar)
-**OS:** CachyOS 260628 with COSMIC desktop (X11/Xorg)
+**OS:** CachyOS 260628 with COSMIC desktop (X11/Xorg) 
 **Purpose:** General workstation, dual-boot alongside Windows
 
 > CachyOS uses the COSMIC desktop in 260628
@@ -252,86 +252,7 @@ Alternatively, plug in a USB headset and adjust sound in GUI.
 
 **Install Rclone:
 
-```bash
-sudo pacman -S rclone fuse3
-rclone config
-```
-Follow the prompts:
-
-        Enter n to create a new remote.
-        e/n/d/r/c/s/q>  n
-        name>  gdrive
-        Option Storage:  find Drive (usually 18)
-        client:id>  
-        client_secret>  
-        scope>  1
-        service_account_file>  
-        Edit Advanced config?
-        y/n>  y
-          oauth Access Token:    https://myaccount.google.com/apppasswords  name it Rclone  "epep hdvf omwc bnxy"
-          auth_url>  
-          token_url> 
-          client_credentials>
-          root_folder_id>  
-          auth_owner_only>  
-          use_trash>  
-          copy_shortcut_content>  
-          skip_gdocs>  
-          show_all_gdocs>
-          skip_checksum_gphotos>  
-          shared_with_me>  
-          trashed_only>  
-          starred_only>  
-          export_formats>  
-          import_formats>  
-          allow_import_name_change>  
-          list_chunk>  
-          impersonate>  
-          upload_cutoff> 1G
-          chunk_size>  
-          acknowledge_abuse>  
-          keep_revision_forever>  
-          v2_download_min_size>  
-          pacer_min_sleep>  
-          pacer_burst>  
-          server_side_across_configs>  
-          disable_http2>  
-          stop_on_upload_limit>  
-          stop_on_download_limit>  
-          skip_shortcuts>  
-          skip_dangling_shortcuts>  
-          resource_key>  
-          fast_list_bug_fix>
-          metadata_owner>
-          metadata_permissions>
-          metadata_labels>
-          metadata_enforce_expansive_access>
-          encoding>  
-          env_auth>
-          description>
-
-          Edit advanced config? 
-
-          Use web browser to automatically authenticate rclone with remote?
-                      Complete the authentication process in your web browser, allowing Rclone access to your Google Drive.
-                      Return to the terminal
-
-          Configure this as a Shared Drive (Team Drive)? n (blank)
-          y/n>  n (blank)
-
-      Keep this "gdrive" remote?
-      y/e/d> y (blank)  
-
-    Exit the configuration wizard by typing q
-    e/n/d/r/c/s/q> q
-
-**Mount Google Drive:**
-
-```bash
-mkdir ~/gdrive
-rclone mount gdrive: ~/gdrive --vfs-cache-mode full &
-```
-
+***Get an ID and secret (new)***
 Msg: 2026/07/14 04:41:14 NOTICE: gdrive: This remote uses rclone's shared Google Drive client_id, which is being retired and will stop working during 2026. Create your own client_id to avoid interruption: https://rclone.org/drive/#making-your-own-client-id
 
 ```html
@@ -362,6 +283,101 @@ https://rclone.org/drive/#making-your-own-client-id
     - Provide the noted client ID and client secret to rclone
     
     - Run the web-based authorization flow from within rclone config, by answering "Y" when it asks "Already have a token - refresh?"
+
+
+After running all this stuff on https://rclone.org/drive/#making-your-own-client-id#
+you'll have
+    - Search in email for title 'Secrets for gdrive CachyOS Cosmic'
+    - Creation date:  July 14, 2026
+    - Status: Enabled
+
+   ---------
+
+***Now configure rclone to use it***
+```bash
+sudo pacman -S rclone fuse3
+rclone config
+```
+Follow the prompts:
+
+        Enter n to create a new remote.
+        e/n/d/r/c/s/q>  n
+        name>  gdrive
+        Option Storage:  find Drive (usually 18)
+        client:id>  from email
+        client_secret>  from email
+        scope>  1
+        service_account_file>  
+        Edit Advanced config?
+        y/n>  y
+          oauth Access Token:  enter default
+# oauth Access Token:    https://myaccount.google.com/apppasswords  name it Rclone  "epep hdvf omwc bnxy"
+          auth_url>  
+          token_url> 
+          client_credentials>
+          root_folder_id>  
+          auth_owner_only>  
+          use_trash>  
+          copy_shortcut_content>  
+          skip_gdocs>  
+          show_all_gdocs>
+          skip_checksum_gphotos>  
+          shared_with_me>  
+          trashed_only>  
+          starred_only>  
+          export_formats>  
+          import_formats>  
+          allow_import_name_change>  
+          list_chunk>  
+          impersonate>  
+          upload_cutoff> 1Gi
+          chunk_size>  
+          acknowledge_abuse>  
+          keep_revision_forever>  
+          v2_download_min_size>  
+          pacer_min_sleep>  
+          pacer_burst>  
+          server_side_across_configs>  
+          disable_http2>  
+          stop_on_upload_limit>  
+          stop_on_download_limit>  
+          skip_shortcuts>  
+          skip_dangling_shortcuts>  
+          resource_key>  
+          fast_list_bug_fix>
+          metadata_owner>
+          metadata_permissions>
+          metadata_labels>
+          metadata_enforce_expansive_access>
+          encoding>  
+          env_auth>
+          description>
+
+          Edit advanced config? 
+
+          Use web browser to automatically authenticate rclone with remote?
+                      Complete the authentication process in your web browser, allowing Rclone access to your Google Drive.
+                      Return to the terminal
+
+          Already have a token - refresh? y
+          
+          Configure this as a Shared Drive (Team Drive)? n (blank)
+          y/n>  n
+
+      Keep this "gdrive" remote?
+      y/e/d> y
+
+
+    Exit the configuration wizard by typing q
+    e/n/d/r/c/s/q> q
+
+***Mount Google Drive:***
+
+```bash
+mkdir ~/gdrive
+rclone mount gdrive: ~/gdrive --vfs-cache-mode full &
+```
+
 ```
 
 **Auto-start rclone on login:**
@@ -440,7 +456,8 @@ timedatectl set-local-rtc 1 --adjust-system-clock
 ```bash
 sudo passwd daveg     # ignore warnings
 sudo passwd           # root
-rm ~/.local/share/keyrings/login.keyring
+rm ~/.local/share/keyrings/Default_keyring.keyring
+
 sudo apt update
 sudo apt -y upgrade
 sudo apt -y autoremove
