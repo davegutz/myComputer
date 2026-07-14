@@ -138,6 +138,10 @@ browser.sessionstore.interval = 150000
 ** Disable Touchpad:**
 Settings - Input devices - Keyboard - System - Toggle touchpad - edit or add Super+F9 (actually typed)
 
+** Cleanup Dock:**
+Settings - Desktop - Dock - Toggle off (top item)
+                   - Panel - Configure panel applets - Add applet - App Tray
+
 ---
 
 ## 5. Install More Applications
