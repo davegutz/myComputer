@@ -126,6 +126,29 @@ makepkg -si
 Open the SOC_PARTICLE folder (not src)
 
 sudo apt install -y libarchive-zip-perl    # provides crc32 — Particle Workbench needs it
+In Particle: Launch CLI run 'particle usb configure' 
+FAQ:  Missing permissions to access the USB device.  
+```bash
+sudo groupadd -g 46 plugdev
+sudo usermod -aG plugdev,uucp $USER
+sudo nano /etc/udev/rules.d/50-particle.rules
+#paste following
+# Particle Devices (Photon, Electron, Argon, Boron, Xenon, Neon, etc.)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="2b04", ATTRS{idProduct}=="0006", MODE="0666", GROUP="plugdev"
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="2b04", ATTRS{idProduct}=="0008", MODE="0666", GROUP="plugdev"
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="2b04", ATTRS{idProduct}=="000c", MODE="0666", GROUP="plugdev"
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="2b04", ATTRS{idProduct}=="000d", MODE="0666", GROUP="plugdev"
+
+# Particle Debugger
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="2b04", ATTRS{idProduct}=="0010", MODE="0666", GROUP="plugdev"
+
+# restart service
+sudo udevadm control --reload-rules && sudo udevadm trigger
+
+# logout/login or reboot
+
+```
+
 
 ** Pycharm:**
 sudo pacman -Syu tk
@@ -309,15 +332,41 @@ mkdir ~/gdrive
 rclone mount gdrive: ~/gdrive --vfs-cache-mode full &
 ```
 
-TODO:   2026/07/14 04:41:14 NOTICE: gdrive: This remote uses rclone's shared Google Drive client_id, which is being retired and will stop working during 2026. Create your own client_id to avoid interruption: https://rclone.org/drive/#making-your-own-client-id
+Msg: 2026/07/14 04:41:14 NOTICE: gdrive: This remote uses rclone's shared Google Drive client_id, which is being retired and will stop working during 2026. Create your own client_id to avoid interruption: https://rclone.org/drive/#making-your-own-client-id
 
+```html
+https://rclone.org/drive/#making-your-own-client-id
+  - Select a project or create a new project
+  
+  - Under "ENABLE APIS AND SERVICES" search for "Drive", and enable the "Google Drive API" (see check next to "Try this API  <<check>> API Enabled")
+  
+  - Go back a couple. Click "Credentials" in the left-side panel (not "Create credentials", which opens the wizard).
+  
+  - If you already configured an "Oauth Consent Screen", then skip to the next step; if not, click on "CONFIGURE CONSENT SCREEN" button (near the top right corner of the right panel), then click "Get started". On the next screen, enter an "Application name" ("rclone" is OK); enter "User Support Email" (your own email is OK); Next, under Audience select "External". Next enter your own contact information, agree to terms and click "Create". You should now see rclone (or your project name) in a box in the top left of the screen.
+  
+  - You will also have to add some scopes, including
+        https://www.googleapis.com/auth/docs
+        https://www.googleapis.com/auth/drive in order to be able to edit, create and delete files with RClone.
+        https://www.googleapis.com/auth/drive.metadata.readonly which you may also want to add.
+
+        To do this, click Data Access on the left side panel, click "add or remove scopes" and select the three above and press update or go to the "Manually add scopes" text box (scroll down) and enter "https://www.googleapis.com/auth/docs,https://www.googleapis.com/auth/drive,https://www.googleapis.com/auth/drive.metadata.readonly", press add to table then update.
+
+        You should now see the three scopes on your Data access page. Now press save at the bottom!
+        
+    - After adding scopes, click Audience Scroll down and click "+ Add users". Add yourself as a test user and press save. 
+        davegutz2006@gmail.com
+
+    - Go to Overview on the left panel, click "View all clients."  "Create client". Choose an application type of "Desktop app" and click "Create". (the default name is fine)
+     id:    311741402640-qarcb5oeikcajf1nnaf9g626tgkhespr.apps.googleusercontent.com
+
+    - Provide the noted client ID and client secret to rclone
+    
+    - Run the web-based authorization flow from within rclone config, by answering "Y" when it asks "Already have a token - refresh?"
+```
 
 **Auto-start rclone on login:**
-
-Add startup application: `"gdrive"` with command `"rclone mount gdrive: ~/gdrive &"`
-
-OR
-
+    - Add startup application: `"gdrive"` with command `"rclone mount gdrive: ~/gdrive --vfs-cache-mode full &"`
+        OR
 ```bash
 mkdir -p ~/bin
 bash
@@ -341,7 +390,6 @@ EOF
 chmod +x ~/bin/Rclone
 echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc && source ~/.bashrc
 
-
 mkdir ~/.config/autostart
 cat << EOF > ~/.config/autostart/rclone.desktop
 [Desktop Entry]
@@ -354,7 +402,7 @@ EOF
 chmod +x /home/daveg/.config/autostart/rclone.desktop
 ```
 
-Test the autostart entry:
+    Test the autostart entry:
 
 ```bash
 gio launch ~/.config/autostart/rclone.desktop
@@ -768,7 +816,6 @@ pkill -f systemd-inhibit
 
 
 ### GitHub cli for Cosmic
-
 
 
 cat << EOF > /home/daveg/.local/bin/gitgui
