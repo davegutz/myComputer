@@ -107,7 +107,7 @@ sudo pacman -S github-desktop
 sudo pacman -S git
 ```
 
-** From CachyOS Package Installer menu:**
+**From CachyOS Package Installer menu:**
 - `audacity`
 - `pycharm-community-edition`
 - `Code`
@@ -115,6 +115,9 @@ sudo pacman -S git
 - `gnucash`
 - `libreoffice-still`
 - `vlc` (open and turn off hardware acceleration)
+
+**paru**
+sudo pacman -S paru
 
 ** Visual Studio Code:**
 sudo pacman -S --needed base-devel git
@@ -160,6 +163,13 @@ python -m tkinter
 about:config
 browser.sessionstore.interval = 150000
 ```
+
+**Google Chrome**
+paru -S google-chrome
+
+**Proton VPN**
+sudo pacman -S proton-vpn-gtk-app networkmanager gnome-keyring
+
 
 ** Disable Touchpad:**
 Settings - Input devices - Keyboard - System - Toggle touchpad - edit or add Super+F9 (actually typed)
