@@ -330,7 +330,7 @@ rclone mount gdrive: ~/gdrive \
   --vfs-cache-max-age 24h \
   --dir-cache-time 1000h \
   --drive-chunk-size 128M \
-  --buffer-size 64M \
+  --buffer-size 64M
   --poll-interval 15s \
   --multi-thread-streams 4 \
   --tpslimit 5 \
@@ -339,6 +339,8 @@ rclone mount gdrive: ~/gdrive \
   &
 EOF
 chmod +x ~/bin/Rclone
+echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc && source ~/.bashrc
+
 
 mkdir ~/.config/autostart
 cat << EOF > ~/.config/autostart/rclone.desktop
