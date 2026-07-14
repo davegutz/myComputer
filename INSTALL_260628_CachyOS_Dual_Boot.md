@@ -135,6 +135,9 @@ about:config
 browser.sessionstore.interval = 150000
 ```
 
+** Disable Touchpad:**
+Settings - Input devices - Keyboard - System - Toggle touchpad - edit or add Super+F9 (actually typed)
+
 ---
 
 ## 5. Install More Applications
