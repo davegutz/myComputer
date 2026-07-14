@@ -127,6 +127,9 @@ Open the SOC_PARTICLE folder (not src)
 
 sudo apt install -y libarchive-zip-perl    # provides crc32 — Particle Workbench needs it
 
+** Pycharm:**
+sudo pacman -Syu tk
+python -m tkinter
 
 
 **Firefox Performance:**
@@ -227,7 +230,7 @@ Alternatively, plug in a USB headset and adjust sound in GUI.
 **Install Rclone:
 
 ```bash
-sudo apt install rclone
+sudo pacman -S rclone fuse3
 rclone config
 ```
 Follow the prompts:
@@ -245,11 +248,13 @@ Follow the prompts:
           oauth Access Token:    https://myaccount.google.com/apppasswords  name it Rclone  "epep hdvf omwc bnxy"
           auth_url>  
           token_url> 
+          client_credentials>
           root_folder_id>  
           auth_owner_only>  
           use_trash>  
           copy_shortcut_content>  
           skip_gdocs>  
+          show_all_gdocs>
           skip_checksum_gphotos>  
           shared_with_me>  
           trashed_only>  
@@ -273,16 +278,20 @@ Follow the prompts:
           skip_shortcuts>  
           skip_dangling_shortcuts>  
           resource_key>  
+          fast_list_bug_fix>
+          metadata_owner>
+          metadata_permissions>
+          metadata_labels>
+          metadata_enforce_expansive_access>
           encoding>  
+          env_auth>
+          description>
 
-          Edit advanced config? blank
+          Edit advanced config? 
 
-          Already have a token - refresh?  blank
-
-          Use auto config?
-          y/n>  y
-            Complete the authentication process in your web browser, allowing Rclone access to your Google Drive.
-            Return to the terminal
+          Use web browser to automatically authenticate rclone with remote?
+                      Complete the authentication process in your web browser, allowing Rclone access to your Google Drive.
+                      Return to the terminal
 
           Configure this as a Shared Drive (Team Drive)? n (blank)
           y/n>  n (blank)
@@ -297,8 +306,11 @@ Follow the prompts:
 
 ```bash
 mkdir ~/gdrive
-rclone mount gdrive: ~/gdrive &
+rclone mount gdrive: ~/gdrive --vfs-cache-mode full &
 ```
+
+TODO:   2026/07/14 04:41:14 NOTICE: gdrive: This remote uses rclone's shared Google Drive client_id, which is being retired and will stop working during 2026. Create your own client_id to avoid interruption: https://rclone.org/drive/#making-your-own-client-id
+
 
 **Auto-start rclone on login:**
 
@@ -308,6 +320,7 @@ OR
 
 ```bash
 mkdir -p ~/bin
+bash
 cat << EOF > ~/bin/Rclone
 #!/bin/bash
 # rclone mount gdrive: ~/gdrive &
@@ -345,15 +358,7 @@ Test the autostart entry:
 gio launch ~/.config/autostart/rclone.desktop
 # or
 sudo apt install dex
-dex ./.config/autostart/rclone.desktop
-```
-
-Test the autostart entry:
-
-```bash
-gio launch ~/.config/autostart/rclone.desktop
-# or
-sudo apt install dex
+sudo pacman -S dex
 dex ./.config/autostart/rclone.desktop
 ```
 
