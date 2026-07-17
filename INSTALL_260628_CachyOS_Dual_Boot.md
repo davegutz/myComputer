@@ -241,6 +241,32 @@ sudo snap install --classic pycharm-community
 
 For alternate Python version, see [INSTALL_24.04_Ubuntu](INSTALL_24.04_Ubuntu.md).
 
+# Using Antigravity cli launcher in yolo mode
+/home/daveg/.gemini/antigravity-cli/settings.json
+{
+  "allowNonWorkspaceAccess": true,
+  "auto_accept": true,
+  "colorScheme": "dark",
+  "enableTelemetry": false,
+  "enableTerminalSandbox": true,
+  "permissions": {
+    "allow": [
+      "command(*)",
+      "write_file(*)",
+      "read_file(*)"
+    ],
+    "deny": [
+      "command(sudo)"
+    ]
+  },
+  "trustedWorkspaces": [
+    "/home/daveg/Documents/GitHub/mySOC/SOC_Particle/pyStateOfCharge",
+    "/home/daveg/Documents/GitHub/mySOC/SOC_Particle"
+  ]
+}
+
+
+
 ---
 
 ## 8. Sound Configuration
