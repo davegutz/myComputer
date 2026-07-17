@@ -861,25 +861,13 @@ sudo apt purge -y nodejs npm
 sudo apt autoremove -y
 sudo apt install curl nodejs npm -y
 sudo npm install -g @google/gemini-cli
-
-#nvm install 20
-#nvm use 20
-#nvm alias default 20
 node -v
-
 https://antigravity.google/
-cd ~/Downloads
-tar -xzvf Antigravity.tar.gz
-sudo mv Antigravity-x64 /opt/
-sudo chmod +x /opt/Antigravity-x64/antigravity
-sudo ln -sf /opt/Antigravity-x64/antigravity /usr/local/bin/antigravity
-sudo chown root:root /opt/Antigravity-x64/chrome-sandbox
-sudo chmod 4755 /opt/Antigravity-x64/chrome-sandbox
-
+curl -fsSL https://antigravity.google/cli/install.sh | bash
 edit ~/.bashrc
 export PATH="/home/daveg/.local/bin:$PATH"
-antigravity --version
-antigravity --cli
+agy --version
+agy --cli
 
 # Let vscode install launcher by following this pad
 vscode - extensions - antigravity cli launcher - install
@@ -889,7 +877,6 @@ pycharm - settings - plugins - marketplace - antigravity companion
  - a lightning bold icon appears in top right - launch - yes - wait to login htpps 
  --- use arrows to scrolldown below hyperlink to find code entry area
  
-
-
+ 
 ## End works in progress
 
