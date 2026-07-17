@@ -265,7 +265,7 @@ For alternate Python version, see [INSTALL_24.04_Ubuntu](INSTALL_24.04_Ubuntu.md
   ]
 }
 
-
+Use Shelly to install puTTY.  Configure using instructions in dataReduction/putty/puTTY_Windows_setup_def.odt followed by test.odt
 
 ---
 
@@ -903,6 +903,17 @@ pycharm - settings - plugins - marketplace - antigravity companion
  - a lightning bold icon appears in top right - launch - yes - wait to login htpps 
  --- use arrows to scrolldown below hyperlink to find code entry area
  
+ 
+### Lid closing does nothing
+# set ignores below (may already be present with # comment)
+sudo nano /etc/systemd/logind.conf
+```bash
+ HandleLidSwitch=ignore
+ HandleLidSwitchExternalPower=ignore
+ HandleLidSwitchDocked=ignore
+```
+# Then run the following (save your work because it may cause reset)
+sudo systemctl restart systemd-logind
  
 ## End works in progress
 
