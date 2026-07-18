@@ -914,6 +914,15 @@ sudo nano /etc/systemd/logind.conf
 ```
 # Then run the following (save your work because it may cause reset)
 sudo systemctl restart systemd-logind
- 
+
+
+### caffeine
+sudo pacman -S rustup
+rustup default stable
+sudo pacman -Y yay
+yay -S caffeine-ng
+
+
+
 ## End works in progress
 
