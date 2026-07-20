@@ -248,12 +248,14 @@ For alternate Python version, see [INSTALL_24.04_Ubuntu](INSTALL_24.04_Ubuntu.md
   "auto_accept": true,
   "colorScheme": "dark",
   "enableTelemetry": false,
-  "enableTerminalSandbox": true,
+  "enableTerminalSandbox": false,
   "permissions": {
     "allow": [
       "command(*)",
       "write_file(*)",
-      "read_file(*)"
+      "read_file(*)",
+      "mcp(*)",
+      "unsandboxed(*)"
     ],
     "deny": [
       "command(sudo)"
