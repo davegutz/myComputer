@@ -269,6 +269,44 @@ For alternate Python version, see [INSTALL_24.04_Ubuntu](INSTALL_24.04_Ubuntu.md
 
 Use Shelly to install puTTY.  Configure using instructions in dataReduction/putty/puTTY_Windows_setup_def.odt followed by test.odt
 
+Non-standard pyCharm preferences
+    - 1. JVM & Memory Allocation (pycharm64.vmoptions)                                     
+                                                                                           
+  • Maximum Heap RAM (-Xmx): Increased to 15,000 MB (15 GB) (-Xmx15000m).                  
+    - 2. Custom Keymap (XWin Proper Redo.xml)                                              
+                                                                                           
+  • Keymap Scheme: Created a custom keymap named "XWin Proper Redo" (based on Default for  
+  XWin).                                                                                   
+  • Redo Shortcuts: Assigned Ctrl+Y, Ctrl+Shift+Z, and Shift+Alt+Backspace to Redo.        
+  • Line Delete: Removed default Ctrl+Y shortcut for deleting lines (EditorDeleteLine).    
+
+    - 3. Font Sizes                                                                        
+                                                                                           
+  • Editor Font: Increased to 15 pt (editor-font.xml).                                     
+  • Terminal Font: Increased to 15 pt (terminal-font.xml).                                 
+
+    - 4. Console & Terminal Buffer Limits                                                  
+                                                                                           
+  • Terminal Scrollback Buffer: Increased maximum buffer to 50,000 lines (terminal.buffer. 
+  max.lines.count = 50000 in advancedSettings.xml).                                        
+  • Console Cycle Buffer: Overridden and expanded to 8,092 KB (~8 MB)                      
+  (CONSOLE_CYCLE_BUFFER_SIZE_KB = 8092 in ui.lnf.xml).                                     
+
+    - 5. UI & Behavior Prompts                                                             
+                                                                                           
+  • Confirm Exit: Disabled exit confirmation dialog (confirmExit = false in                
+  ide.general.xml).                                                                        
+  • Rerun Termination: Disabled prompt when rerunning processes requiring termination      
+  (confirm.rerun.with.termination = false in advancedSettings.xml).                        
+  • Paste Behavior: Enabled automatic reformatting on paste (REFORMAT_ON_PASTE = 1,        
+  INDENT_TO_CARET_ON_PASTE = true in editor.xml).                                          
+
+    - 6. Installed Plugins                                                                 
+                                                                                           
+  • antigravity-companion: Installed in PyCharm user plugins directory (~/.                
+  local/share/JetBrains/PyCharmCE2026.1/antigravity-companion).                            
+
+
 ---
 
 ## 8. Sound Configuration
@@ -291,10 +329,12 @@ Alternatively, plug in a USB headset and adjust sound in GUI.
 **Install Rclone:
 
 ***Get an ID and secret (new)***
+
 Msg: 2026/07/14 04:41:14 NOTICE: gdrive: This remote uses rclone's shared Google Drive client_id, which is being retired and will stop working during 2026. Create your own client_id to avoid interruption: https://rclone.org/drive/#making-your-own-client-id
 
 ```html
 https://rclone.org/drive/#making-your-own-client-id
+```
   - Select a project or create a new project
   
   - Under "ENABLE APIS AND SERVICES" search for "Drive", and enable the "Google Drive API" (see check next to "Try this API  <<check>> API Enabled")
@@ -308,9 +348,9 @@ https://rclone.org/drive/#making-your-own-client-id
         https://www.googleapis.com/auth/drive in order to be able to edit, create and delete files with RClone.
         https://www.googleapis.com/auth/drive.metadata.readonly which you may also want to add.
 
-        To do this, click Data Access on the left side panel, click "add or remove scopes" and select the three above and press update or go to the "Manually add scopes" text box (scroll down) and enter "https://www.googleapis.com/auth/docs,https://www.googleapis.com/auth/drive,https://www.googleapis.com/auth/drive.metadata.readonly", press add to table then update.
+       To do this, click Data Access on the left side panel, click "add or remove scopes" and select the three above and press update or go to the "Manually add scopes" text box (scroll down) and enter "https://www.googleapis.com/auth/docs,https://www.googleapis.com/auth/drive,https://www.googleapis.com/auth/drive.metadata.readonly", press add to table then update.
 
-        You should now see the three scopes on your Data access page. Now press save at the bottom!
+       You should now see the three scopes on your Data access page. Now press save at the bottom!
         
     - After adding scopes, click Audience Scroll down and click "+ Add users". Add yourself as a test user and press save. 
         davegutz2006@gmail.com
@@ -321,7 +361,6 @@ https://rclone.org/drive/#making-your-own-client-id
     - Provide the noted client ID and client secret to rclone
     
     - Run the web-based authorization flow from within rclone config, by answering "Y" when it asks "Already have a token - refresh?"
-
 
 After running all this stuff on https://rclone.org/drive/#making-your-own-client-id#
 you'll have
@@ -592,83 +631,17 @@ FallbackDNS=1.1.1.1 1.0.0.1
 This ensures DNS works globally regardless of what NetworkManager does per-interface.
 
 
-## GNOME and X11
-
-https://www.reddit.com/r/pop_os/comments/1pzy02f/installing_gnome_on_pop_os_2404/
-
-```bash
-sudo apt install gnome-session gnome-shell-extension-manager
-# choose gdm3 greeter.
-```
-
-Later you can change greeter to cosmic-greeter by
-```bash
-sudo dpkg-reconfigure cosmic-greeter
-# or
-sudo dpkg-reconfigure gdm3
-```
-
-There are more setup suggestions in the link if issues.  This is a bare bones.  It doesn't have an application launcher so:
-
-```bash
-sudo apt install gnome-core
-```
-
-Optionally to make the gnome-terminal as default need the following:
-```bash
-sudo update-alternatives --config x-terminal-emulator
-```
-
-Install Pop Theme
-```bash
-sudo apt install pop-theme gnome-tweaks
-```
-
-To use cosmic apps:
-	Use cosmic store to install 'Tweaks'
-	Launch tweaks - Color schemes - Available search Adwaita - install - refresh - Installed (last thing verifies)
-
-Install Pop Shell
-```bash
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
-```
-Close terminal then reopen  (Important!!)
-```bash
-nvm install node
-npm install -g typescript
-cd ~/Downloads
-git clone https://github.com/pop-os/shell.git
-sudo apt install git node-typescript make.
-cd ~/Downloads/shell
-make local-install
-```
-
-Log out and log back in to cosmic.  Install extension manager.
-```bash
-flatpak install --user flathub com.mattjakeman.ExtensionManager
-```
-Launcher - search 'extens...' pick 'Extension Manager' - enable Pop Shell
-*********got stuck here.  Could not get Pop Shell to work.  Looks like System 76 disabled things (unsupported)
-GNOME-xorg to start a X11 session
-kgx&  # gnome shell
-gnome-text-editor&
-Alt-F2  # run
-
-Restart GNOME Shell: If the graphical shell becomes unresponsive, you can switch to a different TTY (text-only terminal) using Ctrl + Alt + F2, log in, and run killall -1 gnome-shell or pkill -HUP gnome-shell. The shell will automatically restart.
-
-
+___
 ### speed up Drive
+```bash
 echo "test gdrive" >testfile
 rclone copy testfile 
 htop
 
-gdrive: -P  #  Watch:
-Transfer speed
-CPU usage (top or htop)
-Network usage (iftop)
+gdrive: -P  #  Watch: Transfer speed, CPU usage (top or htop), Network usage (iftop)
 
-If CPU is pegged → encryption/checksums are the bottleneck.
-If network is low → concurrency/settings issue.
+# If CPU is pegged → encryption/checksums are the bottleneck.
+# If network is low → concurrency/settings issue.
 
 rclone copy testfile gdrive: --transfers 8 --checkers 16 --fast-list -P
 
@@ -685,8 +658,9 @@ rclone copy testfile gdrive: -vv --log-file=rclone.log
 
 # best result (avoid --fast-list, bw_limit off no effect)
 rclone copy Downloads/google-chrome-stable_current_amd64.deb gdrive:  --multi-thread-streams 4 --tpslimit 5 --tpslimit-burst 5 -vv --log-file=rclone.log  -P
+```
 
-
+___
 ### Install Chrome
 get the 64-bit deb file
 https://www.google.com/chrome/
@@ -696,15 +670,16 @@ cd Downloads
 sudo dpkg -i  google-chrome-stable_current_amd64.deb
 ``` 
 
-
+___
 ### Chrome Remote Desktop
 See [INSTALL_Chrome_Remote_Desktop](INSTALL_Chrome_Remote_Desktop.md) for Rclone setup.
 
 
+___
 ### noMachine Desktop Share
 See [INSTALL_noMachine](INSTALL_noMachine.md) 
 
-
+___
 ### RStudio-desktop
 Get the Deb
 ```html
@@ -714,9 +689,11 @@ https://posit.co/download/rstudio-desktop/
 sudo gdebi ~/Downloads/rstudio-*-amd64.deb
 ```
 
-
+___
 ## SageMath from source (recommended)
+```html
 https://sagemanifolds.obspm.fr/install_ubuntu.html
+```
 
 Dependencies:
 ```bash
@@ -759,7 +736,7 @@ sage -n jupyterlab
 ```
 
 
-
+___
 ### Speed up rclone
 Update(bin/Rclone)
   ⎿  Added 16 lines, removed 1 line
@@ -787,11 +764,12 @@ Update(bin/Rclone)
       18 +  &
 	  
 	  
+___
 ### Speed up github desktop
 buggy in Cosmic.  don't use
 use gitgui instead because it uses command line
 
-
+___
 ### git_gui program (gitgui)
 
 ```bash
@@ -820,23 +798,34 @@ wget --no-check-certificate http://install.ohmyz.sh -O - | sh
 which zsh
 sudo nano /etc/shells  # add something like "/usr/bin/zsh"
 chsh  # change default shell.  Answer "/usr/bin/zsh"
+```
 
+___
+### Oh-My-Zsh plugins
 
-# Oh-My-Zsh plugins
+```html
 https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins
+```
+```bash
 git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugins/zsh-autosuggestions
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
 git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git $ZSH_CUSTOM/plugins/zsh-autocomplete
 
 nano ~/.zshrc
+```
+```bsh
 plugins=(zsh-autosuggestions zsh-syntax-highlighting zsh-autocomplete git git-auto-fetch git-commit git-prompt gitignore history history-substring-search git-escape-magic themes uv z zsh-navigation-tools zsh-git-escape-magic aliases copypath dirhistory dirpersist)
+```
+```bash
 # example.  Then save-exit and run:
 source ~/.zshrc
+```
 
 
-
-# Oh-My-Zsh Theme
+### Oh-My-Zsh Theme
+```bash
 sudo nano ~/.zshrc
+
 ZSH_THEME="agnoster"  # example
 source ~/.zshrc
 
@@ -857,10 +846,11 @@ alias
 
 # uninstall_oh_my_zsh  # to uninstall oh_my_zsh
 ```
-
+___
 ### Caffeinee equivalent
 
-# Start it
+Start it
+```bash
 systemd-inhibit --what=idle --who=Debugging --why=Debugging --mode=block sleep inf &
 
 # Check it
@@ -868,11 +858,11 @@ systemd-inhibit --list
 
 # Stop it
 pkill -f systemd-inhibit
-
-
+```
+___
 ### GitHub cli for Cosmic
 
-
+```bash
 cat << EOF > /home/daveg/.local/bin/gitgui
 #!/bin/sh
 # gg — launch git_gui.py in the current working directory
@@ -882,7 +872,9 @@ EOF
 chmod +x /home/daveg/.local/bin/gitgui
 
 gitgui&
+```
 
+___
 ### Antigravity (gemini-cli) install
 sudo apt update
 sudo apt purge -y nodejs npm
@@ -897,34 +889,44 @@ export PATH="/home/daveg/.local/bin:$PATH"
 agy --version
 agy --cli
 
-# Let vscode install launcher by following this pad
+Let vscode install launcher by following this pad
+```bash
 vscode - extensions - antigravity cli launcher - install
-# close and restart antigravity terminal inside vscode
+```
 
+close and restart antigravity terminal inside vscode
+```bash
 pycharm - settings - plugins - marketplace - antigravity companion
  - a lightning bold icon appears in top right - launch - yes - wait to login htpps 
  --- use arrows to scrolldown below hyperlink to find code entry area
- 
+``` 
  
 ### Lid closing does nothing
-# set ignores below (may already be present with # comment)
+set ignores below (may already be present with # comment)
+```bash
 sudo nano /etc/systemd/logind.conf
+```
 ```bash
  HandleLidSwitch=ignore
  HandleLidSwitchExternalPower=ignore
  HandleLidSwitchDocked=ignore
 ```
-# Then run the following (save your work because it may cause reset)
+Then run the following (save your work because it may cause reset)
 sudo systemctl restart systemd-logind
 
-
+___
 ### caffeine
 sudo pacman -S rustup
 rustup default stable
 sudo pacman -Y yay
 yay -S caffeine-ng
 
+___
+### markdown editor
+sudo pacman -Syu
+sudo pacman -S cosmic-session
+flatpak install flathub dev.mariinkys.Cedilla
 
-
+___
 ## End works in progress
 
