@@ -381,14 +381,12 @@ Follow the prompts:
         e/n/d/r/c/s/q>  n
         name>  gdrive
         Option Storage:  find Drive (usually 18)
-        client:id>  from email
-        client_secret>  from email
+        client:id>  # FROM EMAIL*************  search for "Secrets for gdrive"
+        client_secret>  # FROM EMAIL*************
         scope>  1
         service_account_file>  
-        Edit Advanced config?
-        y/n>  y
+        Edit Advanced config?  y/n>  y
           oauth Access Token:  enter default
-# oauth Access Token:    https://myaccount.google.com/apppasswords  name it Rclone  "epep hdvf omwc bnxy"
           auth_url>  
           token_url> 
           client_credentials>
@@ -430,9 +428,9 @@ Follow the prompts:
           env_auth>
           description>
 
-          Edit advanced config? 
+          Edit advanced config?  n default
 
-          Use web browser to automatically authenticate rclone with remote?
+          Use web browser to automatically authenticate rclone with remote? y-default
                       Complete the authentication process in your web browser, allowing Rclone access to your Google Drive.
                       Return to the terminal
 
@@ -926,6 +924,70 @@ ___
 sudo pacman -Syu
 sudo pacman -S cosmic-session
 flatpak install flathub dev.mariinkys.Cedilla
+
+___
+### Ollama
+sudo pacman -S python-pip  # needed?
+
+# pip install ollama==0.6.2
+curl -fsSL https://ollama.com/install.sh | sh  # Run install script
+sudo systemctl enable --now ollama  # start and enable Ollama service
+systemctl status ollama  # verify service running
+
+# setup applet
+git clone https://github.com/cosmic-utils/cosmic-ext-applet-ollama.git  
+sudo pacman -Syu just
+mkdir myOllama
+cat << EOF > /home/daveg/myOllama/justfile
+# Default to release build
+build-release:
+    cargo build --release
+# Install the compiled binary to your local binaries folder
+install: build-release
+    mkdir -p ~/.local/bin
+    cp target/release/my-ollama-app ~/.local/bin/
+EOF
+mkdir ~/myOllama/src
+touch ~/myOllama/src/main.rs
+cat << EOF > /home/daveg/myOllama/Cargo.toml
+[package]
+name = "my-ollama-app"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# Common libraries for making API requests to your local Ollama server
+tokio = { version = "1", features = ["full"] }
+reqwest = { version = "0.11", features = ["json"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+EOF
+cat << EOF > /home/daveg/myOllama/src/main.rs
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    println!("Hello from DaveG's Ollama application!");
+    Ok(())
+}
+EOF
+cd myOllama
+just build-release
+rustup default stable
+just install
+
+# Use it lightweight
+ollama run llama3.2
+
+# Use it standard (ctrl+z to exit)
+ollama run llama3
+
+# Use it for coding
+ollama run codegemma
+
+ollama list  # list downloaded models
+ollama rm llama3.x  # remove model
+ollam pull llama3.x  # update an existing model
+
+
 
 ___
 ## End works in progress
