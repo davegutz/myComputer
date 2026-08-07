@@ -87,9 +87,11 @@ Partition setup (Custom / GParted):
 | p6        |  21.49 GB| swap    | (name: 'custom' in GParted) |
 | p7        |  30.27 GB| ext4    | 'dummy'                     |
 | p8        |   1.86 GB| FAT EFI | `/boot`  (large enough to hold Windows, Pop, and Cachy) |
-| p9        | 288.18 GB| ext4    | `/root`                     |
+| p9        | 288.18 GB| btrfs   | `/root`                     |
 
 Username: `daveg`
+***********  MAKE SURE YOU PICK 'btrfs' FOR ROOT MOUNT TYPE.  And enable Snapper suppoprt later.
+
 
 When presented with configuration choice checklist, choose only COSMIC *****!
 
@@ -99,6 +101,39 @@ Wait ~12 minutes for install
 ---
 
 ## 4. Initial Setup
+
+
+# Btrfs for Rollbacks
+    snapper support (https://wiki.cachyos.org/configuration/btrfs_snapshots/)
+        CachyOS Hello - Install apps - Repo - snapper,  btrfs-assistant, btrfsmaintenance
+    Can launch Btrfs assistant using launcher, or
+
+```bash
+btrfs-assistant-launcher
+# or
+sudo -E btrfs-assistant
+```        
+Modify the Snapshot Retention settings as follows:
+
+    Ensure the root config is selected
+    Enable timeline snapshots.
+      Enter a value of 0 for Hourly, Daily, Weekly, Monthly and Yearly.
+    Untick Enable timeline snapshots.
+    Enter a value of 10 to Number.
+    Add a ✅ to Snapper cleanup enabled.
+    Click on the Save button on the top right and Apply systemd changes on the bottom right. snapper-cleanup.timer will now be enabled to automatically clean up old snapshots based on your configuration.
+
+Limine Tips
+    Limit number of snapshots shown
+```bash
+# Create a backup of the limine-snapper-sync configuration file:
+sudo cp /etc/limine-snapper-sync.conf /etc/limine-snapper-sync.conf.orig
+# Edit config file
+sudo nano /etc/limine-snapper-sync.conf
+MAX_SNAPSHOT_ENTRIES=10
+SNAPSHOT_FORMAT_CHOICE=8
+```
+Boot from linux-cachyos (-lts is for recovery / repair use)
 
 Command line
 ```bash
