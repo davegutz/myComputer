@@ -101,10 +101,27 @@ Wait ~12 minutes for install
 ---
 
 ## 4. Initial Setup
+Command line installs
+```bash
+sudo pacman -Syu  # update
+sudo pacman -S github-desktop
+sudo pacman -S git
+```
 
+**From CachyOS Package Installer menu:**
+- `audacity`
+- `pycharm-community-edition`
+- `Code`
+- `caffeine` (the one with steam rising)
+- `gnucash`
+- `libreoffice-still`
+- `vlc` (open and turn off hardware acceleration)
+- `snapper`
+- `btrfs-assistant`
+- `btrfsmaintenance`
 
-# Btrfs for Rollbacks
-    snapper support (https://wiki.cachyos.org/configuration/btrfs_snapshots/)
+## Btrfs for Rollbacks
+  snapper support (https://wiki.cachyos.org/configuration/btrfs_snapshots/)
         CachyOS Hello - Install apps - Repo - snapper,  btrfs-assistant, btrfsmaintenance
     Can launch Btrfs assistant using launcher, or
 
@@ -123,8 +140,7 @@ Modify the Snapshot Retention settings as follows:
     Add a ✅ to Snapper cleanup enabled.
     Click on the Save button on the top right and Apply systemd changes on the bottom right. snapper-cleanup.timer will now be enabled to automatically clean up old snapshots based on your configuration.
 
-Limine Tips
-    Limit number of snapshots shown
+Limine Tips to limit number of snapshots shown
 ```bash
 # Create a backup of the limine-snapper-sync configuration file:
 sudo cp /etc/limine-snapper-sync.conf /etc/limine-snapper-sync.conf.orig
@@ -135,35 +151,26 @@ SNAPSHOT_FORMAT_CHOICE=8
 ```
 Boot from linux-cachyos (-lts is for recovery / repair use)
 
-Command line
+
+## paru
 ```bash
-sudo pacman -Syu  # update
-sudo pacman -S github-desktop
-sudo pacman -S git
+sudo pacman -S paru
 ```
 
-**From CachyOS Package Installer menu:**
-- `audacity`
-- `pycharm-community-edition`
-- `Code`
-- `caffeine` (the one with steam rising)
-- `gnucash`
-- `libreoffice-still`
-- `vlc` (open and turn off hardware acceleration)
-
-**paru**
-sudo pacman -S paru
-
-** Visual Studio Code:**
+## Visual Studio Code:
+```bash
 sudo pacman -S --needed base-devel git
 sudo pacman -S perl-archive-zip  # avoid crc32 error
 git clone https://aur.archlinux.org/visual-studio-code-bin.git
 cd visual-studio-code-bin
 makepkg -si
-# Open code and install extensions 'Workbench' (for Particle) and 'Antigravity CLI Launcher' (for Gemini).
-Open the SOC_PARTICLE folder (not src)
+```
+Open code and install extensions 'Workbench' (for Particle) and 'Antigravity CLI Launcher' (for Gemini).
+	Open the SOC_PARTICLE folder (not src)
 
+```bash
 sudo apt install -y libarchive-zip-perl    # provides crc32 — Particle Workbench needs it
+```
 In Particle: Launch CLI run 'particle usb configure' 
 FAQ:  Missing permissions to access the USB device.  
 ```bash
@@ -1023,6 +1030,10 @@ ollama rm llama3.x  # remove model
 ollam pull llama3.x  # update an existing model
 
 
+### Monospace font support
+nano ~/.config/fontconfig/fonts.conf
+# Replace with contents of ./cachyos_cosmic_fonts.conf
+fc-cache -fv
 
 ___
 ## End works in progress
