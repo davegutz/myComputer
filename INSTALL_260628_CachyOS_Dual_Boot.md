@@ -146,11 +146,77 @@ Limine Tips to limit number of snapshots shown
 sudo cp /etc/limine-snapper-sync.conf /etc/limine-snapper-sync.conf.orig
 # Edit config file
 sudo nano /etc/limine-snapper-sync.conf
-MAX_SNAPSHOT_ENTRIES=10
+MAX_SNAPSHOT_ENTRIES=30
 SNAPSHOT_FORMAT_CHOICE=8
 ```
 Boot from linux-cachyos (-lts is for recovery / repair use)
 
+when i select an old configuration during cachyos boot, have i rolled back?
+
+Selecting an old configuration from your boot menu does not roll back your system. It only boots that specific older snapshot or kernel once. Your current system state remains the same. Any new changes you made stay in place for your main system.
+
+How Boot Entries Work
+Temporary boot: Choosing an old entry only loads that old setup for this one time.
+Read-only state: Many snapshots are read-only to keep old data safe.
+No permanent change: Your main system is not changed or erased by this choice.
+
+To permanently roll back on CachyOS using its default setup, you need to use Btrfs Assistant or Snapper. By default, CachyOS takes automatic snapshots before system upgrades using a tool called Snapper.
+
+The easiest way to perform a permanent rollback is through the graphical interface from the snapshot you just booted into.
+
+Step-by-Step Rollback via GUI (Easiest)
+    - Boot into the old configuration from your bootloader screen.
+    - Open Btrfs Assistant by searching for it in your application menu or running this in your terminal:
+```bash
+bashbtrfs-assistant-launcher
+```
+    - Navigate to the Snapper tab, then click on the Browse/Restore sub-tab.
+    - Select the snapshot that matches the date and time you want to keep permanently.
+    - Click the Restore button in the top menu.
+    - Confirm and reboot your computer when prompted to finish the rollback.
+    
+Alternative: Step-by-Step Rollback via Terminal.  If you prefer using the command line instead of the GUI, use these commands:
+    - List available snapshots to find the ID number of the state you want:
+```bash
+sudo snapper list
+```
+
+Run the rollback command (replace 123 with your desired snapshot ID number):
+bash```
+sudo snapper rollback <desired snapshot ID>
+```
+Reboot the system to apply the changes permanently:bashsudo reboot
+```bash
+sudo reboot
+```
+If your system is completely unbootable and you cannot access the bootloader menu or any old configurations, you can easily force a rollback using a CachyOS Live USB.  CachyOS includes a custom built-in tool called cachy-chroot that automates mounting your encrypted or Btrfs drives for you.
+
+Step-by-Step Live USB Rollback
+    1. Boot into the CachyOS Live Environment using your installation USB flash drive.
+    2. Open a terminal (like Alacritty or Konsole) inside the live desktop.
+    3. Gain root privileges by running:
+```bash
+sudo su
+```
+    4. Launch the automatic chroot tool
+```bash
+cachy-chroot
+```
+    5. Select your root partition from the on-screen menu using your arrow keys and press Enter. (If using Btrfs, type y when asked to use the CachyOS Btrfs preset).
+    6. List your saved snapshots to find the ID number of the working state you want to return to:
+```bash
+snapper list
+```
+    7. Perform the hard rollback
+```bash
+snapper rollback <your desired working snapshot ID>
+```
+    8. Exit and reboot
+```bash
+exit
+reboot
+```
+Your system will safely swap the broken layout out for the functioning snapshot, allowing you to boot back into your desktop normally.
 
 ## paru
 ```bash
@@ -1030,10 +1096,12 @@ ollama rm llama3.x  # remove model
 ollam pull llama3.x  # update an existing model
 
 
-### Monospace font support
-nano ~/.config/fontconfig/fonts.conf
-# Replace with contents of ./cachyos_cosmic_fonts.conf
-fc-cache -fv
+### Monospace font support  don't do this!  messes up fonts in Code
+```bash
+#nano ~/.config/fontconfig/fonts.conf
+## Replace with contents of ./cachyos_cosmic_fonts.conf
+#fc-cache -fv
+```
 
 ___
 ## End works in progress
