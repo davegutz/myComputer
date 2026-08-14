@@ -611,6 +611,15 @@ sudo pacman -S dex
 dex ./.config/autostart/rclone.desktop
 ```
 
+***Remount the Drive***
+Launch if lost permissions (general i/o error)
+Choose e to edit an existing remote.
+Select the number or name of your Google Drive remote.
+enter defaults until...
+Choose the option to edit or re-do the token (Yes to change token).
+Select whether to use auto web-config (if running locally with a browser) or manual token generation (if on a headless server).
+Log into your Google account in the browser window that opens and approve the permissions request.
+
 ---
 
 ## 10. Claude Code
