@@ -28,7 +28,7 @@
 - [11. HDMI Audio](#11-hdmi-audio)
 - [12. Google Drive (Rclone)](#12-google-drive-rclone)
 - [13. Optional Tools](#13-optional-tools)
-- [14. Work In Progress](#14-work-in-progress)
+- [14. Work In Progress](#13-work-in-progress)
 
 ---
 
@@ -40,7 +40,7 @@ Insert ISO USB and boot:
 
 Choose **"Normal installation"** (not minimal — minimal leaves things broken).
 
-Setup and choose a single large partition. Installer will make a swap dynamically.
+Setup and choose a single large partition.  Installer will make a swap dynamically.
 
 Restart will prompt to remove USB. System should restart to Lubuntu without BIOS boot.
 
@@ -73,7 +73,6 @@ swapon --show
 ```
 
 ### Basic Installs
-
 ```bash
 sudo apt update
 sudo apt upgrade
@@ -88,37 +87,36 @@ sudo apt install --fix-missing -y python3-pip
 sudo apt install -y python3-tk         # for PyCharm
 sudo apt install -y dhcpcd5
 sudo apt install LocalSend
-# sudo apt install -y vlc  (use Discover instead)
+# sudo apt install -y vlc Use Discover
 sudo apt install xsel
 sudo apt install -y pavucontrol        # for myPyScreencast
 sudo apt install -y thunar
 sudo apt install -y nautilus
-pavucontrol  # defaults to low volume — set to 100% for screencasting
+pavucontrol  # defaults to low volume — set to 100% for screencasting.
 ```
 
-Lubuntu installs by default: LibreOffice, Firefox.
+Lubuntu installs by default: LibreOffice, Firefox
+accelerated decoding - save
 
 ### Firefox Security Exceptions
-
 Add exceptions for: `hulu.com`, `amazon.com`, `play.max.com`, `netflix.com`
 
-### Firefox tweaks (`about:config`)
-
+###Firefox tweaks (`about:config`):
 ```
 layers.acceleration.force-enabled = true
 gfx.webrender.all = true
 browser.sessionstore.interval = 150000
 ```
 
-### Chrome tweaks (`chrome://settings/system`)
-
+###Chrome tweaks (`chrome://settings/system`):
 - Toggle on hardware acceleration → Relaunch
 
+
+Use System - Discover to install these fine tools:
+    vlc, 
+
 ### VLC
-
-Install via System → Discover.
-
-Tools → Preferences → Codecs → **disable hardware-accelerated decoding** → Save. Restart VLC.
+    Tools → Preferences → Codecs → **disable hardware-accelerated decoding** → Save. Restart VLC.
 
 ---
 
@@ -176,21 +174,22 @@ flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.f
 # reboot
 flatpak install flathub com.github.iwalton3.jellyfin-media-player
 flatpak run com.github.iwalton3.jellyfin-media-player
-# answer jellyfin_..._pkg by cut and paste from hint below box during initial run
+ifconfig  # copy ip string for inet from wlp2s0  e.g. 192.168.5.205  (http://192.168.5.205:8096/web/#/home.html)
+# answer jellyfin_..._pkg by cut and paste from previous
 # Remove:
 flatpak remove com.github.iwalton3.jellyfin-media-player
 ```
-
-**Install server:**
-
+Install server
 ```bash
 curl -s https://repo.jellyfin.org/install-debuntu.sh | sudo bash
 sudo usermod -a -G daveg jellyfin
 # Visit http://localhost:8096
 sudo chown -R jellyfin /media/daveg
 ```
+Start
+Browse to Start bookmarks in Firefox and visit Jellyfin
+User is Jellyfin
 
-**Start:** Browse to Start bookmarks in Firefox and visit Jellyfin. User is `jellyfin`.
 
 ### puTTY
 
@@ -345,9 +344,8 @@ No restart needed.
 
 ## 10. Cleanup
 
-Open **Xscreensaver** (Preferences → Xscreensaver):
-- Display Modes: Blank 10, Cycle 10, Lock 45
-- Advanced → Power Management: 30 / 60 / 120 → Close
+Preferences - Xscreensaver  - Display modes - Blank 10, Cycle 10, Lock 45
+                            - Advanced - Power Management 30 / 60 / 120 - Close
 
 ```bash
 sudo apt autoremove
@@ -418,6 +416,7 @@ sudo apt autoclean && sudo apt clean
 sudo apt install deborphan && sudo apt remove $(deborphan)
 ```
 
+
 ### Guake Terminal
 
 ```bash
@@ -435,42 +434,41 @@ Install via File → System Discover
 sudo apt-get install idle-python3.12
 ```
 
-### Add support for keypress in pyCharm projects
+### Add support for keypress in various pyCharm projects
 
-A udev rule automatically sets correct permissions on `/dev/uinput` at boot.
-
-Create `/etc/udev/rules.d/99-uinput.rules`:
+Add a udev rule (permanent fix):
+This is the recommended approach. A udev rule automatically sets the correct permissions when the device node is created during system boot.
+Create a new rules file, for example, /etc/udev/rules.d/99-uinput.rules:
 
 ```bash
 sudo nano /etc/udev/rules.d/99-uinput.rules
 ```
+Add one of the following lines to the file. The first option adds your user to the input group, which is more secure than MODE="0666":
 
-Add one of the following:
-
-**Option A (Recommended):** Adds your user to the input group.
-```
+Option A (Recommended):
 KERNEL=="uinput", SUBSYSTEM=="misc", OPTIONS+="static_node=uinput", GROUP="input", MODE="0660"
-```
 
-**Option B (Less secure):** Grants access to everyone.
-```
+Option B (Less secure, grants access to everyone):
 KERNEL=="uinput", MODE="0666"
-```
 
 Apply the changes:
-
+Reload the udev rules:
 ```bash
 sudo udevadm control --reload-rules
+```
+Trigger the rules to be applied immediately:
+```bash
 sudo udevadm trigger
 ```
 
-For Option A, also add your user to the input group:
-
+Add your user to the input group (only for Option A above):
 ```bash
 sudo usermod -a -G input $USER
 ```
 
-Reboot for group membership to take effect. Python scripts can then open `/dev/uinput` without `sudo` (evdev >= v3.12).
+Reboot your system for the group membership change to take effect. 
+After following these steps, your pythons scripts should be able to open /dev/uinput for writing without sudo (evdev python >= v3.12).
+
 
 ### Reliable WiFi (DNS Fix)
 
@@ -490,205 +488,8 @@ This ensures DNS works globally regardless of what NetworkManager does per-inter
 ## 14. Work In Progress
 
 ### Chrome Remote Desktop
-
-See [INSTALL_Chrome_Remote_Desktop](INSTALL_Chrome_Remote_Desktop.md) for setup.
+See [INSTALL_Chrome_Remote_Desktop](INSTALL_Chrome_Remote_Desktop.md) for Rclone setup.
 
 ### noMachine Desktop Share
-
-See [INSTALL_noMachine](INSTALL_noMachine.md) for setup.
-
-### VPN/DNS on Travel Router
-
-Configure the TP-Link TL-WR1502X as a VPN client using Proton's OpenVPN files, then set custom NextDNS IPv4 addresses in the router's IPv4 settings.
-
-**Step 1: Download Proton VPN Configuration**
-
-Log in at <https://account.protonvpn.com/downloads>. Go to Downloads → OpenVPN configuration files. Select Router as the platform and OpenVPN UDP (or TCP). Choose a server location and click Download. Extract the `.ovpn` file — you will also need the Service Credentials (Username/Password) from your dashboard, which differ from your normal login credentials.
-
-**Step 2: Set up Proton VPN on the Router**
-
-Connect to the TL-WR1502X via Wi-Fi or Ethernet and open:
-
-```
-http://192.168.1.1/webpages/index.html#/vpnClient
-```
-
-Go to Advanced → VPN Client → Enable. Under Server List, click Add. Set VPN Type to OpenVPN, give it a name (e.g., `ProtonVPN`), and upload the `.ovpn` file. Enter the OpenVPN credentials from your dashboard:
-
-```
-uname: I5nijajmI7JqvX6s
-pwd:   cmvjTOo9Jzb9weqsBZBrTuQ3FLpJB0ou
-```
-
-- Remove the `auth-user-pass` line from the `.ovpn` file
-- Enable VPN kill switch
-- Save the profile and enable the connection
-- Add devices
-
-**Step 3: Add Custom NextDNS Servers**
-
-Log in at NextDNS → Setup tab and note your assigned IPv4 addresses (e.g., `45.90.28.0` and `45.90.30.0`). In the router admin panel, go to Network → DHCP Server (or Internet → IPv4). Set Primary DNS and Secondary DNS to your NextDNS addresses. Save and reboot the router.
-
-**Captive Portal (e.g., HWPL)**
-
-Turn off VPN to connect through captive portal authenticators, then navigate to:
-
-```
-http://neverssl.com
-```
-
----
-
-### NextDNS and ProtonVPN on Linux
-
-Configure system DNS to use NextDNS IPv4/IPv6 addresses while ProtonVPN handles encryption. May not work with captive portals.
-
-**Step 1: Get Your NextDNS IP Addresses**
-
-Log in to the NextDNS Dashboard → Setup tab. Note:
-
-```
-IPv4: 45.90.28.54, 45.90.30.54
-IPv6: 2a07:a8c0::bb:2878, 2a07:a8c1::bb:2878
-```
-
-**Step 2: Configure Ubuntu Network Settings**
-
-Open Settings → Network (or Wi-Fi) → gear icon → IPv4 tab → DNS → Manual. Enter your NextDNS IPv4 address and click Apply. Repeat in the IPv6 tab with the IPv6 address.
-
-**Install ProtonVPN:**
-
-```bash
-wget https://repo.protonvpn.com/debian/dists/stable/main/binary-all/protonvpn-stable-release_1.0.8_all.deb
-sudo apt update
-sudo dpkg -i ./protonvpn-stable-release_1.0.8_all.deb && sudo apt update
-sudo apt install proton-vpn-gnome-desktop
-```
-
-See also: <https://protonvpn.com/support/official-linux-vpn-ubuntu>
-
-**Step 3: Configure ProtonVPN**
-
-Open the ProtonVPN GUI → Settings → Connection:
-- Turn **NetShield Ad-blocker OFF** (incompatible with custom DNS)
-- Under Custom DNS, toggle ON and add: `45.90.28.54`, `45.90.30.54`
-- Click Save, then connect to a VPN server.
-
-**Step 4: Verify**
-
-Disconnect and reconnect to apply changes, then confirm in a browser:
-
-```
-https://test.nextdns.io/
-https://ip.me/
-```
-
----
-
-### Thunderbird
-
-Sign in using Google mail and password for Google.
-
-### Enable/Disable touchpad
-
-```bash
-xinput list   # note number N of touchpad
-xinput disable <N>
-xinput enable <N>
-```
-
-Add a bash shortcut:
-
-```bash
-nano .inputrc  # add alias
-```
-
-### clangd for VS Code
-
-** Eliminate Arduino formatting **
-- add	"#include "Particle.h" to top of .ino.
-- Rename .ino to .cpp
-	
-** Install clangd to VSCODE**
-- disable Microsoft intelligence
-- install clangd extension to VSCODE
-
-If you are familiar with IntelliSense (which is installed by default in Visual Studio and Visual Studio Code), clangd is the same kind of thing, but better (less laggy, more complete). It will provide autocompletion, suggestions, detect bugs, etc.
-
-    First, install the clangd extension: .
-
-    It should then prompt you to disable IntelliSense: say yes. If you miss that step, go in the Settings, search for C_Cpp.intelliSenseEngine and set it to Disabled.
-
-    It should then prompt you to download the actual language server: say yes. If it doesn't show up, then CTRL+SHIFT+P and run clangd: Download language server. If it is unable to download it, you can download it manually here.
-    
-    Now go to your Settings (CTRL+,), search for clangd arguments and add --compile-commands-dir=${workspaceFolder}/build and --enable-config
-    Now install Ninja. Then, go back to your settings (CTRL+,), and set Cmake: Generator to Ninja.
-    
-(download linux .zip from 
-    
-```
-https://github.com/ninja-build/ninja/releases
-```
-    
-     and extract to Downloads)
-
-    You might need to close VS Code, delete your build folder (if it exists), and open VS Code again.
-    You should now be good to go! (If VSCode is not able to provide autocompletion, then something went wrong during the installation of clangd.)
-
-- lots of path changes added.  Complaints about compiler --> uninstall after gleaning some useful cleanup tips.  Doesn't integrate well with Particle Workbench
-
-- uninstall clangd / reinstall intellisense
-	(CTRL+,), and set Cmake: Generator to blank
-	- extensions - clangd - uninstall
-	- extensions - intellisense - install
-	" bad Cmake executable
-sudo apt-get update
-sudo apt-get -y install cmake
-
-sudo apt-add-repository universe
-sudo apt-get -y install cmake-extras
-
-
-# include Particle.h
-
-CompileFlags: # Tweak the parse settings, example directory given to show format
-  Add:
-    -I/home/daveg/.particle/toolchains/deviceOS/6.2.1/user/inc
-    -I/home/daveg/.particle/toolchains/deviceOS/6.2.1/system/inc
-
-## Antigravity (gemini-cli) install
-sudo apt update
-sudo apt purge -y nodejs npm
-sudo apt autoremove -y
-sudo apt install curl nodejs npm -y
-sudo npm install -g @google/gemini-cli
-
-#nvm install 20
-#nvm use 20
-#nvm alias default 20
-node -v
-
-https://antigravity.google/
-cd ~/Downloads
-tar -xzvf Antigravity.tar.gz
-sudo mv Antigravity-x64 /opt/
-sudo chmod +x /opt/Antigravity-x64/antigravity
-sudo ln -sf /opt/Antigravity-x64/antigravity /usr/local/bin/antigravity
-sudo chown root:root /opt/Antigravity-x64/chrome-sandbox
-sudo chmod 4755 /opt/Antigravity-x64/chrome-sandbox
-
-edit ~/.bashrc
-export PATH="/home/daveg/.local/bin:$PATH"
-antigravity --version
-antigravity --cli
-
-# Let vscode install launcher by following this pad
-vscode - extensions - antigravity cli launcher - install
-# close and restart antigravity terminal inside vscode
-
-pycharm - settings - plugins - marketplace - antigravity companion
- - a lightning bold icon appears in top right - launch - yes - wait to login htpps 
- --- use arrows to scrolldown below hyperlink to find code entry area
- 
-
+See [INSTALL_noMachine](INSTALL_noMachine.md) for Rclone setup.
 
