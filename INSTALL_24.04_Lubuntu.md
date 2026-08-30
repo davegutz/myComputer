@@ -98,6 +98,31 @@ pavucontrol  # defaults to low volume — set to 100% for screencasting.
 Lubuntu installs by default: LibreOffice, Firefox
 accelerated decoding - save
 
+
+### xscreensaver
+nano ~/.config/lxqt/lxqt.conf
+[Screensaver]
+lock_command=env XSECURELOCK_SAVER=blank xsecurelock
+
+Configure the Idle Timeout Trigger (xautolock)
+	- Go to LXQt Application Menu ➔ Preferences ➔ LXQt Settings ➔ Session Settings. 
+	- Click on the Autostart tab on the left. 
+
+Locate and uncheck the default XScreenSaver if it is running to avoid execution conflicts. 
+	- Click the Add button to register xsecurelock for timeout management:
+		Name: XSecureLock Timeout Manager
+		Command: xautolock -time 20 -locker "env XSECURELOCK_SAVER=blank xsecurelock" (Replace 10 with your preferred idle timeout limit in minutes). 
+	- Click OK and then Close. 
+
+Adjust LXQt Power Management Settings
+To keep LXQt's internal power profiles from colliding with xsecurelock on an idle trigger: 
+	- Navigate to LXQt Application Menu ➔ Preferences ➔ LXQt Settings ➔ Power Management. 
+	- Under the Idleness tab, make sure the "Turn off monitor after" time is set to a value higher than your xautolock time, or disabled entirely. (I set turn off monitor after 25:00)
+	- Under the Locks section, verify whether "Lock screen when idle" is managed by your new command. 
+
+Log out of your Lubuntu session and log back in to apply the configuration.
+
+
 ### Firefox Security Exceptions
 Add exceptions for: `hulu.com`, `amazon.com`, `play.max.com`, `netflix.com`
 
