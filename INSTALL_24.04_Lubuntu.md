@@ -52,6 +52,12 @@ After restart:
 
 ## 2. Initial Setup
 
+### Turn off light Perixx 317 keyboard
+
+```bash
+xmodmap -e "add mod3 = Scroll_Lock"
+```
+
 ### Swappiness
 
 ```bash
@@ -73,6 +79,10 @@ swapon --show
 ```
 
 ### Basic Installs
+
+System - Discover - caffeine
+
+
 ```bash
 sudo apt update
 sudo apt upgrade
@@ -175,6 +185,59 @@ Fix missing `crc32` for Particle Workbench:
 sudo apt install libarchive-zip-perl   # no restart needed
 ```
 
+### Antigravity (gemini-cli) install
+sudo apt update
+sudo apt purge -y nodejs npm
+sudo apt autoremove -y
+sudo apt install curl nodejs npm -y
+sudo npm install -g @google/gemini-cli
+node -v
+#https://antigravity.google/
+curl -fsSL https://antigravity.google/cli/install.sh | bash
+nano ~/.bashrc
+	export PATH="/home/daveg/.local/bin:$PATH"
+agy --version
+agy --cli
+
+Let vscode install launcher by following this pad
+```bash
+vscode - extensions - antigravity cli launcher - install
+```
+
+close and restart antigravity terminal inside vscode
+```bash
+pycharm - settings - plugins - marketplace - antigravity companion
+ - a lightning bold icon appears in top right - launch - yes - wait to login htpps 
+ --- use arrows to scrolldown below hyperlink to find code entry area
+``` 
+
+Using Antigravity cli launcher in yolo mode
+nano /home/daveg/.gemini/antigravity-cli/settings.json  # make this if doesn't exist
+{
+  "allowNonWorkspaceAccess": true,
+  "auto_accept": true,
+  "colorScheme": "dark",
+  "enableTelemetry": false,
+  "enableTerminalSandbox": false,
+  "permissions": {
+    "allow": [
+      "command(*)",
+      "write_file(*)",
+      "read_file(*)",
+      "mcp(*)",
+      "unsandboxed(*)"
+    ],
+    "deny": [
+      "command(sudo)"
+    ]
+  },
+  "trustedWorkspaces": [
+    "/home/daveg/Documents/GitHub/mySOC/SOC_Particle/pyStateOfCharge",
+    "/home/daveg/Documents/GitHub/mySOC/SOC_Particle"
+  ]
+}
+
+ 
 ### PyCharm
 
 ```bash
@@ -182,6 +245,9 @@ sudo apt install -y python3-tk    # for PyCharm
 snap install pycharm-community --classic
 # Give it time to index on first launch
 ```
+
+Jetbrains AI (SWIRL ICON) - Settings - AI assistant - Agents - Google Antigravity
+
 
 ### Other Apps
 
@@ -346,7 +412,7 @@ sudo modprobe snd-aloop
 
 ---
 
-## 9. Auto Suspend Scheduling
+## 9. Auto Suspend Scheduling (sleep)
 
 ```bash
 cp home/daveg/Documents/GitHub/myComputer/suspend_until /home/daveg/bin/.
@@ -517,4 +583,17 @@ See [INSTALL_Chrome_Remote_Desktop](INSTALL_Chrome_Remote_Desktop.md) for Rclone
 
 ### noMachine Desktop Share
 See [INSTALL_noMachine](INSTALL_noMachine.md) for Rclone setup.
+
+### zoxide (https://www.howtogeek.com/stop-using-the-cd-command/)
+sudo apt update
+#sudo pacman -S zoxide # for users on Arch and its derivatives
+sudo apt install zoxide # for users on Ubuntu, Debian, and their derivatives
+echo 'eval "$(zoxide init bash)"' >> ~/.bashrc # adds eval "(zoxide init bash)" to your ~/.bashrc file
+source ~/.bashrc # reloads the Bash configuration
+
+# train it
+zoxide add ~/Documents/"How to Geek"/Articles
+zoxide add ~/Documents/Forbes/Articles
+zoxide add ~/Projects ~/Documents ~/Downloads # add multiple directories
+
 

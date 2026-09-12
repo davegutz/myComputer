@@ -854,7 +854,7 @@ sage -n jupyterlab
 ___
 ### Speed up rclone
 Update(bin/Rclone)
-  ⎿  Added 16 lines, removed 1 line
+  ⎿  Added 16 lines, removed 1 line
        1  #!/bin/bash
        2  # rclone mount gdrive: ~/gdrive &
        3 -rclone mount gdrive: ~/gdrive   --vfs-cache-mode full   --vfs-cache-max-s
@@ -997,7 +997,7 @@ sudo apt autoremove -y
 sudo apt install curl nodejs npm -y
 sudo npm install -g @google/gemini-cli
 node -v
-https://antigravity.google/
+#https://antigravity.google/
 curl -fsSL https://antigravity.google/cli/install.sh | bash
 edit ~/.bashrc
 export PATH="/home/daveg/.local/bin:$PATH"
