@@ -223,6 +223,11 @@ Your system will safely swap the broken layout out for the functioning snapshot,
 sudo pacman -S paru
 ```
 
+## gwenview Image Viewer / Quick Editor
+```bash
+sudo pacman -S gwenview
+```
+
 ## Visual Studio Code:
 ```bash
 sudo pacman -S --needed base-devel git
@@ -1111,6 +1116,27 @@ ollam pull llama3.x  # update an existing model
 ## Replace with contents of ./cachyos_cosmic_fonts.conf
 #fc-cache -fv
 ```
+
+### Run an Optimized Copy/Backup Command to Google Drive
+To handle a massive number of files and large data efficiently, use the `copy` command paired with performance flags:
+
+```bash
+rclone copy /path/to/local/folder gdrive:BackupFolder \
+  --transfers 16 \
+  --checkers 8 \
+  --stats 5s \
+  --progress \
+  --fast-list
+```
+
+Explanation of Key Flags:
+* `--transfers 16`: Uploads 16 files simultaneously (adjust down if you face API limits).
+* `--checkers 8`: Runs 8 parallel checkers to compare local vs remote files.
+* `--fast-list`: Uses fewer API calls by fetching the directory tree in a single request (great for millions of small files).
+* `--progress`: Shows a live transfer status bar.
+
+*Tip for massive small-file sets:* If you have hundreds of thousands of tiny files, consider packing them into a compressed archive (`tar.gz`) first before uploading via Rclone, as cloud APIs process one large file significantly faster than thousands of tiny ones.
+
 
 ___
 ## End works in progress
