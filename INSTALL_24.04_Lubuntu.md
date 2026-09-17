@@ -121,8 +121,10 @@ Configure the Idle Timeout Trigger (xautolock)
 Locate and uncheck the default XScreenSaver if it is running to avoid execution conflicts. 
 	- Click the Add button to register xsecurelock for timeout management:
 		Name: XSecureLock Timeout Manager
-		Command: xautolock -time 20 -locker "env XSECURELOCK_SAVER=blank xsecurelock" (Replace 10 with your preferred idle timeout limit in minutes). 
+		Command: xautolock -time 20 -locker "env XSECURELOCK_COMPOSITE_OBSCURER=0 XSECURELOCK_SAVER=saver_xscreensaver xsecurelock" (Replace 20 with your preferred idle timeout limit in minutes). 
 	- Click OK and then Close. 
+Run the following to make sure background gets loaded
+env XSECURELOCK_SAVER=saver_xscreensaver xsecurelock
 
 Adjust LXQt Power Management Settings
 To keep LXQt's internal power profiles from colliding with xsecurelock on an idle trigger: 

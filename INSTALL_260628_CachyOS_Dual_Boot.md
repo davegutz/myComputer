@@ -618,12 +618,20 @@ dex ./.config/autostart/rclone.desktop
 
 ***Remount the Drive***
 Launch if lost permissions (general i/o error)
+```bash
+rclone config
+```
 Choose e to edit an existing remote.
 Select the number or name of your Google Drive remote.
 enter defaults until...
-Choose the option to edit or re-do the token (Yes to change token).
-Select whether to use auto web-config (if running locally with a browser) or manual token generation (if on a headless server).
+Already have a token - refresh? y
+	auto config - y
+	go to browser
 Log into your Google account in the browser window that opens and approve the permissions request.
+```bash
+Rclone
+```
+May have to unmount gdrive to get connect using Rclone
 
 ---
 
@@ -1133,14 +1141,14 @@ Preview rclone command
 rclone lsf /path/to/local  --max-age 2026-09-01
 
 Sync
-rclone sync /path/to/local/folder/ gdrive:BackupFolder \
-  --max-age 2026-09-01 \
-  --min-age 2026-90-05 \
+rclone sync /media/daveg/Lib/Movies/ gdrive/Movies \
+  --max-age 2026-09-08 \
+  --min-age 2026-09-10 \
   --drive-chunk-size 512M \
   --dry-run
-rclone sync /path/to/local/folder/ gdrive:BackupFolder \
-  --max-age 2026-09-01 \
-  --min-age 2026-90-05 \
+rclone sync /media/daveg/Lib/Movies/ gdrive/Movies \
+  --max-age 2026-09-08 \
+  --min-age 2026-09-10 \
   --drive-chunk-size 512M \
   --stats 5s \
   --verbose
