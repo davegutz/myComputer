@@ -1143,12 +1143,18 @@ rclone lsf /path/to/local  --max-age 2026-09-01
 Sync
 rclone sync /media/daveg/Lib/Movies/ gdrive/Movies \
   --max-age 2026-09-08 \
-  --min-age 2026-09-10 \
+  --min-age 2026-09-17 \
+  --tpslimit 8 \
+  --transfers 2 \
+  --checkers 4 \
   --drive-chunk-size 512M \
   --dry-run
 rclone sync /media/daveg/Lib/Movies/ gdrive/Movies \
   --max-age 2026-09-08 \
-  --min-age 2026-09-10 \
+  --min-age 2026-09-17 \
+  --tpslimit 8 \
+  --transfers 2 \
+  --checkers 4 \
   --drive-chunk-size 512M \
   --stats 5s \
   --verbose
