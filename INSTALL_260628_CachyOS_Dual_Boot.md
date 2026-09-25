@@ -1151,7 +1151,7 @@ rclone sync /media/daveg/Lib/Movies/ gdrive/Movies \
   --dry-run
 rclone sync /media/daveg/Lib/Movies/ gdrive/Movies \
   --max-age 2026-09-08 \
-  --min-age 2026-09-17 \
+  --min-age 2026-09-21 \
   --tpslimit 8 \
   --transfers 2 \
   --checkers 4 \
