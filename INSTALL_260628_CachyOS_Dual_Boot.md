@@ -1148,17 +1148,31 @@ rclone sync /media/daveg/Lib/Movies/ gdrive/Movies \
   --transfers 2 \
   --checkers 4 \
   --drive-chunk-size 512M \
+  -vv --log-file rclone-error.log \
   --dry-run
+  
 rclone sync /media/daveg/Lib/Movies/ gdrive/Movies \
   --max-age 2026-09-08 \
-  --min-age 2026-09-21 \
+  --min-age 2026-09-30 \
   --tpslimit 8 \
   --transfers 2 \
   --checkers 4 \
   --drive-chunk-size 512M \
   --stats 5s \
-  --verbose
+  --verbose \
+  -vv --log-file rclone-error.log
         
+
+rclone sync /media/daveg/Lib/Movies/ gdrive/Movies \
+  --tpslimit 8 \
+  --transfers 2 \
+  --checkers 4 \
+  --drive-chunk-size 512M \
+  --stats 5s \
+  -vv --log-file rclone-error.log
+
+rclone sync /path/to/local remote:path -vv --log-file rclone-error.log
+
 Use code with caution.Key Flags Explained
 --drive-chunk-size 512M: Uploads large files in 512MB chunks, which maximizes throughput and reduces failure rates on massive files.
 --transfers 4: Number of files to copy in parallel. Set to 1 if you are uploading a single massive file.
