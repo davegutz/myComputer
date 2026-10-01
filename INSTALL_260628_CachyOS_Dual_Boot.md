@@ -5,7 +5,7 @@
 **Purpose:** General workstation, dual-boot alongside Windows
 
 > CachyOS uses the COSMIC desktop in 260628
-> For Python project notes (movie_Scraper, SOC, etc.), see [INSTALL_24.04_Ubuntu](INSTALL_24.04_Ubuntu.md).
+> For Python project notes (movie_Scraper, SOC, etc.), see [INSTALL_Python_Projects](INSTALL_Python_Projects.md).
 
 ---
 
@@ -108,17 +108,15 @@ sudo pacman -S github-desktop
 sudo pacman -S git
 ```
 
-**From CachyOS Package Installer menu:**
+**From CachyOS Package Installer menu (:**
 - `audacity`
-- `pycharm-community-edition`
 - `Code`
 - `caffeine` (the one with steam rising)
 - `gnucash`
 - `libreoffice-still`
 - `vlc` (open and turn off hardware acceleration)
 - `snapper`
-- `btrfs-assistant`
-- `btrfsmaintenance`
+
 
 ## Btrfs for Rollbacks
   snapper support (https://wiki.cachyos.org/configuration/btrfs_snapshots/)
@@ -218,6 +216,7 @@ reboot
 ```
 Your system will safely swap the broken layout out for the functioning snapshot, allowing you to boot back into your desktop normally.
 
+
 ## paru
 ```bash
 sudo pacman -S paru
@@ -265,12 +264,6 @@ sudo udevadm control --reload-rules && sudo udevadm trigger
 
 ```
 
-
-** Pycharm:**
-sudo pacman -Syu tk
-python -m tkinter
-
-
 **Firefox Performance:**
 ```
 about:config
@@ -312,7 +305,7 @@ sudo apt-get install libxkbcommon-dev      # for just
 touch ~/.Xauthority && ls -la ~/.Xauthority
 ```
 
-**PuTTY** (follow Ubuntu instructions):
+**PuTTY** (see [INSTALL_PuTTY](INSTALL_PuTTY.md)):
 
 ```bash
 # Add user to dialout group for serial access:
@@ -336,9 +329,12 @@ sudo ufw status
 ```bash
 # Download .deb from https://code.visualstudio.com/docs/?dv=linux64_deb
 sudo gdebi ./Downloads/code_1.112.0-1773778351_amd64.deb
+sudo apt install libarchive-zip-perl   # fixes missing crc32 for Particle Workbench
 ```
 
 Start Code and install extensions.
+Sign into Particle ASAP.
+
 
 ---
 
@@ -350,35 +346,14 @@ Start Code and install extensions.
 ```bash
 # Uninstall any existing flatpak version first
 sudo snap install --classic pycharm-community
+sudo pacman -Syu tk
+python -m tkinter
 ```
 
-For alternate Python version, see [INSTALL_24.04_Ubuntu](INSTALL_24.04_Ubuntu.md).
+For alternate Python version, see [INSTALL_Alternate_Python](INSTALL_Alternate_Python.md).
 
-# Using Antigravity cli launcher in yolo mode
-/home/daveg/.gemini/antigravity-cli/settings.json
-{
-  "allowNonWorkspaceAccess": true,
-  "auto_accept": true,
-  "colorScheme": "dark",
-  "enableTelemetry": false,
-  "enableTerminalSandbox": false,
-  "permissions": {
-    "allow": [
-      "command(*)",
-      "write_file(*)",
-      "read_file(*)",
-      "mcp(*)",
-      "unsandboxed(*)"
-    ],
-    "deny": [
-      "command(sudo)"
-    ]
-  },
-  "trustedWorkspaces": [
-    "/home/daveg/Documents/GitHub/mySOC/SOC_Particle/pyStateOfCharge",
-    "/home/daveg/Documents/GitHub/mySOC/SOC_Particle"
-  ]
-}
+### Antigravity (gemini-cli)
+See [INSTALL_Antigravity](INSTALL_Antigravity.md) for CLI install, VS Code/PyCharm integration, and YOLO configuration.
 
 Use Shelly to install puTTY.  Configure using instructions in dataReduction/putty/puTTY_Windows_setup_def.odt followed by test.odt
 
@@ -632,6 +607,10 @@ Log into your Google account in the browser window that opens and approve the pe
 Rclone
 ```
 May have to unmount gdrive to get connect using Rclone
+
+### Optimized Copy / Backup / Sync
+See [INSTALL_Google_Drive_Backup](INSTALL_Google_Drive_Backup.md) for optimized rclone copy and sync commands.
+See [INSTALL_Google_Drive_Rclone](INSTALL_Google_Drive_Rclone.md) for generic Rclone setup and autostart configuration.
 
 ---
 
@@ -1003,32 +982,9 @@ gitgui&
 ```
 
 ___
-### Antigravity (gemini-cli) install
-sudo apt update
-sudo apt purge -y nodejs npm
-sudo apt autoremove -y
-sudo apt install curl nodejs npm -y
-sudo npm install -g @google/gemini-cli
-node -v
-#https://antigravity.google/
-curl -fsSL https://antigravity.google/cli/install.sh | bash
-edit ~/.bashrc
-export PATH="/home/daveg/.local/bin:$PATH"
-agy --version
-agy --cli
+### Antigravity (gemini-cli)
+See [INSTALL_Antigravity](INSTALL_Antigravity.md) for CLI install, VS Code/PyCharm integration, and YOLO configuration.
 
-Let vscode install launcher by following this pad
-```bash
-vscode - extensions - antigravity cli launcher - install
-```
-
-close and restart antigravity terminal inside vscode
-```bash
-pycharm - settings - plugins - marketplace - antigravity companion
- - a lightning bold icon appears in top right - launch - yes - wait to login htpps 
- --- use arrows to scrolldown below hyperlink to find code entry area
-``` 
- 
 ### Lid closing does nothing
 set ignores below (may already be present with # comment)
 ```bash
@@ -1124,60 +1080,6 @@ ollam pull llama3.x  # update an existing model
 ## Replace with contents of ./cachyos_cosmic_fonts.conf
 #fc-cache -fv
 ```
-
-### Run an Optimized Copy/Backup Command to Google Drive
-To handle large data efficiently, use the rclone `copy` command paired with performance flags:
-
-rclone copy /path/to/local/folder gdrive:BackupFolder \
-  --drive-chunk-size 512M \
-  --max-age 2026-09-01 \  # or --max-age 7d (files modified within the last 7 days) or --max-age 3M (files modified within the last 3 months)
-  --transfers 4 \
-  --checkers 8 \
-  --retries 3 \
-  --stats 1s \
-  --verbose
-
-Preview rclone command
-rclone lsf /path/to/local  --max-age 2026-09-01
-
-Sync
-rclone sync /media/daveg/Lib/Movies/ gdrive/Movies \
-  --max-age 2026-09-08 \
-  --min-age 2026-09-17 \
-  --tpslimit 8 \
-  --transfers 2 \
-  --checkers 4 \
-  --drive-chunk-size 512M \
-  -vv --log-file rclone-error.log \
-  --dry-run
-  
-rclone sync /media/daveg/Lib/Movies/ gdrive/Movies \
-  --max-age 2026-09-08 \
-  --min-age 2026-09-30 \
-  --tpslimit 8 \
-  --transfers 2 \
-  --checkers 4 \
-  --drive-chunk-size 512M \
-  --stats 5s \
-  --verbose \
-  -vv --log-file rclone-error.log
-        
-
-rclone sync /media/daveg/Lib/Movies/ gdrive/Movies \
-  --tpslimit 8 \
-  --transfers 2 \
-  --checkers 4 \
-  --drive-chunk-size 512M \
-  --stats 5s \
-  -vv --log-file rclone-error.log
-
-rclone sync /path/to/local remote:path -vv --log-file rclone-error.log
-
-Use code with caution.Key Flags Explained
---drive-chunk-size 512M: Uploads large files in 512MB chunks, which maximizes throughput and reduces failure rates on massive files.
---transfers 4: Number of files to copy in parallel. Set to 1 if you are uploading a single massive file.
---retries 3: Automatically restarts the transfer if network errors occur.
---verbose: Prints active transfer statistics so you can monitor progress in real time. 
 
 ___
 ## End works in progress

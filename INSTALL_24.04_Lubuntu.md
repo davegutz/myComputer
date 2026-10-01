@@ -80,7 +80,13 @@ swapon --show
 
 ### Basic Installs
 
-System - Discover - caffeine
+System - Discover - caffeine, vlc
+**From System - Discover menu:**
+- `caffeine` (the one with steam rising)
+- `vlc` (open and turn off hardware acceleration)
+- `audacity`
+- `gnucash`
+- `snapper`
 
 
 ```bash
@@ -97,7 +103,6 @@ sudo apt install --fix-missing -y python3-pip
 sudo apt install -y python3-tk         # for PyCharm
 sudo apt install -y dhcpcd5
 sudo apt install LocalSend
-# sudo apt install -y vlc Use Discover
 sudo apt install xsel
 sudo apt install -y pavucontrol        # for myPyScreencast
 sudo apt install -y thunar
@@ -175,70 +180,19 @@ When prompted during initial clone, sign in to GitHub.com (password in BitWarden
 
 ### VS Code
 
+> **Do NOT use `snap install code --classic`** — sandboxes VS Code and breaks Particle build tools.
+
 ```bash
 snap install code --classic
-# Install Particle Workbench extension
-# Sign into Particle ASAP
+sudo apt install libarchive-zip-perl   # fixes missing crc32 for Particle Workbench
 ```
 
-Fix missing `crc32` for Particle Workbench:
+Start Code and install extensions.
+Sign into Particle ASAP.
 
-```bash
-sudo apt install libarchive-zip-perl   # no restart needed
-```
 
-### Antigravity (gemini-cli) install
-sudo apt update
-sudo apt purge -y nodejs npm
-sudo apt autoremove -y
-sudo apt install curl nodejs npm -y
-sudo npm install -g @google/gemini-cli
-node -v
-#https://antigravity.google/
-curl -fsSL https://antigravity.google/cli/install.sh | bash
-nano ~/.bashrc
-	export PATH="/home/daveg/.local/bin:$PATH"
-agy --version
-agy --cli
-
-Let vscode install launcher by following this pad
-```bash
-vscode - extensions - antigravity cli launcher - install
-```
-
-close and restart antigravity terminal inside vscode
-```bash
-pycharm - settings - plugins - marketplace - antigravity companion
- - a lightning bold icon appears in top right - launch - yes - wait to login htpps 
- --- use arrows to scrolldown below hyperlink to find code entry area
-``` 
-
-Using Antigravity cli launcher in yolo mode
-nano /home/daveg/.gemini/antigravity-cli/settings.json  # make this if doesn't exist
-{
-  "allowNonWorkspaceAccess": true,
-  "auto_accept": true,
-  "colorScheme": "dark",
-  "enableTelemetry": false,
-  "enableTerminalSandbox": false,
-  "permissions": {
-    "allow": [
-      "command(*)",
-      "write_file(*)",
-      "read_file(*)",
-      "mcp(*)",
-      "unsandboxed(*)"
-    ],
-    "deny": [
-      "command(sudo)"
-    ]
-  },
-  "trustedWorkspaces": [
-    "/home/daveg/Documents/GitHub/mySOC/SOC_Particle/pyStateOfCharge",
-    "/home/daveg/Documents/GitHub/mySOC/SOC_Particle"
-  ]
-}
-
+### Antigravity (gemini-cli)
+See [INSTALL_Antigravity](INSTALL_Antigravity.md) for CLI install, VS Code/PyCharm integration, and YOLO configuration.
  
 ### PyCharm
 
@@ -247,8 +201,6 @@ sudo apt install -y python3-tk    # for PyCharm
 snap install pycharm-community --classic
 # Give it time to index on first launch
 ```
-
-Jetbrains AI (SWIRL ICON) - Settings - AI assistant - Agents - Google Antigravity
 
 
 ### Other Apps
@@ -305,30 +257,15 @@ Log out and log back in.
 
 Settings → Power → set as desired. Reboot.
 
-### PyCharm: pyStateOfCharge
+### Python Projects (pyStateOfCharge, movie_Scraper, myPyScreencast)
 
-```bash
-# Open GUI_..py — get it to run using local venv, then:
-install.py
-```
-
-### myPyScreencast
-- Use its own `.venv`
-- may need to uninstall and reinstall pillow to eliminate the interpreter's confusion
-
-### PyCharm: movie_Scraper
-
-```bash
-# Setup local venv
-# Open GUI_..py — get it to run using local venv, then:
-install.py
-# pysimpleguiKey.txt in same folder as this file
-# Ignore: '_tkinter.TclError: can't use "pyimage7" as iconphoto'
-```
+See [INSTALL_Python_Projects](INSTALL_Python_Projects.md) for full project notes, venv setup, and dependencies.
 
 ---
 
 ## 5. Serial / USB Setup
+
+See [INSTALL_PuTTY](INSTALL_PuTTY.md) for PuTTY installation, permissions, and serial configuration.
 
 Simple serial check (optional, for debugging):
 
@@ -362,38 +299,7 @@ sudo cp -r /home/daveg/Downloads/DarkArduinoTheme-master/theme .
 
 ## 7. Alternate Python Version
 
-> **Never replace the default Python in Debian-based Linux.**
-
-Install build dependencies:
-
-```bash
-sudo apt update
-sudo apt install -y wget build-essential libreadline-dev libncursesw5-dev \
-  libssl-dev libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev \
-  libffi-dev zlib1g-dev portaudio19-dev
-```
-
-Download and compile:
-
-```bash
-# From https://www.python.org/ftp/python/
-cd Downloads/
-tar -Jxf Python-3.11.9.tar.xz
-cd Python-3.11.9/
-./configure --enable-optimizations --enable-shared
-sudo make -j4 && sudo make altinstall
-sudo ldconfig /usr/local/lib
-
-# Verify
-python3.11 --version
-python3.11 -m pip --version
-
-# Uninstall (if needed)
-cd Downloads/Python-3.11.9/
-sudo make uninstall
-```
-
-Use `.venv` in PyCharm to set up an app with this Python version.
+See [INSTALL_Alternate_Python](INSTALL_Alternate_Python.md) for installing build dependencies and compiling Python from source (e.g. Python 3.11.9).
 
 ---
 
@@ -471,7 +377,8 @@ Open PulseAudio Volume Control → Configuration → Profile: Digital Stereo (HD
 
 ## 12. Google Drive (Rclone)
 
-See [INSTALL_24.04_Ubuntu](INSTALL_24.04_Ubuntu.md) for Rclone setup.
+See [INSTALL_Google_Drive_Rclone](INSTALL_Google_Drive_Rclone.md) for Rclone setup, mounting, and autostart.
+See [INSTALL_Google_Drive_Backup](INSTALL_Google_Drive_Backup.md) for optimized rclone copy and sync commands.
 
 ---
 

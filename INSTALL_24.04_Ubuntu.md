@@ -175,22 +175,17 @@ sudo apt install ./Downloads/code_*.deb
 sudo apt install libarchive-zip-perl   # fixes missing crc32 for Particle Workbench
 ```
 
+Start Code and install extensions.
+Sign into Particle ASAP.
+
+
 ### VLC
 
 Tools → Preferences → Codecs → **disable hardware-accelerated decoding** → Save. Restart VLC.
 
 ### puTTY
 
-```bash
-sudo apt-get install -y putty
-
-# Add yourself to the dialout group:
-sudo usermod -aG dialout $USER
-# Log out and log back in
-
-# Verify device after plugging in Photon2:
-sudo dmesg | grep tty   # usually /dev/ttyACM0
-```
+See [INSTALL_PuTTY](INSTALL_PuTTY.md) for PuTTY installation, permissions, and serial configuration.
 
 ### FreeFileSync (Backup)
 
@@ -228,36 +223,7 @@ Download flatpak from https://kdenlive.org/en/download/ and install.
 
 ### Alternate Python Version
 
-> **Never replace default Python in Debian-based Linux.**
-
-Install build dependencies:
-
-```bash
-sudo apt update
-sudo apt install -y wget build-essential libreadline-dev libncursesw5-dev \
-  libssl-dev libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev \
-  libffi-dev zlib1g-dev portaudio19-dev
-```
-
-Download and compile Python 3.11.9:
-
-```bash
-# From https://www.python.org/ftp/python/
-cd Downloads/
-tar -Jxf Python-3.11.9.tar.xz
-cd Python-3.11.9/
-./configure --enable-optimizations --enable-shared
-sudo make -j4 && sudo make altinstall
-sudo ldconfig /usr/local/lib
-
-# Verify
-python3.11 --version
-python3.11 -m pip --version
-
-# Uninstall (if needed)
-cd Downloads/Python-3.11.9/
-sudo make uninstall
-```
+See [INSTALL_Alternate_Python](INSTALL_Alternate_Python.md) for installing build dependencies and compiling Python from source (e.g. Python 3.11.9).
 
 ---
 
@@ -314,37 +280,13 @@ sudo mv /home/daveg/Desktop/ClipGrab.desktop /usr/share/applications/
 
 ## 9. Development Setup
 
-### PyCharm
+### Python Projects (PyCharm, movie_Scraper, myPyScreencast, SOC_Particle, fwgWhisper)
 
-- Setup `.venv` for Python; update pip before importing packages
-- Use local dictionary: Settings → Editor → Natural Languages → Spelling (uncheck "use single...")
-- **Caution:** Use PyCharm to install Python interpreters — deb install broke Ubuntu
-- May need to start PyCharm twice on first launch
+See [INSTALL_Python_Projects](INSTALL_Python_Projects.md) for Python development environment setup, project-specific notes, and virtual environments.
 
-### movie_Scraper
+### Antigravity (gemini-cli)
 
-- Use its own `.venv`
-- Use `PySimpleGUI-4-foss` instead of `PySimpleGUI`
-- Set DB location to `/home/daveg/Documents/GitHub/myComputer`
-- Run `install.py` and follow instructions; find it in applications and save to favorites
-
-### myPyScreencast
-
-- Use its own `.venv`
-- may need to uninstall and reinstall pillow to eliminate the interpreter's confusion
-
-### SOC_Particle (VS Code / Particle Workbench)
-
-```bash
-sudo apt-get install libarchive-zip-perl   # fix 'crc32 not found'
-```
-
-- VS Code: Codeium AI (login via Google), Ruff, Python, Particle Workbench
-- File → Open Folder → `Documents/GitHub/myStateOfCharge/SOC_Particle`
-
-### fwgWhisper
-
-- Versions ≥3.8, <3.12 supported; use Python 3.11.9 (see above)
+See [INSTALL_Antigravity](INSTALL_Antigravity.md) for CLI install, VS Code/PyCharm integration, and YOLO configuration.
 
 ---
 
@@ -655,85 +597,8 @@ sudo chown -R jellyfin /media/daveg
 
 ## 19. Google Drive (Rclone)
 
-**Install Rclone:
-
-```bash
-sudo apt install rclone
-rclone config
-```
-Follow the prompts:
-
-        Enter n to create a new remote.
-        Provide a name for your remote (e.g., gdrive).
-        Select drive from the list of storage types for Google Drive. (18)
-        Accept the default client_id and client_secret by leaving them blank and pressing Enter.
-        Choose the desired scope for Rclone's access to your Google Drive. For general use, selecting 1 (Full access) is common.
-        Leave root_folder_id and service_account_file blank unless you have specific needs.
-        
-        Edit Advanced config> y
-          oauth Access Token:    https://myaccount.google.com/apppasswords  name it Rclone  "epep hdvf omwc bnxy "
-          auth_url:  blank
-          token_url: blank
-        upload_cutoff> 1G  .... all else default
-       
-        When asked about Use auto config?, type y and press Enter. This will open a web browser for authentication with your Google account.
-        Complete the authentication process in your web browser, allowing Rclone access to your Google Drive.
-        Return to the terminal. You will be asked if this is a Team Drive; enter n unless you are using a Team Drive.
-        Confirm the configuration by typing y and pressing Enter. 
-
-    Exit the configuration wizard by typing q. 
-
-**Mount Google Drive:**
-
-```bash
-mkdir ~/gdrive
-rclone mount gdrive: ~/gdrive &
-```
-
-**Auto-start rclone on login:**
-
-Add startup application: `"gdrive"` with command `"rclone mount gdrive: ~/gdrive &"`
-
-OR
-
-```bash
-mkdir -p ~/bin
-cat << EOF > ~/bin/Rclone
-#!/bin/bash
-# rclone mount gdrive: ~/gdrive &
-rclone mount gdrive: ~/gdrive \
-  --vfs-cache-mode full \
-  --vfs-cache-max-size 50G \
-  --vfs-cache-max-age 24h \
-  --dir-cache-time 1000h \
-  --drive-chunk-size 128M \
-  --buffer-size 64M \
-  --poll-interval 15s \
-  --daemon \
-  &
-EOF
-chmod +x ~/bin/Rclone
-
-mkdir ~/.config/autostart
-cat << EOF > ~/.config/autostart/rclone.desktop
-[Desktop Entry]
-Name=rclone
-Exec=/home/daveg/bin/Rclone
-Terminal=false
-Type=Application
-X-Desktop-File-Install-Version=0.27
-EOF
-chmod +x /home/daveg/.config/autostart/rclone.desktop
-```
-
-Test the autostart entry:
-
-```bash
-gio launch ~/.config/autostart/rclone.desktop
-# or
-sudo apt install dex
-dex ./.config/autostart/rclone.desktop
-```
+See [INSTALL_Google_Drive_Rclone](INSTALL_Google_Drive_Rclone.md) for full Rclone installation, configuration, mounting, and autostart setup.
+See [INSTALL_Google_Drive_Backup](INSTALL_Google_Drive_Backup.md) for optimized rclone copy and sync commands.
 
 ---
 
