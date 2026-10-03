@@ -20,7 +20,7 @@ rclone lsf /path/to/local  --max-age 2026-09-01
 
 ### Sync
 ```bash
-rclone sync /media/daveg/Lib/Movies/ gdrive/Movies \
+rclone sync /media/daveg/Lib/Movies/ gdrive:Movies \
   --max-age 2026-09-08 \
   --min-age 2026-09-17 \
   --tpslimit 8 \
@@ -30,7 +30,7 @@ rclone sync /media/daveg/Lib/Movies/ gdrive/Movies \
   -vv --log-file rclone-error.log \
   --dry-run
   
-rclone sync /media/daveg/Lib/Movies/ gdrive/Movies \
+rclone sync /media/daveg/Lib/Movies/ gdrive:Movies \
   --max-age 2026-09-08 \
   --min-age 2026-09-30 \
   --tpslimit 8 \
@@ -41,7 +41,7 @@ rclone sync /media/daveg/Lib/Movies/ gdrive/Movies \
   --verbose \
   -vv --log-file rclone-error.log
 
-rclone sync /media/daveg/Lib/Movies/ gdrive/Movies \
+rclone sync /media/daveg/Lib/Movies/ gdrive:Movies \
   --tpslimit 8 \
   --transfers 2 \
   --checkers 4 \
