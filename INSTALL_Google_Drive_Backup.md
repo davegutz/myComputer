@@ -48,8 +48,8 @@ rclone sync /media/daveg/Lib/Movies/ gdrive:Movies \
   --drive-chunk-size 512M \
   --stats 5s \
   -vv --log-file rclone-error.log
-
-rclone sync /path/to/local remote:path -vv --log-file rclone-error.log
+  
+tail -f rclone-error.log
 ```
 
 ### Key Flags Explained
