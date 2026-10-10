@@ -113,6 +113,7 @@ Open this file in Drive for copy/paste reference:
 - Turn off automatic for Guest5G network
 
 Firefox: sign in, start BitWarden. Restart.
+- Open Settings → search for `DNS` → under **DNS over HTTPS**, select **Off** (Use your default DNS resolver) — prevents Firefox from bypassing network DNS / Pi-hole.
 
 ---
 
@@ -504,6 +505,9 @@ cd Downloads
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo dpkg -i google-chrome-stable_current_amd64.deb
 ```
+
+**Chrome tweaks:**
+- Open Settings (`chrome://settings/security`) → search for `DNS` → toggle **Use secure DNS** to **Off** — prevents Chrome from bypassing network DNS / Pi-hole.
 
 ### Desktop Clock (conky)
 

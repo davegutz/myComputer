@@ -536,9 +536,11 @@ layers.acceleration.force-enabled = true
 gfx.webrender.all = true
 browser.sessionstore.interval = 150000
 ```
+- Open Settings → search for `DNS` → under **DNS over HTTPS**, select **Off** (Use your default DNS resolver) — prevents Firefox from bypassing network DNS / Pi-hole.
 
 **Chrome tweaks** (`chrome://settings/system`):
 - Toggle on hardware acceleration → Relaunch
+- Open Settings (`chrome://settings/security`) → search for `DNS` → toggle **Use secure DNS** to **Off** — prevents Chrome from bypassing network DNS / Pi-hole.
 
 ### SSH
 

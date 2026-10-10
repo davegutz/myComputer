@@ -105,6 +105,7 @@ sudo apt update && sudo apt upgrade
 about:config
 browser.sessionstore.interval = 150000
 ```
+- Open Settings → search for `DNS` → under **DNS over HTTPS**, select **Off** (Use your default DNS resolver) — prevents Firefox from bypassing network DNS / Pi-hole.
 
 ---
 
@@ -550,6 +551,9 @@ https://www.google.com/chrome/
 cd Downloads
 sudo dpkg -i  google-chrome-stable_current_amd64.deb
 ``` 
+
+**Chrome tweaks:**
+- Open Settings (`chrome://settings/security`) → search for `DNS` → toggle **Use secure DNS** to **Off** — prevents Chrome from bypassing network DNS / Pi-hole. 
 
 
 ### Chrome Remote Desktop

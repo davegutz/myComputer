@@ -269,9 +269,11 @@ sudo udevadm control --reload-rules && sudo udevadm trigger
 about:config
 browser.sessionstore.interval = 150000
 ```
+- Open Settings → search for `DNS` → under **DNS over HTTPS**, select **Off** (Use your default DNS resolver) — prevents Firefox from bypassing network DNS / Pi-hole.
 
 **Google Chrome**
 paru -S google-chrome
+- Open Settings (`chrome://settings/security`) → search for `DNS` → toggle **Use secure DNS** to **Off** — prevents Chrome from bypassing network DNS / Pi-hole.
 
 **Proton VPN**
 sudo pacman -S proton-vpn-gtk-app networkmanager gnome-keyring
