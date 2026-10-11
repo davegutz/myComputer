@@ -77,10 +77,12 @@ After first boot:
 
 ```bash
 sudo apt update
-sudo apt install refind   # accept all the dangerous-looking options
+sudo apt install refind   # accept all the dangerous-looking options e.g. autoinstall? select Yes
+sudo nano /boot/efi/EFI/refind/refind.conf
+  # enable_mouse  ********uncomment this line
 ```
 
-This installs the rEFInd boot manager to make the EFI boot menu work properly with dual boot.
+This installs the rEFInd boot manager to make the EFI boot menu work properly with dual boot and wireless keyboard.
 
 ---
 
@@ -621,7 +623,7 @@ sage -n jupyterlab
 
 ### Speed up rclone
 Update(bin/Rclone)
-  ⎿  Added 16 lines, removed 1 line
+  ⎿  Added 16 lines, removed 1 line
        1  #!/bin/bash
        2  # rclone mount gdrive: ~/gdrive &
        3 -rclone mount gdrive: ~/gdrive   --vfs-cache-mode full   --vfs-cache-max-s

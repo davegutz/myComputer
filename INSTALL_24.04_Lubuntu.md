@@ -48,6 +48,15 @@ After restart:
 - Install Updates and reboot
 - Install drivers (none may be available on Lenovo)
 
+```bash
+sudo apt update
+sudo apt install refind   # accept all the dangerous-looking options e.g. autoinstall? select Yes
+sudo nano /boot/efi/EFI/refind/refind.conf
+  # enable_mouse  ********uncomment this line
+```
+
+This installs the rEFInd boot manager to make the EFI boot menu work properly with dual boot and wireless keyboard.
+
 ---
 
 ## 2. Initial Setup
@@ -584,4 +593,62 @@ zoxide add ~/Documents/"How to Geek"/Articles
 zoxide add ~/Documents/Forbes/Articles
 zoxide add ~/Projects ~/Documents ~/Downloads # add multiple directories
 
+
+### Improved HandBrake (Encrypted DVD Ripping)
+
+HandBrake does not include native DVD decryption (`libdvdcss`) out of the box due to licensing and legal restrictions. To rip encrypted/CSS-protected DVDs on Ubuntu:
+
+#### 1. Install and Compile `libdvdcss` (this was already in place for Lubuntu)
+
+Install the official package wrapper that downloads and builds `libdvdcss`:
+
+```bash
+# Update package index and install the automated DVD packaging tool
+sudo apt update
+sudo apt install -y libdvd-pkg
+
+# Trigger automatic download, compilation, and installation of libdvdcss
+sudo dpkg-reconfigure libdvd-pkg
+```
+
+> **Note:** During `dpkg-reconfigure`, a terminal dialog will prompt to confirm building the library. Select **Yes** and press Enter.
+
+#### 2. Install Native (APT) HandBrake (this was already in place for Lubuntu)
+
+The Snap version runs inside a strict sandbox container and cannot access `/usr/lib` where `libdvdcss` resides. Replace it with the native APT package:
+
+```bash
+# Remove restricted Snap version
+sudo snap remove handbrake
+
+# Install native system package
+sudo apt install -y handbrake
+```
+
+#### 3. "VLC Cache Trick" for Stubborn Discs
+
+Some DVDs use complex structural protections (such as fake playlists or 99-title traps) that hang the scanner. If HandBrake fails or hangs during the initial title scan:
+1. Open VLC Media Player.
+2. Play the encrypted DVD for 5–10 seconds (VLC cracks the handshake and loads the key into volatile memory cache).
+3. Pause playback, leave VLC open, and open/scan the disc in HandBrake.
+
+#### 4. Power-User Fallback: MakeMKV + HandBrake
+
+If encountering stubborn DVDs with structural protections that `libdvdcss` cannot crack:
+1. Use **MakeMKV** to decrypt the disc and extract a lossless 1:1 rip (`.mkv`) to the hard drive.
+2. Open the `.mkv` file in **HandBrake** to transcode and compress to your preferred format and size.
+
+```bash
+sudo add-apt-repository ppa:heyarje/makemkv-beta
+sudo apt update
+sudo apt install makemkv-bin makemkv-oss -y
+```
+
+Launch:
+```bash
+makemkv
+```
+
+
+### end works in progress
 
