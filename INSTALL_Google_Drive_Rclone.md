@@ -80,3 +80,23 @@ dex ~/.config/autostart/rclone.desktop
 ## 4. Optimized Copy and Sync Commands
 
 For large backups, transfers, and file synchronization, see [INSTALL_Google_Drive_Backup](INSTALL_Google_Drive_Backup.md).
+
+
+## 5. Remount the Drive
+Remount rclone: sometimes called "refresh rclone", "reconnect rclone",
+Launch if lost permissions (general i/o error)
+```bash
+rclone config
+```
+Choose e to edit an existing remote.
+Select the number or name of your Google Drive remote.
+enter defaults until...
+Already have a token - refresh? y
+	auto config - y
+	go to browser
+Log into your Google account in the browser window that opens and approve the permissions request.
+```bash
+Rclone
+```
+May have to unmount gdrive to get connect using Rclone
+

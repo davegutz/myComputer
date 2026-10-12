@@ -28,7 +28,8 @@
 - [11. HDMI Audio](#11-hdmi-audio)
 - [12. Google Drive (Rclone)](#12-google-drive-rclone)
 - [13. Optional Tools](#13-optional-tools)
-- [14. Work In Progress](#13-work-in-progress)
+- [14. GPU Screen Recorder (Wayland Screencasting)](#14-gpu-screen-recorder-wayland-screencasting)
+- [15. Work In Progress](#15-work-in-progress)
 
 ---
 
@@ -60,6 +61,21 @@ This installs the rEFInd boot manager to make the EFI boot menu work properly wi
 ---
 
 ## 2. Initial Setup
+
+### Desktop Setup (Wayland Session for Screencasting & Windows Dual Boot)
+
+Lubuntu 24.04 ships by default with LXQt on X11. However, if dual-booting with Windows and performing screencasting/screen recording (e.g., using GPU Screen Recorder or PipeWire), a **Wayland** session is needed for modern capture protocols and display handling.
+
+Install KDE Plasma to add a Wayland session option:
+
+```bash
+sudo apt update
+sudo apt install -y plasma-desktop
+```
+
+> **Login selection:** At the SDDM / login screen, click the session/gear menu icon in the bottom or top bar and choose **Plasma (Wayland)**.
+> 
+> **Lubuntu-style menu:** To keep the familiar Lubuntu/LXQt menu feel inside Plasma, right-click the Application Launcher ("Start" icon) on the panel, choose **Show Alternatives...**, and select **Application Menu** (traditional cascading categories).
 
 ### Turn off light Perixx 317 keyboard
 
@@ -327,7 +343,7 @@ snd-aloop
 sudo modprobe snd-aloop
 ```
 
-> The 4 GB Lenovo laptops don't have enough CPU bandwidth to run ffmpeg even at low quality — skip screencasting.
+> The 4 GB Lenovo laptops don't have enough CPU bandwidth to run ffmpeg even at low quality — skip screencasting. For Wayland sessions or hardware-accelerated screencasting, see [14. GPU Screen Recorder](#14-gpu-screen-recorder-wayland-screencasting).
 
 ---
 
@@ -573,7 +589,81 @@ http://192.168.5.216:8080/admin/login
 
 ---
 
-## 14. Work In Progress
+## 14. GPU Screen Recorder (Wayland Screencasting)
+
+Traditional screencasters (such as `ffmpeg` using `x11grab` or SimpleScreenRecorder) only work on X11 and can cause high CPU utilization on low-power processors. Under Wayland, standard X11 capture fails.
+
+[GPU Screen Recorder](https://git.dec05eba.com/gpu-screen-recorder) captures directly from the GPU framebuffer via KMS (Direct Rendering Manager) or PipeWire desktop portal and encodes video with hardware acceleration (VA-API on AMD/Intel, NVENC on NVIDIA). This allows smooth 60 FPS recording with negligible CPU overhead.
+
+### Prerequisites
+
+1. **Hardware Video Acceleration Drivers (VA-API):**
+   Ensure Mesa VA-API drivers are installed for AMD or Intel GPUs:
+   ```bash
+   sudo apt update
+   sudo apt install -y mesa-va-drivers vainfo
+   vainfo   # verify driver reports VAProfileH264 / VAProfileHEVC support
+   ```
+
+2. **Audio Monitoring:**
+   ```bash
+   sudo apt install -y pavucontrol
+   ```
+
+### Option A: Install via Flatpak (Recommended — includes GUI)
+
+Lubuntu requires `flatpak` to be installed and Flathub configured:
+
+```bash
+sudo apt update
+sudo apt install -y flatpak
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+```
+
+Install GPU Screen Recorder system-wide (allows acquiring Polkit capture permissions):
+
+```bash
+flatpak install flathub com.dec05eba.gpu_screen_recorder
+```
+
+**Launch:**
+- Open **GPU Screen Recorder** from the LXQt Application Menu, or
+- Run in terminal:
+  ```bash
+  flatpak run com.dec05eba.gpu_screen_recorder
+  ```
+
+### Option B: Build from Source (Native CLI)
+
+```bash
+sudo apt update
+sudo apt install -y build-essential git meson ffmpeg \
+    libxi-dev libdrm-dev libavcodec-dev libavformat-dev \
+    libx11-dev libxcomposite-dev libxdamage-dev libxrender-dev \
+    libxrandr-dev libpulse-dev libva-dev libcap-dev \
+    libdbus-1-dev libpipewire-0.3-dev libavfilter-dev
+
+git clone https://repo.dec05eba.com/gpu-screen-recorder
+cd gpu-screen-recorder
+sudo ./install_ubuntu.sh
+```
+
+### Usage & Wayland Notes
+
+- **Encoder Selection:** Set Video Codec to **VAAPI** (or **Auto**) for AMD Radeon / Intel, or **NVENC** for NVIDIA.
+- **Wayland Permissions (KMS Capture):** On startup under Wayland, GPU Screen Recorder prompts for root authentication (`pkexec` / Polkit) to capture directly from KMS for maximum performance and zero frame drops.
+- **CLI Recording Example:**
+  ```bash
+  # Record full screen at 60 FPS with default system audio output:
+  gpu-screen-recorder -w screen -f 60 -a "default_output" -o ~/Videos/screencast.mp4
+
+  # Stop recording cleanly:
+  # Press Ctrl + C in the terminal
+  ```
+
+---
+
+## 15. Work In Progress
 
 ### Chrome Remote Desktop
 See [INSTALL_Chrome_Remote_Desktop](INSTALL_Chrome_Remote_Desktop.md) for Rclone setup.
