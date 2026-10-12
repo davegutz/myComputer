@@ -86,7 +86,7 @@ For large backups, transfers, and file synchronization, see [INSTALL_Google_Driv
 Remount rclone: sometimes called "refresh rclone", "reconnect rclone",
 Launch if lost permissions (general i/o error)
 ```bash
-rclone config
+rclone config reconnect gdrive:
 ```
 Choose e to edit an existing remote.
 Select the number or name of your Google Drive remote.
@@ -98,5 +98,9 @@ Log into your Google account in the browser window that opens and approve the pe
 ```bash
 Rclone
 ```
-May have to unmount gdrive to get connect using Rclone
+Probably have to unmount gdrive to get connect using Rclone
+```bash
+fusermount -u ~/gdrive
+/home/daveg/bin/Rclone
+```
 
