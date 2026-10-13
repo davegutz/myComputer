@@ -51,6 +51,9 @@ rclone mount gdrive: ~/gdrive \
   --drive-chunk-size 128M \
   --buffer-size 64M \
   --poll-interval 15s \
+  --multi-thread-streams 4 \
+  --tpslimit 5 \
+  --tpslimit-burst 5 \
   --daemon \
   &
 EOF
