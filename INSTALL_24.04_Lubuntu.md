@@ -875,6 +875,40 @@ Launch:
 makemkv
 ```
 
+### Kooha Install By Flatpak
+
+This will replace GUI_screencast.
+
+```bash
+# Install Flatpak and KDE Integration Portals
+sudo apt update && sudo apt install -y flatpak xdg-desktop-portal-kde pipewire
+
+# Add the Flathub Repository
+flatpak remote-add --if-not-exists flathub https://flathub.org
+
+# Crucial for Wayland to Restart system
+sudo reboot
+
+```
+
+```bash
+# After reboot
+
+# install Kooha app
+flatpak install flathub io.github.seadve.Kooha -y
+```
 
 ### end works in progress
+
+---
+
+## Linux Environment Post-Installation Configurations
+
+To standardize environment configurations (such as global shell modifications, text editors, custom tools, and profile settings) across low-spec and primary Linux environments, sync this machine with the unified configuration manager:
+
+1. Refer to the target environment documentation details in [myLinux Configuration Guide](../myLinux/README.md).
+2. Execute the initialization process script directly:
+   ```bash
+   ~/Documents/GitHub/myLinux/scripts/bootstrap.sh
+   ```
 

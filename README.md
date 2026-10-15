@@ -42,3 +42,13 @@ Created: Dave Gutz, 2024-Dec-25
 - **Lenovo laptop?** → [INSTALL_Lubuntu_24.04](INSTALL_Lubuntu_24.04.md)
 - **Venus Mini PC?** → [INSTALL_Ubuntu_Venus_Dual_Boot](INSTALL_Ubuntu_Venus_Dual_Boot.md)
 - **Windows setup?** → [INSTALL_Windows_11_Venus](INSTALL_Windows_11_Venus.md)
+
+---
+
+## Unified Linux Configuration Manager
+
+To standardize shell configurations, terminal styling (Alacritty), dark themes, and aliases across Linux builds (Lubuntu, Ubuntu, Pop!_OS, CachyOS), see the **[myLinux Configuration Guide](../myLinux/README.md)**.
+Initialize a new Linux build:
+```bash
+~/Documents/GitHub/myLinux/scripts/bootstrap.sh
+```

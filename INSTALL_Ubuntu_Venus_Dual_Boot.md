@@ -594,3 +594,15 @@ cp ~/Documents/GitHub/myStateOfCharge/SOC_Particle/datasheets/pSpice/* \
 - Don't install figures in GitHub — use interactive plot tools instead.
 - Avoid dependence on streaming data (Particle Cloud, Blynk, Google Cloud).
 - Use Python whenever possible — replaces Scilab/Matlab.
+
+---
+
+## Linux Environment Post-Installation Configurations
+
+To standardize environment configurations (such as global shell modifications, text editors, custom tools, and profile settings) across low-spec and primary Linux environments, sync this machine with the unified configuration manager:
+
+1. Refer to the target environment documentation details in [myLinux Configuration Guide](../myLinux/README.md).
+2. Execute the initialization process script directly:
+   ```bash
+   ~/Documents/GitHub/myLinux/scripts/bootstrap.sh
+   ```
