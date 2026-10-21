@@ -54,8 +54,14 @@ rclone mount gdrive: ~/gdrive \
   --multi-thread-streams 4 \
   --tpslimit 5 \
   --tpslimit-burst 5 \
+  --rc \
+  --rc-no-auth \
   --daemon \
   &
+
+# Background folder content listing
+nohup rclone rc vfs/refresh recursive=true --fast-list &
+
 EOF
 chmod +x ~/bin/Rclone
 
