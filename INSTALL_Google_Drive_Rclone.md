@@ -16,7 +16,7 @@ Follow the prompts:
 6. Leave `root_folder_id` and `service_account_file` blank unless needed.
 7. Edit Advanced config: `y`
    - `oauth Access Token`: leave blank or enter app password
-   - `upload_cutoff`: `1G`
+   - `upload_cutoff`: `5G`
    - Leave other options as default
 8. When asked about `Use auto config?`, type `y` and authenticate in your web browser.
 9. Team Drive: `n`
