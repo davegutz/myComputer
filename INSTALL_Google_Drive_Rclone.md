@@ -90,8 +90,15 @@ dex ~/.config/autostart/rclone.desktop
 
 For large backups, transfers, and file synchronization, see [INSTALL_Google_Drive_Backup](INSTALL_Google_Drive_Backup.md).
 
+## 5. Keep Time Synced
 
-## 5. Remount the Drive
+Some apps may complain about no gdrive.   There is sometimes a sync error fixed by:
+
+```bash
+timedatectl set-local-rtc 0
+```
+
+## 6. Remount the Drive
 Remount rclone: sometimes called "refresh rclone", "reconnect rclone",
 Launch if lost permissions (general i/o error)
 ```bash
