@@ -422,6 +422,13 @@ sudo apt install baobab
 sudo apt install git-filter-repo
 ```
 
+### veracrypt
+```bash
+sudo add-apt-repository ppa:unit193/encryption -y
+sudo apt update
+sudo apt install veracrypt -y
+```
+
 ### Bluetooth GUI
 
 Lubuntu → System → Discover → search "bluetooth" → install "Bluetooth Manager"
@@ -786,6 +793,12 @@ export QT_QPA_PLATFORM="wayland;xcb"
 export GDK_BACKEND="wayland,x11"
 export MOZ_ENABLE_WAYLAND=1
 ```
+
+Make sure Lib mounts on boot
+```bash
+echo "UUID=e8fdea26-3474-417c-a1cf-73b7c2725a92 /media/daveg/Lib ext4 defaults,nofail 0 2" | sudo tee -a /etc/fstab
+```
+
 
 ### 6. Power Management, Screen Locking & Shortcuts
 
