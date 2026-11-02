@@ -222,6 +222,11 @@ Your system will safely swap the broken layout out for the functioning snapshot,
 sudo pacman -S paru
 ```
 
+## Gparted
+```bash
+sudo pacman -S xorg-xhost
+```
+
 ## gwenview Image Viewer / Quick Editor
 ```bash
 sudo pacman -S gwenview
@@ -269,11 +274,9 @@ sudo udevadm control --reload-rules && sudo udevadm trigger
 about:config
 browser.sessionstore.interval = 150000
 ```
-- Open Settings → search for `DNS` → under **DNS over HTTPS**, select **Off** (Use your default DNS resolver) — prevents Firefox from bypassing network DNS / Pi-hole.
 
 **Google Chrome**
 paru -S google-chrome
-- Open Settings (`chrome://settings/security`) → search for `DNS` → toggle **Use secure DNS** to **Off** — prevents Chrome from bypassing network DNS / Pi-hole.
 
 **Proton VPN**
 sudo pacman -S proton-vpn-gtk-app networkmanager gnome-keyring
@@ -1082,19 +1085,14 @@ ollam pull llama3.x  # update an existing model
 ## Replace with contents of ./cachyos_cosmic_fonts.conf
 #fc-cache -fv
 ```
+### MTP file support for usb file transfer to Android
+```bash
+sudo pacman -S gvfs-mtp android-udev
+  # gvfs-mtp: Enables MTP device mounting directly inside desktop file managers (like COSMIC Files,  Nautilus, or Thunar).
+  # android-udev: Configures USB device permissions so your user account can communicate with Android devices without permission issues.
+sudo udevadm control --reload-rules && sudo udevadm trigger  # Apply the new udev rules without restarting
+```
 
 ___
 ## End works in progress
-
----
-
-## Linux Environment Post-Installation Configurations
-
-To standardize environment configurations (such as global shell modifications, text editors, custom tools, and profile settings) across low-spec and primary Linux environments, sync this machine with the unified configuration manager:
-
-1. Refer to the target environment documentation details in [myLinux Configuration Guide](../myLinux/README.md).
-2. Execute the initialization process script directly:
-   ```bash
-   ~/Documents/GitHub/myLinux/scripts/bootstrap.sh
-   ```
 
