@@ -80,6 +80,53 @@ sudo apt install -y plasma-desktop
 >
 > *For detailed migration instructions from GDM/X11, SDDM Wayland configuration, and Wayland CLI display tools, see [15. Moving from GNOME / X to Plasma / Wayland](#15-moving-from-gnome--x-to-plasma--wayland).*
 
+
+### Switch Default Sleep State from deep to s2idle (Ryzen on Mini PC only and also using reFind):
+  
+Modern AMD Ryzen 6000/7000 mini PCs are vastly more stable using s2idle (suspend-to-idle).
+```bash
+# Edit refind_linux.conf and append mem_sleep_default=s2idle inside the option strings:
+sudo nano /boot/refind_linux.conf
+#    "Boot with standard options"  "root=UUID=7ea0e489-a564-4f95-b0e0-6a65e95b104e ro quiet splash vt.handoff=7 mem_sleep_default=s2idle"
+#    "Boot to single-user mode"    "root=UUID=7ea0e489-a564-4f95-b0e0-6a65e95b104e ro quiet splash vt.handoff=7 mem_sleep_default=s2idle single"
+#    "Boot with minimal options"   "ro root=/dev/nvme0n1p5"
+#  (No need to run update-grub for rEFInd; it reads this file dynamically on every boot).
+
+# Test it now
+echo s2idle | sudo tee /sys/power/mem_sleep
+cat /sys/power/mem_sleep
+# shoud say [s2idle] deep
+```
+
+Enable USB Wakeup for Your Mouse (Optional valid if install refind):
+
+To allow waking the PC by clicking your USB mouse from sleep (`s2idle`), both the USB root hubs (so the wake signal travels upstream to the host controller) and the mouse itself must have wakeup enabled.
+
+Create `/etc/udev/rules.d/90-usb-wakeup.rules`:
+```bash
+sudo nano /etc/udev/rules.d/90-usb-wakeup.rules
+```
+
+Add the following rules:
+```udev
+# 1. Enable wakeup on USB root hubs (1d6b is Linux Foundation root hub) so wake signals pass upstream
+ACTION=="add|bind|change", SUBSYSTEM=="usb", ATTR{idVendor}=="1d6b", ATTR{power/wakeup}="enabled"
+
+# 2. Enable wakeup for the Lenovo Optical Mouse (adjust idVendor/idProduct if using a different mouse)
+ACTION=="add|bind|change", SUBSYSTEM=="usb", ATTRS{idVendor}=="17ef", ATTRS{idProduct}=="602e", ATTR{power/wakeup}="enabled"
+```
+
+Reload and trigger udev, then verify:
+```bash
+# Reload and trigger udev rules
+sudo udevadm control --reload && sudo udevadm trigger --action=add --subsystem-match=usb
+
+# Verify wakeup is enabled (both should output: enabled)
+cat /sys/bus/usb/devices/5-1/power/wakeup
+cat /sys/bus/usb/devices/usb5/power/wakeup
+```
+
+
 ### Turn off light Perixx 317 keyboard
 
 ```bash
