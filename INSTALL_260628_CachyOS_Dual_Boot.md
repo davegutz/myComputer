@@ -1093,6 +1093,55 @@ sudo pacman -S gvfs-mtp android-udev
 sudo udevadm control --reload-rules && sudo udevadm trigger  # Apply the new udev rules without restarting
 ```
 
+### Fan Control (HP Omen — Motherboard 88D2)
+Community tool `omen-fan-control` utilizes a DKMS kernel driver patch compatible with HP 88D2 motherboards, a kernel keep-alive watchdog to prevent firmware overrides, and a graphical interface.
+
+Repo cloned at: `~/omen-fan-control`
+
+#### 1. Install Dependencies
+```bash
+sudo pacman -S --needed dkms python-hatchling python-pyqt6
+# Note: base-devel, linux-cachyos-headers, python-click, python-build, and python-installer are already installed
+```
+
+#### 2. Build & Install Arch Package
+```bash
+cd ~/omen-fan-control/arch/omen-fan-control
+makepkg -sf
+sudo pacman -U omen-fan-control-*.pkg.tar.zst
+```
+
+#### 3. Calibration & Kernel Patch Setup
+```bash
+# Check hardware thresholds
+sudo omen-fan-control calibrate
+
+# Apply permanent DKMS driver patch
+sudo omen-fan-control install-patch permanent
+
+# Register & start background watchdog service
+sudo omen-fan-control service install
+```
+
+#### 4. Usage
+```bash
+# Check status
+sudo omen-fan-control status
+
+# Set manual speed (e.g., 80%)
+sudo omen-fan-control fan-control --mode manual --value 80%
+
+# Set dynamic curve mode
+sudo omen-fan-control fan-control --mode curve
+
+# Launch Graphical Interface (as normal user in COSMIC/Wayland)
+omen-fan-control-gui
+
+# If running GUI with sudo under Wayland/X11:
+xhost +si:localuser:root
+sudo -E omen-fan-control-gui
+```
+
 ___
 ## End works in progress
 
