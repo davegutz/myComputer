@@ -402,18 +402,74 @@ Non-standard pyCharm preferences
 
 ---
 
-## 8. Sound Configuration
+## 8. Sound Configuration & Audio Loopback
+
+For screencasting (`GUI_screencast` / `myPyScreencast`), an audio loopback sink captures application audio (YouTube, movies, media players) cleanly without microphone interference and enables silent background recording.
+
+### Option A: PipeWire User Loopback (Recommended — No Root Required)
+CachyOS uses PipeWire with PulseAudio emulation. You can set up a persistent user-level loopback sink without touching kernel modules (already managed and deployed via `myLinux` Stow):
+
+1. Create the persistent configuration:
+```bash
+mkdir -p ~/.config/pipewire/pipewire-pulse.conf.d
+cat << 'EOF' > ~/.config/pipewire/pipewire-pulse.conf.d/50-loopback.conf
+pulse.cmd = [
+    { cmd = "load-module" args = "module-null-sink sink_name=alsa_output.Loopback sink_properties=device.description=Built-in\\ Audio\\ Loopback" flags = [ nofail ] }
+]
+EOF
+```
+
+2. Restart your user sound service:
+```bash
+systemctl --user restart pipewire-pulse
+```
+
+---
+
+### Option B: ALSA Kernel Module (`snd-aloop`)
+Alternatively, load the Linux kernel ALSA loopback driver:
 
 ```bash
-sudo nano /etc/modules-load.d/modules.conf
-# Add:
-snd-aloop
+# Add to load automatically at system boot:
+echo "snd-aloop" | sudo tee /etc/modules-load.d/snd-aloop.conf
 
-# Load for this session:
+# Load immediately for this session:
 sudo modprobe snd-aloop
 ```
 
+---
+
+### Verify Audio Loopback
+Verify that FFmpeg and PulseAudio detect the loopback monitor source:
+
+```bash
+ffmpeg -sources pulse | grep -i loopback
+```
+Expected output:
+```text
+alsa_output.Loopback.monitor [Monitor of Built-in Audio Loopback]
+```
+
+### Application Audio Routing (`pavucontrol`)
+1. Install PulseAudio Volume Control if not already present:
+```bash
+sudo pacman -S pavucontrol
+```
+2. Start playing audio in your target application (e.g., browser or movie player).
+3. Open `pavucontrol`, navigate to the **Playback** tab, and set the application's output device to **Built-in Audio Loopback** (or `Loopback Analog Stereo`).
+4. `GUI_screencast` will now capture the loopback audio stream cleanly in the background.
+
 Alternatively, plug in a USB headset and adjust sound in GUI.
+
+### Screen Recording on Wayland (COSMIC)
+The COSMIC desktop compositor (`cosmic-comp`) uses the standard Wayland ScreenCast portal and GPU hardware capture rather than wlroots extensions. Use `gpu-screen-recorder`:
+```bash
+sudo pacman -Sy gpu-screen-recorder
+```
+In `GUI_screencast`:
+- **Video:** `gpu-screen-recorder`
+- **Target:** `portal` (Strongly preferred on HP OMEN with hybrid AMD/NVIDIA graphics; avoids direct KMS display plane capture which can cause `cosmic-comp` atomic modesetting lockups that prevent the PC from going to sleep/suspend)
+- **Audio:** `alsa_output.Loopback.monitor`
 
 ---
 
