@@ -81,26 +81,31 @@ sudo apt install -y plasma-desktop
 > *For detailed migration instructions from GDM/X11, SDDM Wayland configuration, and Wayland CLI display tools, see [15. Moving from GNOME / X to Plasma / Wayland](#15-moving-from-gnome--x-to-plasma--wayland).*
 
 
-### Switch Default Sleep State from deep to s2idle (Ryzen on Mini PC only and also using reFind):
+### Sleep & Wake Configuration for Ryzen Mini PC (Minisforum Venus / rEFInd):
   
-Modern AMD Ryzen 6000/7000 mini PCs are vastly more stable using s2idle (suspend-to-idle).
+Minisforum UM773 (AMD Ryzen 7 7735HS) firmware implements traditional ACPI S3 sleep (`supports S0 S3 S4 S5`) and lacks ACPI Low-Power S0 Idle (`LPS0` / Modern Standby). Using `s2idle` can cause failed wakes, unresponsiveness, and `amdgpu` warnings. Additionally, AMD Rembrandt / Radeon 680M integrated graphics can experience Display Core timing generator timeouts (`optc31_disable_crtc line:145`) when resuming displays on HDMI.
+
+Configure traditional deep S3 sleep and the AMD Display Core debug mask:
+
 ```bash
-# Edit refind_linux.conf and append mem_sleep_default=s2idle inside the option strings:
+# Edit refind_linux.conf and append mem_sleep_default=deep amdgpu.dcdebugmask=0x10 to the option strings:
 sudo nano /boot/refind_linux.conf
-#    "Boot with standard options"  "root=UUID=7ea0e489-a564-4f95-b0e0-6a65e95b104e ro quiet splash vt.handoff=7 mem_sleep_default=s2idle"
-#    "Boot to single-user mode"    "root=UUID=7ea0e489-a564-4f95-b0e0-6a65e95b104e ro quiet splash vt.handoff=7 mem_sleep_default=s2idle single"
+#    "Boot with standard options"  "root=UUID=7ea0e489-a564-4f95-b0e0-6a65e95b104e ro quiet splash vt.handoff=7 mem_sleep_default=deep amdgpu.dcdebugmask=0x10"
+#    "Boot to single-user mode"    "root=UUID=7ea0e489-a564-4f95-b0e0-6a65e95b104e ro quiet splash vt.handoff=7 mem_sleep_default=deep amdgpu.dcdebugmask=0x10 single"
 #    "Boot with minimal options"   "ro root=/dev/nvme0n1p5"
 #  (No need to run update-grub for rEFInd; it reads this file dynamically on every boot).
 
-# Test it now
-echo s2idle | sudo tee /sys/power/mem_sleep
+# Test deep sleep state now:
+echo deep | sudo tee /sys/power/mem_sleep
 cat /sys/power/mem_sleep
-# shoud say [s2idle] deep
+# should say: s2idle [deep]
 ```
+
+> **Note on Bluetooth Keyboards:** Bluetooth devices (such as Logitech Pebble K380s) have wakeup disabled in the kernel by default and cannot wake the system from suspend. Use a wired/wireless USB mouse or the physical power button to wake the PC.
 
 Enable USB Wakeup for Your Mouse (Optional valid if install refind):
 
-To allow waking the PC by clicking your USB mouse from sleep (`s2idle`), both the USB root hubs (so the wake signal travels upstream to the host controller) and the mouse itself must have wakeup enabled.
+To allow waking the PC by clicking your USB mouse from sleep, both the USB root hubs (so the wake signal travels upstream to the host controller) and the mouse itself must have wakeup enabled.
 
 Create `/etc/udev/rules.d/90-usb-wakeup.rules`:
 ```bash
