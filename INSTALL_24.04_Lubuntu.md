@@ -158,6 +158,40 @@ sudo swapon /swapfile
 swapon --show
 ```
 
+### Lubuntu Secure (`systemd-homed` Encrypted Home)
+
+When `/home/daveg` is managed as a `systemd-homed` encrypted BTRFS loopback container (`/home/daveg.home`), `systemd-homed` defaults to `shrink-and-grow` resize mode, which attempts to shrink the BTRFS filesystem and relocate tens of thousands of extents on every logout/shutdown—causing shutdown to hang or spin indefinitely.
+
+Disable auto-shrinking on shutdown by setting resize mode to `grow` only:
+
+```bash
+sudo homectl update daveg --auto-resize-mode=grow
+```
+
+*(To reclaim free space back to `/` on demand without shrinking the container, use `~/Documents/GitHub/myLinux/scripts/clean_root.sh` which runs `fstrim`.)*
+
+To show `systemd-homed` users (UIDs `60001`–`60513`) on the SDDM login screen without exposing the system `nobody` account (UID `65534`), edit `/etc/sddm.conf`:
+
+```bash
+sudo nano /etc/sddm.conf
+```
+
+Add or update the `[Users]` section:
+
+```ini
+[Users]
+MinimumUid=1000
+MaximumUid=60513
+HideUsers=nobody
+```
+
+Once `daveg` is verified to have working `sudo` access (`groups daveg` and `sudo -v`), remove any temporary setup account (such as `tempadmin`) so it does not leave background sessions hanging at shutdown:
+
+```bash
+sudo loginctl terminate-user tempadmin
+sudo deluser --remove-home tempadmin
+```
+
 ### Basic Installs
 
 System - Discover - caffeine, vlc
