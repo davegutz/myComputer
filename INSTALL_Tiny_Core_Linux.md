@@ -13,6 +13,7 @@
 - [1. Create Install USB](#1-create-install-usb)
 - [2. Install in VirtualBox VM (Windows)](#2-install-in-virtualbox-vm-windows)
 - [3. Install on Physical Machine (Linux)](#3-install-on-physical-machine-linux)
+- [4. Optional Features](#4-optional-features)
 
 ---
 
@@ -119,3 +120,10 @@ sudo dd if=CorePlus-current.iso of=/dev/sdX status=progress
 - 20 GB hard drive, 2 GB RAM
 - Boot: **Core with Wifi & Firmware**
 - VirtualBox network: Attached to NAT or Bridged Adapter
+
+---
+
+## 4. Optional Features
+
+### Security Camera (motion / motionEye)
+For security camera setup, motion detection, and web NVR on supported Linux systems, see [INSTALL_secure_cam](INSTALL_secure_cam.md).

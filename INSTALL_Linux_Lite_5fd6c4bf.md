@@ -31,6 +31,7 @@ Choose **"Direct install Linux Live"**
 During installation:
 - Do not install 3rd-party drivers (requires Secure Boot, may be disabled from Ubuntu install)
 - Choose complete install (3rd choice beginning "Reinstall Ubuntu")
+- **Encryption:** Choose the **Encryption** option (LUKS full disk encryption) at the appropriate place during installation setup.
 - Initial password: `p`
 - Restart will prompt to remove USB
 
@@ -62,6 +63,7 @@ sudo apt install -y ubuntu-restricted-extras
 ## 3. Install Applications
 
 For VS Code, GitHub, Plex, and PyCharm, see [INSTALL_24.04_Ubuntu](INSTALL_24.04_Ubuntu.md).
+For security camera setup, motion detection, and motionEye web NVR, see [INSTALL_secure_cam](INSTALL_secure_cam.md).
 
 ---
 

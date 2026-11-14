@@ -91,6 +91,7 @@ Partition setup (Custom / GParted):
 
 Username: `daveg`
 ***********  MAKE SURE YOU PICK 'btrfs' FOR ROOT MOUNT TYPE.  And enable Snapper suppoprt later.
+- **Encryption:** Choose the **Encryption** option (LUKS) at the appropriate place during disk/partition setup to encrypt the root filesystem.
 
 
 When presented with configuration choice checklist, choose only COSMIC *****!
@@ -846,6 +847,11 @@ See [INSTALL_Chrome_Remote_Desktop](INSTALL_Chrome_Remote_Desktop.md) for Rclone
 ___
 ### noMachine Desktop Share
 See [INSTALL_noMachine](INSTALL_noMachine.md) 
+
+
+___
+### Security Camera (motion / motionEye)
+See [INSTALL_secure_cam](INSTALL_secure_cam.md) for security camera setup, motion detection, and motionEye web NVR interface.
 
 ___
 ### RStudio-desktop

@@ -58,6 +58,7 @@ Choose **"Try or install Ubuntu"** — allow ~3 minutes (may hear music).
 During installation:
 - Disconnect 3TB extra drive if needed to pass BitLocker tests (reconnect later)
 - **Fresh clean install**, basic installation
+- **Encryption:** Choose the **Encryption** option (LUKS under Advanced Features / Disk Setup) at the appropriate place to encrypt the installation.
 - Username: `daveg` / password
   > Initial password becomes the LUKS encryption key. Start with your final password, then shorten it during install.
 - When done, press Finish — prompts to remove media and restart
@@ -610,6 +611,9 @@ See [INSTALL_Chrome_Remote_Desktop](INSTALL_Chrome_Remote_Desktop.md) for Rclone
 
 ### noMachine Desktop Share
 See [INSTALL_noMachine](INSTALL_noMachine.md) for Rclone setup.
+
+### Security Camera (motion / motionEye)
+See [INSTALL_secure_cam](INSTALL_secure_cam.md) for security camera setup, motion detection, and motionEye web NVR interface.
 
 ---
 

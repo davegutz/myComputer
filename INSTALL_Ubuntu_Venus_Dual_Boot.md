@@ -72,6 +72,7 @@ Partition setup (Custom):
 > - p8: ext4 `/home` remaining
 
 Username: `daveg` / `daveg-Venus-Linux`
+- **Encryption:** Choose the **Encryption** option (LUKS) at the appropriate place during disk/partition setup.
 
 Wait ~12 minutes. When prompted to reboot, leave USB in until prompted to remove it.
 Start with a short password during install, then change it at the end.
@@ -541,6 +542,9 @@ chmod +x .config/conky/conky.conf
 sudo apt install nemo
 sudo apt install thunar
 ```
+
+### Security Camera (motion / motionEye)
+See [INSTALL_secure_cam](INSTALL_secure_cam.md) for security camera setup, motion detection, and motionEye web NVR interface.
 
 ---
 

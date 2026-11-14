@@ -33,6 +33,20 @@ Created: Dave Gutz, 2024-Dec-25
 |-------|----------|----|---------|
 | [INSTALL_Ubuntu_Android](INSTALL_Ubuntu_Android.md) | Android device | Ubuntu | Ubuntu on Android environment |
 
+### Feature & Application Guides
+
+| Guide | Purpose |
+|-------|---------|
+| [INSTALL_secure_cam](INSTALL_secure_cam.md) | Security camera setup, motion detection, and motionEye web NVR |
+| [INSTALL_Antigravity](INSTALL_Antigravity.md) | Google Antigravity CLI, IDE integration, and YOLO mode |
+| [INSTALL_Chrome_Remote_Desktop](INSTALL_Chrome_Remote_Desktop.md) | Remote desktop access via Chrome |
+| [INSTALL_noMachine](INSTALL_noMachine.md) | Remote desktop sharing via noMachine |
+| [INSTALL_Google_Drive_Rclone](INSTALL_Google_Drive_Rclone.md) | Google Drive mounting via Rclone |
+| [INSTALL_Google_Drive_Backup](INSTALL_Google_Drive_Backup.md) | Automated backup to Google Drive |
+| [INSTALL_PuTTY](INSTALL_PuTTY.md) | PuTTY serial communication and terminal setup |
+| [INSTALL_Alternate_Python](INSTALL_Alternate_Python.md) | Compiling alternate Python versions from source |
+| [INSTALL_Python_Projects](INSTALL_Python_Projects.md) | Python development environment and venvs |
+
 ---
 
 ## Quick Reference

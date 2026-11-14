@@ -43,6 +43,7 @@ Insert ISO USB and boot:
 Choose **"Normal installation"** (not minimal — minimal leaves things broken).
 
 Setup and choose a single large partition.  Installer will make a swap dynamically.
+- **Encryption:** Choose the **Encryption** option (LUKS) at the appropriate place during disk/partition setup to enable disk encryption.
 
 Restart will prompt to remove USB. System should restart to Lubuntu without BIOS boot.
 
@@ -67,7 +68,9 @@ This installs the rEFInd boot manager to make the EFI boot menu work properly wi
 
 Lubuntu 24.04 ships by default with LXQt on X11. However, if dual-booting with Windows and performing screencasting/screen recording (e.g., using GPU Screen Recorder or PipeWire), a **Wayland** session is needed for modern capture protocols and display handling.
 
-Install KDE Plasma to add a Wayland session option:
+> **Hardware Recommendation:** Installing KDE Plasma is recommended for **powerful PCs only** (such as Minisforum Venus or systems with ample RAM). Specifically, do **NOT** install Plasma on lower-spec machines like Lenovo 4 GiB RAM laptops—stick with the default lightweight LXQt desktop on those to avoid memory exhaustion and system slowdowns.
+
+Install KDE Plasma to add a Wayland session option (powerful PCs only):
 
 ```bash
 sudo apt update
@@ -159,6 +162,9 @@ swapon --show
 ```
 
 ### Lubuntu Secure (`systemd-homed` Encrypted Home)
+
+> [!NOTE]
+> This section is **only for migrating an already-built user folder to encryption**. If you selected the **Encryption** option during the initial install, disk encryption is already built-in at install and you should skip this section.
 
 When `/home/daveg` is managed as a `systemd-homed` encrypted BTRFS loopback container (`/home/daveg.home`), `systemd-homed` defaults to `shrink-and-grow` resize mode, which attempts to shrink the BTRFS filesystem and relocate tens of thousands of extents on every logout/shutdown—causing shutdown to hang or spin indefinitely.
 
@@ -761,6 +767,8 @@ sudo ./install_ubuntu.sh
 
 ## 15. Moving from GNOME / X to Plasma / Wayland
 
+> **Hardware Recommendation:** Moving to KDE Plasma is recommended for **powerful PCs only**. Specifically, do **NOT** install this on resource-constrained machines like Lenovo 4 GiB RAM laptops; maintain the lightweight default LXQt environment on those machines to avoid memory exhaustion.
+
 Migrating from GNOME or LXQt under X11 to KDE Plasma on Wayland provides modern display protocol benefits, tear-free rendering, smoother scaling, and native hardware-accelerated screencasting (via KMS and PipeWire).
 
 ### 1. Install Plasma & Wayland Packages
@@ -905,6 +913,9 @@ See [INSTALL_Chrome_Remote_Desktop](INSTALL_Chrome_Remote_Desktop.md) for Rclone
 
 ### noMachine Desktop Share
 See [INSTALL_noMachine](INSTALL_noMachine.md) for Rclone setup.
+
+### Security Camera (motion / motionEye)
+See [INSTALL_secure_cam](INSTALL_secure_cam.md) for security camera setup, motion detection, and motionEye web NVR interface.
 
 ### zoxide (https://www.howtogeek.com/stop-using-the-cd-command/)
 sudo apt update

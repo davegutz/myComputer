@@ -64,6 +64,7 @@ Partition setup (Custom / GParted):
 | p9 | remaining | ext4 | `/root` |
 
 Username: `daveg`
+- **Encryption:** Choose the **Encryption** option (LUKS) at the appropriate place during disk/partition setup to encrypt the root partition.
 
 Wait ~12 minutes for install. When prompted to reboot, leave USB in until prompted to remove it.
 
@@ -564,6 +565,10 @@ See [INSTALL_Chrome_Remote_Desktop](INSTALL_Chrome_Remote_Desktop.md) for Rclone
 
 ### noMachine Desktop Share
 See [INSTALL_noMachine](INSTALL_noMachine.md) 
+
+
+### Security Camera (motion / motionEye)
+See [INSTALL_secure_cam](INSTALL_secure_cam.md) for security camera setup, motion detection, and motionEye web NVR interface.
 
 
 ### RStudio-desktop

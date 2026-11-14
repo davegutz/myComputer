@@ -32,6 +32,7 @@ Choose **"Direct install Linux Live"**
 During installation:
 - Do not install 3rd-party drivers (requires Secure Boot, which may be disabled from Ubuntu install)
 - Choose complete install (3rd choice in list beginning "Reinstall Ubuntu")
+- **Encryption:** Choose the **Encryption** option (LUKS full disk encryption) at the appropriate place during installation setup.
 - Initial password: `p`
 - Restart will prompt to remove USB
 
@@ -73,6 +74,7 @@ sudo do-release-upgrade
 ## 3. Install Applications
 
 For VS Code, PyCharm, GitHub, Plex, and puTTY, see [INSTALL_24.04_Ubuntu](INSTALL_24.04_Ubuntu.md).
+For security camera setup, motion detection, and motionEye web NVR, see [INSTALL_secure_cam](INSTALL_secure_cam.md).
 
 ```bash
 sudo apt install -y python3-tk   # required for PyCharm (no restart needed)
