@@ -1,4 +1,14 @@
-# Owltron LF-C3t Wi-Fi security camera
+# Security camera
+
+############################################################################################
+ 
+                     Look |  Look
+                          v
+ This whole procedure has been superceded by install_secure_cam in the repository myLinux
+
+############################################################################################
+
+
 
 ## 0. Plug in the camera and make sure it is detected:
 ```bash
