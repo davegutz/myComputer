@@ -155,9 +155,20 @@ http://venus-littleguy:8765
 
 email:
 davegutz2006@gmail.com
-password enter 16-character app password for 'motionEye' at https://myaccount.google.com/apppasswords  otmw xfce rmhb jpjs
-smtp.gmail.com
-Use TLS ON
+password: enter 16-character app password for 'motionEye' at https://myaccount.google.com/apppasswords
+smtp.gmail.com:587
+Use TLS: ON
+Target recipient notifications: davegutz2006@gmail.com, kpeanes@gmail.com
+
+#### Gmail Filter Configuration for Motion Alerts:
+For both recipient accounts (`davegutz2006@gmail.com` and `kpeanes@gmail.com`):
+1. In Gmail, open Settings (gear icon) -> See all settings -> Filters and Blocked Addresses -> Create a new filter.
+2. From: davegutz2006@gmail.com
+   Subject / Has the words: motion_start (or Camera1)
+3. Actions:
+   - Apply the label: Camera-Alerts (create new)
+   - Skip the Inbox (Archive it)
+   - Never send it to Spam
 
   • Switch Motion Detection to ON.
   • (Optional) Turn on Show Frame Changes temporarily—this draws a box around moving objects in the live
