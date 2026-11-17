@@ -1,1 +1,1210 @@
-/home/daveg/Documents/GitHub/myComputer/INSTALL_260628_CachyOS_Dual_Boot.md
+# Installing CachyOS (Dual Boot with Windows)
+
+**Hardware:** HP Omen (or similar)
+**OS:** CachyOS 260628 with COSMIC desktop (X11/Xorg) 
+**Purpose:** General workstation, dual-boot alongside Windows
+
+> CachyOS uses the COSMIC desktop in 260628
+> For Python project notes (movie_Scraper, SOC, etc.), see [INSTALL_Python_Projects](INSTALL_Python_Projects.md).
+
+---
+
+## Table of Contents
+
+- [1. Preparation](#1-preparation)
+- [2. Boot and Install](#2-boot-and-install)
+- [3. EFI Boot Menu](#3-efi-boot-menu)
+- [4. Initial Setup](#4-initial-setup)
+- [5. Install Applications](#5-install-applications)
+- [6. VS Code](#6-vs-code)
+- [7. PyCharm and Python](#7-pycharm-and-python)
+- [8. Sound Configuration](#8-sound-configuration)
+- [9. Google Drive (Rclone)](#9-google-drive-rclone)
+- [10. Claude Code](#10-claude-code)
+- [11. Dual-Boot Time Sync](#11-dual-boot-time-sync)
+- [12. Cleanup](#12-cleanup)
+- [13. COSMIC Desktop Tips](#13-cosmic-desktop-tips)
+- [14. Utilities](#14-utilities)
+- [15. Work in Progress](#15-work-in-progress)
+
+---
+
+## 1. Preparation
+
+- Phone ready to approve Google requests and USB tethering if needed
+- Make space for Linux using Windows Disk Management utility:
+  - **Shrink Windows partition by ~350,000 MB** on a 1 TB drive
+	- Use System Restore and Protect:  delete backups
+	- Then use Disk Optimizer to defrag
+	- Then use Disk Management to Shrink compacted disk
+  - Note partition numbers
+- Have a >4 GB thumbdrive
+- On Windows: download the ISO and flash using **balenaEtcher**
+  - Create a new Windows install USB >=5GB:
+    - https://www.microsoft.com/en-us/software-download/windows10 → Download Now
+    - Double-click media creation tool → Create USB media for another PC
+ 
+  ``` https://www.microsoft.com/en-us/software-download/windows11 ```
+  - Deauthorize licenses before reinstalling:
+    - DVDFab: deauthorize `davegutz@alum.mit.edu`
+    - WinXDVD: remove license
+    - ePubor: Tools → License Manager → Deregister
+
+  After shrinking C: (Windows Disk Management + G parted)
+
+| Partition |  Size    | Type    | Mount                       |
+|-----------|----------|---------|-----------------------------|
+| p1        |1022    MB| FAT     | not mounted Linux           |
+| p2        |   4.3  GB| FAT EFI | (D:)                        |
+| p3        |  17    MB| ext4    | not mounted Linux           |
+| p4        | 322.41 GB| NTFS    | (C:)                        |
+|           | 261.51 GB|         | free                        |
+| p5        | 798    MB| NTFS    | not mounted Linux           |
+| p6        |  21.49 GB| swap    | (name: 'custom' in GParted) |
+| p7        |  30.27 GB| ext4    | 'dummy'                     |
+| p8        |   1.86 GB| FAT EFI | `/boot`  (large enough to hold Windows, Pop, and Cachy) |
+| p9        | 288.18 GB| ext4    | `/root`                     |
+
+
+## 2. Boot and Install
+
+Insert ISO USB and boot:
+- **F10** on HP-Omen, **F12** on Lenovo, **F7** on little_guy
+- Set boot order to USB
+
+Choose **"Try or install xxx"** — allow ~3 minutes.
+
+Partition setup (Custom / GParted):
+
+| Partition |  Size    | Type    | Mount                       |
+|-----------|----------|---------|-----------------------------|
+| p1        |1022    MB| FAT     | not mounted Linux           |
+| p2        |   4.3  GB| FAT EFI | (D:)                        |
+| p3        |  17    MB| ext4    | not mounted Linux           |
+| p4        | 322.41 GB| NTFS    | (C:)                        |
+|           | 261.51 GB|         | free                        |
+| p5        | 798    MB| NTFS    | not mounted Linux           |
+| p6        |  21.49 GB| swap    | (name: 'custom' in GParted) |
+| p7        |  30.27 GB| ext4    | 'dummy'                     |
+| p8        |   1.86 GB| FAT EFI | `/boot`  (large enough to hold Windows, Pop, and Cachy) |
+| p9        | 288.18 GB| btrfs   | `/root`                     |
+
+Username: `daveg`
+***********  MAKE SURE YOU PICK 'btrfs' FOR ROOT MOUNT TYPE.  And enable Snapper suppoprt later.
+- **Encryption:** Choose the **Encryption** option (LUKS) at the appropriate place during disk/partition setup to encrypt the root filesystem.
+
+
+When presented with configuration choice checklist, choose only COSMIC *****!
+
+Wait ~12 minutes for install
+> If **"Install"** menu item is grayed out: verify FAT32 and other settings, then restart with USB still in and try again.
+
+---
+
+## 4. Initial Setup
+Command line installs
+```bash
+sudo pacman -Syu  # update
+sudo pacman -S github-desktop
+sudo pacman -S git
+```
+
+**From CachyOS Package Installer menu (:**
+- `audacity`
+- `Code`
+- `caffeine` (the one with steam rising)
+- `gnucash`
+- `libreoffice-still`
+- `vlc` (open and turn off hardware acceleration)
+- `snapper`
+
+
+## Btrfs for Rollbacks
+  snapper support (https://wiki.cachyos.org/configuration/btrfs_snapshots/)
+        CachyOS Hello - Install apps - Repo - snapper,  btrfs-assistant, btrfsmaintenance
+    Can launch Btrfs assistant using launcher, or
+
+```bash
+btrfs-assistant-launcher
+# or
+sudo -E btrfs-assistant
+```        
+Modify the Snapshot Retention settings as follows:
+
+    Ensure the root config is selected
+    Enable timeline snapshots.
+      Enter a value of 0 for Hourly, Daily, Weekly, Monthly and Yearly.
+    Untick Enable timeline snapshots.
+    Enter a value of 10 to Number.
+    Add a ✅ to Snapper cleanup enabled.
+    Click on the Save button on the top right and Apply systemd changes on the bottom right. snapper-cleanup.timer will now be enabled to automatically clean up old snapshots based on your configuration.
+
+Limine Tips to limit number of snapshots shown
+```bash
+# Create a backup of the limine-snapper-sync configuration file:
+sudo cp /etc/limine-snapper-sync.conf /etc/limine-snapper-sync.conf.orig
+# Edit config file
+sudo nano /etc/limine-snapper-sync.conf
+MAX_SNAPSHOT_ENTRIES=30
+SNAPSHOT_FORMAT_CHOICE=8
+```
+Boot from linux-cachyos (-lts is for recovery / repair use)
+
+when i select an old configuration during cachyos boot, have i rolled back?
+
+Selecting an old configuration from your boot menu does not roll back your system. It only boots that specific older snapshot or kernel once. Your current system state remains the same. Any new changes you made stay in place for your main system.
+
+How Boot Entries Work
+Temporary boot: Choosing an old entry only loads that old setup for this one time.
+Read-only state: Many snapshots are read-only to keep old data safe.
+No permanent change: Your main system is not changed or erased by this choice.
+
+To permanently roll back on CachyOS using its default setup, you need to use Btrfs Assistant or Snapper. By default, CachyOS takes automatic snapshots before system upgrades using a tool called Snapper.
+
+The easiest way to perform a permanent rollback is through the graphical interface from the snapshot you just booted into.
+
+Step-by-Step Rollback via GUI (Easiest)
+    - Boot into the old configuration from your bootloader screen.
+    - Open Btrfs Assistant by searching for it in your application menu or running this in your terminal:
+```bash
+bashbtrfs-assistant-launcher
+```
+    - Navigate to the Snapper tab, then click on the Browse/Restore sub-tab.
+    - Select the snapshot that matches the date and time you want to keep permanently.
+    - Click the Restore button in the top menu.
+    - Confirm and reboot your computer when prompted to finish the rollback.
+    
+Alternative: Step-by-Step Rollback via Terminal.  If you prefer using the command line instead of the GUI, use these commands:
+    - List available snapshots to find the ID number of the state you want:
+```bash
+sudo snapper list
+```
+
+Run the rollback command (replace 123 with your desired snapshot ID number):
+bash```
+sudo snapper rollback <desired snapshot ID>
+```
+Reboot the system to apply the changes permanently:bashsudo reboot
+```bash
+sudo reboot
+```
+If your system is completely unbootable and you cannot access the bootloader menu or any old configurations, you can easily force a rollback using a CachyOS Live USB.  CachyOS includes a custom built-in tool called cachy-chroot that automates mounting your encrypted or Btrfs drives for you.
+
+Step-by-Step Live USB Rollback
+    1. Boot into the CachyOS Live Environment using your installation USB flash drive.
+    2. Open a terminal (like Alacritty or Konsole) inside the live desktop.
+    3. Gain root privileges by running:
+```bash
+sudo su
+```
+    4. Launch the automatic chroot tool
+```bash
+cachy-chroot
+```
+    5. Select your root partition from the on-screen menu using your arrow keys and press Enter. (If using Btrfs, type y when asked to use the CachyOS Btrfs preset).
+    6. List your saved snapshots to find the ID number of the working state you want to return to:
+```bash
+snapper list
+```
+    7. Perform the hard rollback
+```bash
+snapper rollback <your desired working snapshot ID>
+```
+    8. Exit and reboot
+```bash
+exit
+reboot
+```
+Your system will safely swap the broken layout out for the functioning snapshot, allowing you to boot back into your desktop normally.
+
+
+## paru
+```bash
+sudo pacman -S paru
+```
+
+## Gparted
+```bash
+sudo pacman -S xorg-xhost
+```
+
+## gwenview Image Viewer / Quick Editor
+```bash
+sudo pacman -S gwenview
+```
+
+## Visual Studio Code:
+```bash
+sudo pacman -S --needed base-devel git
+sudo pacman -S perl-archive-zip  # avoid crc32 error
+git clone https://aur.archlinux.org/visual-studio-code-bin.git
+cd visual-studio-code-bin
+makepkg -si
+```
+Open code and install extensions 'Workbench' (for Particle) and 'Antigravity CLI Launcher' (for Gemini).
+	Open the SOC_PARTICLE folder (not src)
+
+```bash
+sudo apt install -y libarchive-zip-perl    # provides crc32 — Particle Workbench needs it
+```
+In Particle: Launch CLI run 'particle usb configure' 
+FAQ:  Missing permissions to access the USB device.  
+```bash
+sudo groupadd -g 46 plugdev
+sudo usermod -aG plugdev,uucp $USER
+sudo nano /etc/udev/rules.d/50-particle.rules
+#paste following
+# Particle Devices (Photon, Electron, Argon, Boron, Xenon, Neon, etc.)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="2b04", ATTRS{idProduct}=="0006", MODE="0666", GROUP="plugdev"
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="2b04", ATTRS{idProduct}=="0008", MODE="0666", GROUP="plugdev"
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="2b04", ATTRS{idProduct}=="000c", MODE="0666", GROUP="plugdev"
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="2b04", ATTRS{idProduct}=="000d", MODE="0666", GROUP="plugdev"
+
+# Particle Debugger
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="2b04", ATTRS{idProduct}=="0010", MODE="0666", GROUP="plugdev"
+
+# restart service
+sudo udevadm control --reload-rules && sudo udevadm trigger
+
+# logout/login or reboot
+
+```
+
+**Firefox Performance:**
+```
+about:config
+browser.sessionstore.interval = 150000
+```
+
+**Google Chrome**
+paru -S google-chrome
+
+**Proton VPN**
+sudo pacman -S proton-vpn-gtk-app networkmanager gnome-keyring
+
+
+** Disable Touchpad:**
+Settings - Input devices - Keyboard - System - Toggle touchpad - edit or add Super+F9 (actually typed)
+
+** Cleanup Dock:**
+Settings - Desktop - Dock - Toggle off (top item)
+                   - Panel - Configure panel applets - Add applet - App Tray
+
+---
+
+## 5. Install More Applications
+
+```bash
+sudo apt install -y fuse libfuse2          # AppImage support
+sudo apt install -y ffmpeg
+sudo apt install --fix-missing -y python3-pip
+sudo apt install -y python3-tk             # for PyCharm
+sudo apt install -y dhcpcd5
+sudo apt install dos2unix
+sudo apt install xsel
+sudo apt install -y thunar
+sudo apt install -y nautilus
+sudo apt install -y pavucontrol            # for myPyScreencast
+sudo apt-get install libxkbcommon-dev      # for just
+
+# Create missing .Xauthority file (if needed):
+touch ~/.Xauthority && ls -la ~/.Xauthority
+```
+
+**PuTTY** (see [INSTALL_PuTTY](INSTALL_PuTTY.md)):
+
+```bash
+# Add user to dialout group for serial access:
+sudo adduser daveg dialout
+# Log out and log back in
+```
+
+**Firewall:**
+
+```bash
+sudo ufw enable
+sudo ufw status
+```
+
+---
+
+## 6. VS Code
+
+> **Do NOT install using snap or flatpak (COSMIC Store)** — these sandbox VS Code and it won't build.
+
+```bash
+# Download .deb from https://code.visualstudio.com/docs/?dv=linux64_deb
+sudo gdebi ./Downloads/code_1.112.0-1773778351_amd64.deb
+sudo apt install libarchive-zip-perl   # fixes missing crc32 for Particle Workbench
+```
+
+Start Code and install extensions.
+Sign into Particle ASAP.
+
+
+---
+
+## 7. PyCharm and Python
+
+> Flatpak (used in Pop!_OS) causes path errors — PyCharm cannot find custom Python builds in `/usr/local/bin`.
+> **Uninstall the flatpak version and use snap instead.**
+
+```bash
+# Uninstall any existing flatpak version first
+sudo snap install --classic pycharm-community
+sudo pacman -Syu tk
+python -m tkinter
+```
+
+For alternate Python version, see [INSTALL_Alternate_Python](INSTALL_Alternate_Python.md).
+
+### Antigravity (gemini-cli)
+See [INSTALL_Antigravity](INSTALL_Antigravity.md) for CLI install, VS Code/PyCharm integration, and YOLO configuration.
+
+Use Shelly to install puTTY.  Configure using instructions in dataReduction/putty/puTTY_Windows_setup_def.odt followed by test.odt
+
+Non-standard pyCharm preferences
+    - 1. JVM & Memory Allocation (pycharm64.vmoptions)                                     
+                                                                                           
+  • Maximum Heap RAM (-Xmx): Increased to 15,000 MB (15 GB) (-Xmx15000m).                  
+    - 2. Custom Keymap (XWin Proper Redo.xml)                                              
+                                                                                           
+  • Keymap Scheme: Created a custom keymap named "XWin Proper Redo" (based on Default for  
+  XWin).                                                                                   
+  • Redo Shortcuts: Assigned Ctrl+Y, Ctrl+Shift+Z, and Shift+Alt+Backspace to Redo.        
+  • Line Delete: Removed default Ctrl+Y shortcut for deleting lines (EditorDeleteLine).    
+
+    - 3. Font Sizes                                                                        
+                                                                                           
+  • Editor Font: Increased to 15 pt (editor-font.xml).                                     
+  • Terminal Font: Increased to 15 pt (terminal-font.xml).                                 
+
+    - 4. Console & Terminal Buffer Limits                                                  
+                                                                                           
+  • Terminal Scrollback Buffer: Increased maximum buffer to 50,000 lines (terminal.buffer. 
+  max.lines.count = 50000 in advancedSettings.xml).                                        
+  • Console Cycle Buffer: Overridden and expanded to 8,092 KB (~8 MB)                      
+  (CONSOLE_CYCLE_BUFFER_SIZE_KB = 8092 in ui.lnf.xml).                                     
+
+    - 5. UI & Behavior Prompts                                                             
+                                                                                           
+  • Confirm Exit: Disabled exit confirmation dialog (confirmExit = false in                
+  ide.general.xml).                                                                        
+  • Rerun Termination: Disabled prompt when rerunning processes requiring termination      
+  (confirm.rerun.with.termination = false in advancedSettings.xml).                        
+  • Paste Behavior: Enabled automatic reformatting on paste (REFORMAT_ON_PASTE = 1,        
+  INDENT_TO_CARET_ON_PASTE = true in editor.xml).                                          
+
+    - 6. Installed Plugins                                                                 
+                                                                                           
+  • antigravity-companion: Installed in PyCharm user plugins directory (~/.                
+  local/share/JetBrains/PyCharmCE2026.1/antigravity-companion).                            
+
+
+---
+
+## 8. Sound Configuration & Audio Loopback
+
+For screencasting (`GUI_screencast` / `myPyScreencast`), an audio loopback sink captures application audio (YouTube, movies, media players) cleanly without microphone interference and enables silent background recording.
+
+### Option A: PipeWire User Loopback (Recommended — No Root Required)
+CachyOS uses PipeWire with PulseAudio emulation. You can set up a persistent user-level loopback sink without touching kernel modules (already managed and deployed via `myLinux` Stow):
+
+1. Create the persistent configuration:
+```bash
+mkdir -p ~/.config/pipewire/pipewire-pulse.conf.d
+cat << 'EOF' > ~/.config/pipewire/pipewire-pulse.conf.d/50-loopback.conf
+pulse.cmd = [
+    { cmd = "load-module" args = "module-null-sink sink_name=alsa_output.Loopback sink_properties=device.description=Built-in\\ Audio\\ Loopback" flags = [ nofail ] }
+]
+EOF
+```
+
+2. Restart your user sound service:
+```bash
+systemctl --user restart pipewire-pulse
+```
+
+---
+
+### Option B: ALSA Kernel Module (`snd-aloop`)
+Alternatively, load the Linux kernel ALSA loopback driver:
+
+```bash
+# Add to load automatically at system boot:
+echo "snd-aloop" | sudo tee /etc/modules-load.d/snd-aloop.conf
+
+# Load immediately for this session:
+sudo modprobe snd-aloop
+```
+
+---
+
+### Verify Audio Loopback
+Verify that FFmpeg and PulseAudio detect the loopback monitor source:
+
+```bash
+ffmpeg -sources pulse | grep -i loopback
+```
+Expected output:
+```text
+alsa_output.Loopback.monitor [Monitor of Built-in Audio Loopback]
+```
+
+### Application Audio Routing (`pavucontrol`)
+1. Install PulseAudio Volume Control if not already present:
+```bash
+sudo pacman -S pavucontrol
+```
+2. Start playing audio in your target application (e.g., browser or movie player).
+3. Open `pavucontrol`, navigate to the **Playback** tab, and set the application's output device to **Built-in Audio Loopback** (or `Loopback Analog Stereo`).
+4. `GUI_screencast` will now capture the loopback audio stream cleanly in the background.
+
+Alternatively, plug in a USB headset and adjust sound in GUI.
+
+### Screen Recording on Wayland (COSMIC)
+The COSMIC desktop compositor (`cosmic-comp`) uses the standard Wayland ScreenCast portal and GPU hardware capture rather than wlroots extensions. Use `gpu-screen-recorder`:
+```bash
+sudo pacman -Sy gpu-screen-recorder
+```
+In `GUI_screencast`:
+- **Video:** `gpu-screen-recorder`
+- **Target:** `portal` (Strongly preferred on HP OMEN with hybrid AMD/NVIDIA graphics; avoids direct KMS display plane capture which can cause `cosmic-comp` atomic modesetting lockups that prevent the PC from going to sleep/suspend)
+- **Audio:** `alsa_output.Loopback.monitor`
+
+---
+
+## 9. Google Drive (Rclone)
+
+**Install Rclone:
+
+***Get an ID and secret (new)***
+
+Msg: 2026/07/14 04:41:14 NOTICE: gdrive: This remote uses rclone's shared Google Drive client_id, which is being retired and will stop working during 2026. Create your own client_id to avoid interruption: https://rclone.org/drive/#making-your-own-client-id
+
+```html
+https://rclone.org/drive/#making-your-own-client-id
+```
+  - Select a project or create a new project
+  
+  - Under "ENABLE APIS AND SERVICES" search for "Drive", and enable the "Google Drive API" (see check next to "Try this API  <<check>> API Enabled")
+  
+  - Go back a couple. Click "Credentials" in the left-side panel (not "Create credentials", which opens the wizard).
+  
+  - If you already configured an "Oauth Consent Screen", then skip to the next step; if not, click on "CONFIGURE CONSENT SCREEN" button (near the top right corner of the right panel), then click "Get started". On the next screen, enter an "Application name" ("rclone" is OK); enter "User Support Email" (your own email is OK); Next, under Audience select "External". Next enter your own contact information, agree to terms and click "Create". You should now see rclone (or your project name) in a box in the top left of the screen.
+  
+  - You will also have to add some scopes, including
+        https://www.googleapis.com/auth/docs
+        https://www.googleapis.com/auth/drive in order to be able to edit, create and delete files with RClone.
+        https://www.googleapis.com/auth/drive.metadata.readonly which you may also want to add.
+
+       To do this, click Data Access on the left side panel, click "add or remove scopes" and select the three above and press update or go to the "Manually add scopes" text box (scroll down) and enter "https://www.googleapis.com/auth/docs,https://www.googleapis.com/auth/drive,https://www.googleapis.com/auth/drive.metadata.readonly", press add to table then update.
+
+       You should now see the three scopes on your Data access page. Now press save at the bottom!
+        
+    - After adding scopes, click Audience Scroll down and click "+ Add users". Add yourself as a test user and press save. 
+        davegutz2006@gmail.com
+
+    - Go to Overview on the left panel, click "View all clients."  "Create client". Choose an application type of "Desktop app" and click "Create". (the default name is fine)
+     id:    311741402640-qarcb5oeikcajf1nnaf9g626tgkhespr.apps.googleusercontent.com
+
+    - Provide the noted client ID and client secret to rclone
+    
+    - Run the web-based authorization flow from within rclone config, by answering "Y" when it asks "Already have a token - refresh?"
+
+After running all this stuff on https://rclone.org/drive/#making-your-own-client-id#
+you'll have
+    - Search in email for title 'Secrets for gdrive CachyOS Cosmic'
+    - Creation date:  July 14, 2026
+    - Status: Enabled
+
+   ---------
+
+***Now configure rclone to use it***
+```bash
+sudo pacman -S rclone fuse3
+rclone config
+```
+Follow the prompts:
+
+        Enter n to create a new remote.
+        e/n/d/r/c/s/q>  n
+        name>  gdrive
+        Option Storage:  find Drive (usually 18)
+        client:id>  # FROM EMAIL*************  search for "Secrets for gdrive"
+        client_secret>  # FROM EMAIL*************
+        scope>  1
+        service_account_file>  
+        Edit Advanced config?  y/n>  y
+          oauth Access Token:  enter default
+          auth_url>  
+          token_url> 
+          client_credentials>
+          root_folder_id>  
+          auth_owner_only>  
+          use_trash>  
+          copy_shortcut_content>  
+          skip_gdocs>  
+          show_all_gdocs>
+          skip_checksum_gphotos>  
+          shared_with_me>  
+          trashed_only>  
+          starred_only>  
+          export_formats>  
+          import_formats>  
+          allow_import_name_change>  
+          list_chunk>  
+          impersonate>  
+          upload_cutoff> 1Gi
+          chunk_size>  
+          acknowledge_abuse>  
+          keep_revision_forever>  
+          v2_download_min_size>  
+          pacer_min_sleep>  
+          pacer_burst>  
+          server_side_across_configs>  
+          disable_http2>  
+          stop_on_upload_limit>  
+          stop_on_download_limit>  
+          skip_shortcuts>  
+          skip_dangling_shortcuts>  
+          resource_key>  
+          fast_list_bug_fix>
+          metadata_owner>
+          metadata_permissions>
+          metadata_labels>
+          metadata_enforce_expansive_access>
+          encoding>  
+          env_auth>
+          description>
+
+          Edit advanced config?  n default
+
+          Use web browser to automatically authenticate rclone with remote? y-default
+                      Complete the authentication process in your web browser, allowing Rclone access to your Google Drive.
+                      Return to the terminal
+
+          Already have a token - refresh? y
+          
+          Configure this as a Shared Drive (Team Drive)? n (blank)
+          y/n>  n
+
+      Keep this "gdrive" remote?
+      y/e/d> y
+
+
+    Exit the configuration wizard by typing q
+    e/n/d/r/c/s/q> q
+
+***Mount Google Drive:***
+
+```bash
+mkdir ~/gdrive
+rclone mount gdrive: ~/gdrive --vfs-cache-mode full &
+```
+
+```
+
+**Auto-start rclone on login:**
+    - Add startup application: `"gdrive"` with command `"rclone mount gdrive: ~/gdrive --vfs-cache-mode full &"`
+        OR
+```bash
+mkdir -p ~/bin
+bash
+cat << EOF > ~/bin/Rclone
+#!/bin/bash
+# rclone mount gdrive: ~/gdrive &
+rclone mount gdrive: ~/gdrive \
+  --vfs-cache-mode full \
+  --vfs-cache-max-size 50G \
+  --vfs-cache-max-age 24h \
+  --dir-cache-time 1000h \
+  --drive-chunk-size 128M \
+  --buffer-size 64M
+  --poll-interval 15s \
+  --multi-thread-streams 4 \
+  --tpslimit 5 \
+  --tpslimit-burst 5 \
+  --daemon \
+  &
+EOF
+chmod +x ~/bin/Rclone
+echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc && source ~/.bashrc
+
+mkdir ~/.config/autostart
+cat << EOF > ~/.config/autostart/rclone.desktop
+[Desktop Entry]
+Name=rclone
+Exec=/home/daveg/bin/Rclone
+Terminal=false
+Type=Application
+X-Desktop-File-Install-Version=0.27
+EOF
+chmod +x /home/daveg/.config/autostart/rclone.desktop
+```
+
+    Test the autostart entry:
+
+```bash
+gio launch ~/.config/autostart/rclone.desktop
+# or
+sudo apt install dex
+sudo pacman -S dex
+dex ./.config/autostart/rclone.desktop
+```
+
+***Remount the Drive***
+Launch if lost permissions (general i/o error)
+```bash
+rclone config
+```
+Choose e to edit an existing remote.
+Select the number or name of your Google Drive remote.
+enter defaults until...
+Already have a token - refresh? y
+	auto config - y
+	go to browser
+Log into your Google account in the browser window that opens and approve the permissions request.
+```bash
+Rclone
+```
+May have to unmount gdrive to get connect using Rclone
+
+### Optimized Copy / Backup / Sync
+See [INSTALL_Google_Drive_Backup](INSTALL_Google_Drive_Backup.md) for optimized rclone copy and sync commands.
+See [INSTALL_Google_Drive_Rclone](INSTALL_Google_Drive_Rclone.md) for generic Rclone setup and autostart configuration.
+
+---
+
+## 10. Claude Code
+
+```bash
+curl -fsSL https://claude.ai/install.sh | bash
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc && source ~/.bashrc
+claude --version   # verify
+claude             # log in to Anthropic
+```
+
+---
+
+## 11. Dual-Boot Time Sync
+
+Fix clock discrepancy when switching between Linux and Windows:
+
+```bash
+timedatectl set-local-rtc 1 --adjust-system-clock
+```
+
+---
+
+## 12. Cleanup
+
+```bash
+sudo passwd daveg     # ignore warnings
+sudo passwd           # root
+rm ~/.local/share/keyrings/Default_keyring.keyring
+
+sudo apt update
+sudo apt -y upgrade
+sudo apt -y autoremove
+sudo apt autoremove
+sudo apt autoclean
+sudo apt clean
+sudo apt install deborphan
+sudo apt remove $(deborphan)
+```
+
+---
+
+## 13. COSMIC Desktop Tips
+
+### Disable trackpad
+
+Settings → Input Devices → Keyboard → Keyboard Shortcuts → System → **"Toggle touchpad"** → assign a key (e.g., `Super+F9`).
+
+### Ignore lid closure
+
+```bash
+sudo nano /etc/systemd/logind.conf
+# Set:
+HandleLidSwitch=ignore
+HandleLidSwitchExternalPower=ignore
+HandleLidSwitchDocked=ignore
+```
+
+Restart.
+
+### caffeine applet for COSMIC
+
+See https://github.com/tropicbliss/cosmic-ext-applet-caffeine and follow the README.
+
+---
+
+## 14. Utilities
+
+```bash
+sudo apt install fzf        # fuzzy find
+sudo snap install tldr      # quick command help
+sudo apt install mtr        # traceroute tool
+sudo apt install ripgrep    # fast grep
+```
+
+---
+
+## 15. Work in Progress
+
+### Clean SOC_Particle Clone
+
+```bash
+git clone --depth 1 https://github.com/davegutz/mySolarStateOfCharge
+# Re-add to GitHub Desktop:
+# Repository → Add → Add existing repository
+```
+
+
+### GitHub CLI
+
+```bash
+gh auth login
+gh auth token
+```
+
+
+### Git Maintenance
+
+```bash
+git gc --aggressive --prune=now
+git status
+git add --all
+git commit
+```
+
+### Speed up Git and GitHub (also see gitgui)
+# Pack loose objects (will dramatically speed up git status/index operations)
+git -C ~/Documents/GitHub/myLifeSaver gc
+git -C ~/Documents/GitHub/mySolarStateOfCharge gc
+git -C ~/Documents/GitHub/myComputer gc
+
+
+### Reliable WiFi (DNS Fix)
+
+If WiFi drops or DNS resolution fails (especially with competing hotspots):
+
+```bash
+sudo nano /etc/systemd/resolved.conf
+# Add:
+DNS=8.8.8.8 8.8.4.4
+FallbackDNS=1.1.1.1 1.0.0.1
+```
+
+This ensures DNS works globally regardless of what NetworkManager does per-interface.
+
+
+___
+### speed up Drive
+```bash
+echo "test gdrive" >testfile
+rclone copy testfile 
+htop
+
+gdrive: -P  #  Watch: Transfer speed, CPU usage (top or htop), Network usage (iftop)
+
+# If CPU is pegged → encryption/checksums are the bottleneck.
+# If network is low → concurrency/settings issue.
+
+rclone copy testfile gdrive: --transfers 8 --checkers 16 --fast-list -P
+
+rclone copy testfile gdrive: --transfers 16 --checkers 32 --fast-list -P
+
+rclone copy testfile gdrive: --transfers 16 --checkers 32 --fast-list --multi-thread-streams 4 --multi-thread-cutoff 10M --drive-chunk-size 64M --buffer-size 64M -P
+
+Other possibilities
+--ignore-checksum
+--bwlimit off
+
+Logging for clues (retries, rate limiting, timeouts)
+rclone copy testfile gdrive: -vv --log-file=rclone.log
+
+# best result (avoid --fast-list, bw_limit off no effect)
+rclone copy Downloads/google-chrome-stable_current_amd64.deb gdrive:  --multi-thread-streams 4 --tpslimit 5 --tpslimit-burst 5 -vv --log-file=rclone.log  -P
+```
+
+___
+### Install Chrome
+get the 64-bit deb file
+https://www.google.com/chrome/
+
+```bash
+cd Downloads
+sudo dpkg -i  google-chrome-stable_current_amd64.deb
+``` 
+
+___
+### Chrome Remote Desktop
+See [INSTALL_Chrome_Remote_Desktop](INSTALL_Chrome_Remote_Desktop.md) for Rclone setup.
+
+
+___
+### noMachine Desktop Share
+See [INSTALL_noMachine](INSTALL_noMachine.md) 
+
+
+___
+### Security Camera (motion / motionEye)
+See [INSTALL_secure_cam](INSTALL_secure_cam.md) for security camera setup, motion detection, and motionEye web NVR interface.
+
+___
+### RStudio-desktop
+Get the Deb
+```html
+https://posit.co/download/rstudio-desktop/
+```
+```bash
+sudo gdebi ~/Downloads/rstudio-*-amd64.deb
+```
+
+___
+## SageMath from source (recommended)
+```html
+https://sagemanifolds.obspm.fr/install_ubuntu.html
+```
+
+Dependencies:
+```bash
+sudo apt install automake bc binutils bzip2 ca-certificates cliquer cmake curl ecl eclib-tools fflas-ffpack flintqs g++ gengetopt gfan gfortran git glpk-utils gmp-ecm lcalc libatomic-ops-dev libboost-dev libbraiding-dev libbz2-dev libcdd-dev libcdd-tools libcliquer-dev libcurl4-openssl-dev libec-dev libecm-dev libffi-dev libflint-dev libfreetype-dev libgc-dev libgd-dev libgf2x-dev libgiac-dev libgivaro-dev libglpk-dev libgmp-dev libgsl-dev libhomfly-dev libiml-dev liblfunction-dev liblrcalc-dev liblzma-dev libm4rie-dev libmpc-dev libmpfi-dev libmpfr-dev libncurses-dev libntl-dev libopenblas-dev libpari-dev libpcre3-dev libplanarity-dev libppl-dev libprimesieve-dev libpython3-dev libqhull-dev libreadline-dev librw-dev libsingular4-dev libsqlite3-dev libssl-dev libsuitesparse-dev libsymmetrica2-dev zlib1g-dev libzmq3-dev libzn-poly-dev m4 make nauty openssl palp pari-doc pari-elldata pari-galdata pari-galpol pari-gp2c pari-seadata patch perl pkg-config planarity ppl-dev python3-setuptools python3-venv r-base-dev r-cran-lattice singular sqlite3 sympow tachyon tar texinfo tox xcas xz-utils 
+
+sudo apt install texlive-latex-extra texlive-xetex latexmk pandoc dvipng 
+
+mkdir ~/SageMath
+cd SageMath
+git clone --branch master https://github.com/sagemath/sage.git  # this takes a long time
+cd sage
+make configure
+./configure
+```
+Determine the number of cores
+```bash
+nproc --all
+```
+
+Put 2x result after J in following:
+```bash
+MAKE="make -j32" make  # 32 is number of threads which may be 2x number of cores
+```
+
+This will take a while - get coffee.
+
+Sym link:
+```bash
+sudo ln -sf $(pwd)/sage /usr/local/bin
+```
+
+Run in any directory:
+```
+sage -n
+```
+
+Use Jupyter
+```
+sage -n jupyterlab
+```
+
+
+___
+### Speed up rclone
+Update(bin/Rclone)
+  ⎿  Added 16 lines, removed 1 line
+       1  #!/bin/bash
+       2  # rclone mount gdrive: ~/gdrive &
+       3 -rclone mount gdrive: ~/gdrive   --vfs-cache-mode full   --vfs-cache-max-s
+         -ize 50G   --vfs-cache-max-age 24h   --dir-cache-time 1000h   --drive-chun
+         -k-size 128M   --buffer-size 64M   --poll-interval 15s   --multi-thread-st
+         -reams 4   --tpslimit 5   --tpslimit-burst 5   --daemon   &
+       3 +rclone mount gdrive: ~/gdrive \
+       4 +  --vfs-cache-mode full \
+       5 +  --vfs-cache-max-size 50G \
+       6 +  --vfs-cache-max-age 24h \
+       7 +  --dir-cache-time 1000h \
+       8 +  --drive-chunk-size 128M \
+       9 +  --buffer-size 256M \
+      10 +  --poll-interval 15s \
+      11 +  --multi-thread-streams 8 \
+      12 +  --transfers 8 \
+      13 +  --tpslimit 10 \
+      14 +  --tpslimit-burst 20 \
+      15 +  --vfs-read-chunk-size 128M \
+      16 +  --vfs-read-chunk-size-limit off \
+      17 +  --daemon \
+      18 +  &
+	  
+	  
+___
+### Speed up github desktop
+buggy in Cosmic.  don't use
+use gitgui instead because it uses command line
+
+___
+### git_gui program (gitgui)
+
+```bash
+mkdir -p ~/.local/bin
+
+cat << EOF > ~/.local/bin/gitgui
+#!/bin/sh
+# gg — launch git_gui.py in the current working directory
+exec "python3" "/home/daveg/Documents/GitHub/myComputer/git_gui.py" "$@"
+EOF
+
+chmod +x ~/.local/bin/gitgui
+```
+
+
+### zsh
+```bash
+sudo apt update && sudo apt upgrade
+sudo apt install -y zsh
+zsh --version
+whereis zsh
+# Oh-My-Zsh
+sudo apt install -y git-core curl fonts-powerline
+# /sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+wget --no-check-certificate http://install.ohmyz.sh -O - | sh
+which zsh
+sudo nano /etc/shells  # add something like "/usr/bin/zsh"
+chsh  # change default shell.  Answer "/usr/bin/zsh"
+```
+
+___
+### Oh-My-Zsh plugins
+
+```html
+https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins
+```
+```bash
+git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
+git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git $ZSH_CUSTOM/plugins/zsh-autocomplete
+
+nano ~/.zshrc
+```
+```bsh
+plugins=(zsh-autosuggestions zsh-syntax-highlighting zsh-autocomplete git git-auto-fetch git-commit git-prompt gitignore history history-substring-search git-escape-magic themes uv z zsh-navigation-tools zsh-git-escape-magic aliases copypath dirhistory dirpersist)
+```
+```bash
+# example.  Then save-exit and run:
+source ~/.zshrc
+```
+
+
+### Oh-My-Zsh Theme
+```bash
+sudo nano ~/.zshrc
+
+ZSH_THEME="agnoster"  # example
+source ~/.zshrc
+
+# random themes
+sudo nano ~/.zshrc
+ZSH_THEME="random"  # another example
+ZSH_THEME_RANDOM_CANDIDATES=("agnoster" "grml" "robbyrussell")
+source ~/.zshrc
+
+# set update interval
+sudo nano ~/.zshrc
+UPDATE_ZSH_DAYS=1
+source ~/.zshrc
+
+# gg (hopefully oh-my-zsh ends need for gg on Cosmic)
+nano ~/.zshrc
+alias 
+
+# uninstall_oh_my_zsh  # to uninstall oh_my_zsh
+```
+___
+### Caffeinee equivalent
+
+Start it
+```bash
+systemd-inhibit --what=idle --who=Debugging --why=Debugging --mode=block sleep inf &
+
+# Check it
+systemd-inhibit --list
+
+# Stop it
+pkill -f systemd-inhibit
+```
+___
+### GitHub cli for Cosmic
+
+```bash
+cat << EOF > /home/daveg/.local/bin/gitgui
+#!/bin/sh
+# gg — launch git_gui.py in the current working directory
+exec "python3" "/home/daveg/Documents/GitHub/myComputer/git_gui.py" ""
+EOF
+
+chmod +x /home/daveg/.local/bin/gitgui
+
+gitgui&
+```
+
+___
+### Antigravity (gemini-cli)
+See [INSTALL_Antigravity](INSTALL_Antigravity.md) for CLI install, VS Code/PyCharm integration, and YOLO configuration.
+
+### Lid closing does nothing
+set ignores below (may already be present with # comment)
+```bash
+sudo nano /etc/systemd/logind.conf
+```
+```bash
+ HandleLidSwitch=ignore
+ HandleLidSwitchExternalPower=ignore
+ HandleLidSwitchDocked=ignore
+```
+Then run the following (save your work because it may cause reset)
+sudo systemctl restart systemd-logind
+
+___
+### caffeine
+sudo pacman -S rustup
+rustup default stable
+sudo pacman -Y yay
+yay -S caffeine-ng
+
+___
+### markdown editor
+sudo pacman -Syu
+sudo pacman -S cosmic-session
+flatpak install flathub dev.mariinkys.Cedilla
+
+___
+### Ollama
+sudo pacman -S python-pip  # needed?
+
+# pip install ollama==0.6.2
+curl -fsSL https://ollama.com/install.sh | sh  # Run install script
+sudo systemctl enable --now ollama  # start and enable Ollama service
+systemctl status ollama  # verify service running
+
+# setup applet
+git clone https://github.com/cosmic-utils/cosmic-ext-applet-ollama.git  
+sudo pacman -Syu just
+mkdir myOllama
+cat << EOF > /home/daveg/myOllama/justfile
+# Default to release build
+build-release:
+    cargo build --release
+# Install the compiled binary to your local binaries folder
+install: build-release
+    mkdir -p ~/.local/bin
+    cp target/release/my-ollama-app ~/.local/bin/
+EOF
+mkdir ~/myOllama/src
+touch ~/myOllama/src/main.rs
+cat << EOF > /home/daveg/myOllama/Cargo.toml
+[package]
+name = "my-ollama-app"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# Common libraries for making API requests to your local Ollama server
+tokio = { version = "1", features = ["full"] }
+reqwest = { version = "0.11", features = ["json"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+EOF
+cat << EOF > /home/daveg/myOllama/src/main.rs
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    println!("Hello from DaveG's Ollama application!");
+    Ok(())
+}
+EOF
+cd myOllama
+just build-release
+rustup default stable
+just install
+
+# Use it lightweight
+ollama run llama3.2
+
+# Use it standard (ctrl+z to exit)
+ollama run llama3
+
+# Use it for coding
+ollama run codegemma
+
+ollama list  # list downloaded models
+ollama rm llama3.x  # remove model
+ollam pull llama3.x  # update an existing model
+
+
+### Monospace font support  don't do this!  messes up fonts in Code
+```bash
+#nano ~/.config/fontconfig/fonts.conf
+## Replace with contents of ./cachyos_cosmic_fonts.conf
+#fc-cache -fv
+```
+### MTP file support for usb file transfer to Android
+```bash
+sudo pacman -S gvfs-mtp android-udev
+  # gvfs-mtp: Enables MTP device mounting directly inside desktop file managers (like COSMIC Files,  Nautilus, or Thunar).
+  # android-udev: Configures USB device permissions so your user account can communicate with Android devices without permission issues.
+sudo udevadm control --reload-rules && sudo udevadm trigger  # Apply the new udev rules without restarting
+```
+
+### Fan Control (HP Omen — Motherboard 88D2)
+Community tool `omen-fan-control` utilizes a DKMS kernel driver patch compatible with HP 88D2 motherboards, a kernel keep-alive watchdog to prevent firmware overrides, and a graphical interface.
+
+Repo cloned at: `~/omen-fan-control`
+
+#### 1. Install Dependencies
+```bash
+sudo pacman -S --needed dkms python-hatchling python-pyqt6
+# Note: base-devel, linux-cachyos-headers, python-click, python-build, and python-installer are already installed
+```
+
+#### 2. Build & Install Arch Package
+```bash
+cd ~/omen-fan-control/arch/omen-fan-control
+makepkg -sf
+sudo pacman -U omen-fan-control-*.pkg.tar.zst
+```
+
+#### 3. Calibration & Kernel Patch Setup
+```bash
+# Check hardware thresholds
+sudo omen-fan-control calibrate
+
+# Apply permanent DKMS driver patch
+sudo omen-fan-control install-patch permanent
+
+# Register & start background watchdog service
+sudo omen-fan-control service install
+```
+
+#### 4. Usage
+```bash
+# Check status
+sudo omen-fan-control status
+
+# Set manual speed (e.g., 80%)
+sudo omen-fan-control fan-control --mode manual --value 80%
+
+# Set dynamic curve mode
+sudo omen-fan-control fan-control --mode curve
+
+# Launch Graphical Interface (as normal user in COSMIC/Wayland)
+omen-fan-control-gui
+
+# If running GUI with sudo under Wayland/X11:
+xhost +si:localuser:root
+sudo -E omen-fan-control-gui
+```
+# 11/2026 I set the curve to (24, 50), (32, 56), (40, 71), (43, 92), (44, 99), (105, 100)
+
+___
+## End works in progress
+
