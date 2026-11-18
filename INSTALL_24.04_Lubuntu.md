@@ -221,7 +221,7 @@ sudo apt install -y ffmpeg
 sudo apt install -y dos2unix
 sudo apt install --fix-missing -y python3-pip
 sudo apt install -y python3-tk         # for PyCharm
-sudo apt install -y dhcpcd5
+# NOTE: Do NOT install dhcpcd5 on Lubuntu (conflicts with NetworkManager and causes Wi-Fi drops)
 sudo apt install LocalSend
 sudo apt install xsel
 sudo apt install -y pavucontrol        # for myPyScreencast
@@ -1021,4 +1021,34 @@ To standardize environment configurations (such as global shell modifications, t
    ```bash
    ~/Documents/GitHub/myLinux/scripts/bootstrap.sh
    ```
+
+---
+
+## Lessons Learned & Gotchas
+
+### 1. Do NOT Install `dhcpcd5` alongside NetworkManager
+* **Issue:** Installing `dhcpcd5` (`sudo apt install -y dhcpcd5`) runs `dhcpcd.service` in parallel with `NetworkManager`. Both daemons fight over the Wi-Fi/Ethernet interface, assign competing IP addresses, and cause `dhcpcd` to repeatedly delete and re-add the default gateway (`deleting default route via <gateway>`). This manifests as intermittent internet and DNS drops.
+* **Fix:** Remove `dhcpcd5` from the install workflow. On an affected system, disable and purge it:
+  ```bash
+  sudo systemctl stop dhcpcd
+  sudo systemctl disable dhcpcd
+  sudo apt purge -y dhcpcd5 dhcpcd
+  ```
+
+### 2. Disable Wi-Fi Power Saving on Intel Wireless (e.g., AC-9560 / `iwlwifi`)
+* **Issue:** Default power saving (`wifi.powersave = 3`) causes periodic high latency spikes, packet loss, or beacon dropouts on certain Intel and Realtek wireless chipsets.
+* **Fix:** Set power saving to disabled (`2`):
+  ```bash
+  sudo sed -i 's/wifi.powersave = 3/wifi.powersave = 2/' /etc/NetworkManager/conf.d/default-wifi-powersave-on.conf
+  sudo systemctl restart NetworkManager
+  ```
+
+### 3. Clean Up Duplicate Wi-Fi Profiles
+* **Issue:** Multiple profiles for the same SSID (with autoconnect enabled) can cause tray applets (like `nm-tray`) to trigger unnecessary re-association (`disconnecting for new activation request`).
+* **Fix:** List and delete redundant profiles:
+  ```bash
+  nmcli connection show
+  sudo nmcli connection delete <OLD_OR_DUPLICATE_UUID>
+  ```
+
 
