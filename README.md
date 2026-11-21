@@ -46,6 +46,14 @@ Created: Dave Gutz, 2024-Dec-25
 | [INSTALL_PuTTY](INSTALL_PuTTY.md) | PuTTY serial communication and terminal setup |
 | [INSTALL_Alternate_Python](INSTALL_Alternate_Python.md) | Compiling alternate Python versions from source |
 | [INSTALL_Python_Projects](INSTALL_Python_Projects.md) | Python development environment and venvs |
+| [INSTALL_Lubuntu_Plasma](INSTALL_Lubuntu_Plasma.md) | KDE Plasma on Wayland migration & display management for Lubuntu |
+| [INSTALL_pihole](INSTALL_pihole.md) | Pi-hole DNS ad-blocking server deployment via Docker |
+| [INSTALL_visual_studio](INSTALL_visual_studio.md) | Visual Studio Code, Particle Workbench setup, extensions, and USB permissions |
+| [INSTALL_gpu_screen_recorder](INSTALL_gpu_screen_recorder.md) | GPU Screen Recorder hardware-accelerated screencasting on Wayland |
+| [INSTALL_chrome](INSTALL_chrome.md) | Google Chrome installation (AUR & deb) and performance/DNS tweaks |
+| [INSTALL_claude_code](INSTALL_claude_code.md) | Claude Code CLI installation and Anthropic login |
+| [INSTALL_Arduino](INSTALL_Arduino.md) | Arduino IDE, SAMD boards, libraries, and dark theme |
+| [INSTALL_zoxide](INSTALL_zoxide.md) | Zoxide smart directory jumper installation and shell integration |
 
 ---
 

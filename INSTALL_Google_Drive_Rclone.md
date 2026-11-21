@@ -3,7 +3,40 @@
 ## 1. Install Rclone
 
 ```bash
-sudo apt install rclone
+# Ubuntu / Debian / Lubuntu:
+sudo apt install -y rclone fuse3
+
+# Arch / CachyOS:
+sudo pacman -S rclone fuse3
+```
+
+---
+
+## 2. Google OAuth Client ID & Secret (Recommended)
+
+Using Rclone's shared default Google Drive `client_id` can hit rate limits. To create your own dedicated client credentials on the [Google Cloud Console](https://console.cloud.google.com/):
+
+1. **Enable API:** Under **APIs & Services** → **Library**, search for **Google Drive API** and enable it.
+2. **OAuth Consent Screen:**
+   - User Type: **External**
+   - Fill in App Name (e.g. `rclone`) and User Support Email.
+   - **Scopes:** Click **Add or Remove Scopes** and add:
+     - `https://www.googleapis.com/auth/docs`
+     - `https://www.googleapis.com/auth/drive`
+     - `https://www.googleapis.com/auth/drive.metadata.readonly`
+   - **Audience / Test Users:** Add your personal Gmail address (e.g., `davegutz2006@gmail.com`) under test users and save.
+3. **Credentials:**
+   - Click **Create Credentials** → **OAuth client ID**.
+   - Application Type: **Desktop app**.
+   - Note the resulting **Client ID** and **Client Secret**.
+
+---
+
+## 3. Configure Rclone Remote
+
+Run configuration:
+
+```bash
 rclone config
 ```
 

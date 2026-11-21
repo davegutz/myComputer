@@ -3,17 +3,29 @@
 ## Installation (Ubuntu / Debian / Lubuntu)
 
 ```bash
-sudo apt-get install -y putty
+sudo apt install -y putty
 ```
 
 ## Serial Permissions
 
-Add your user to the `dialout` group for serial access:
+Add your user to the `dialout` and `uucp` groups for serial access:
 
 ```bash
-sudo usermod -aG dialout $USER
-# Log out and log back in
+sudo usermod -aG dialout,uucp $USER
 ```
+
+**GUI (LXQt only):**
+- Preferences → LXQt Settings → Users and Groups → daveg → Properties → Groups → `dialout` & `uucp`
+
+### USB Serial Udev Rule
+
+```bash
+sudo nano /etc/udev/rules.d/01-ttyusb.rules
+# Add:
+SUBSYSTEMS=="usb-serial", TAG+="uaccess"
+```
+
+Log out and log back in.
 
 ## Verify Connected Serial Devices
 

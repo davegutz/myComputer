@@ -81,7 +81,7 @@ sudo apt install -y plasma-desktop
 > 
 > **Lubuntu-style menu:** To keep the familiar Lubuntu/LXQt menu feel inside Plasma, right-click the Application Launcher ("Start" icon) on the panel, choose **Show Alternatives...**, and select **Application Menu** (traditional cascading categories).
 >
-> *For detailed migration instructions from GDM/X11, SDDM Wayland configuration, and Wayland CLI display tools, see [15. Moving from GNOME / X to Plasma / Wayland](#15-moving-from-gnome--x-to-plasma--wayland).*
+> *For detailed migration instructions from GDM/X11, SDDM Wayland configuration, and Wayland CLI display tools, see [INSTALL_Lubuntu_Plasma](INSTALL_Lubuntu_Plasma.md).*
 
 
 ### Sleep & Wake Configuration for Ryzen Mini PC (Minisforum Venus / rEFInd):
@@ -271,9 +271,8 @@ browser.sessionstore.interval = 150000
 ```
 - Open Settings → search for `DNS` → under **DNS over HTTPS**, select **Off** (Use your default DNS resolver) — prevents Firefox from bypassing network DNS / Pi-hole.
 
-###Chrome tweaks (`chrome://settings/system`):
-- Toggle on hardware acceleration → Relaunch
-- Open Settings (`chrome://settings/security`) → search for `DNS` → toggle **Use secure DNS** to **Off** — prevents Chrome from bypassing network DNS / Pi-hole.
+### Chrome tweaks:
+See [INSTALL_chrome](INSTALL_chrome.md) for hardware acceleration and secure DNS settings.
 
 
 Use System - Discover to install these fine tools:
@@ -302,19 +301,14 @@ When prompted during initial clone, sign in to GitHub.com (password in BitWarden
 
 ### VS Code
 
-> **Do NOT use `snap install code --classic`** — sandboxes VS Code and breaks Particle build tools.
-
-```bash
-snap install code --classic
-sudo apt install libarchive-zip-perl   # fixes missing crc32 for Particle Workbench
-```
-
-Start Code and install extensions.
-Sign into Particle ASAP.
+See [INSTALL_visual_studio](INSTALL_visual_studio.md) for Visual Studio Code installation, Particle Workbench setup, extensions, and USB permissions.
 
 
 ### Antigravity (gemini-cli)
 See [INSTALL_Antigravity](INSTALL_Antigravity.md) for CLI install, VS Code/PyCharm integration, and YOLO configuration.
+
+### Claude Code
+See [INSTALL_claude_code](INSTALL_claude_code.md) for CLI installation and Anthropic authentication.
  
 ### PyCharm
 
@@ -358,23 +352,6 @@ Browse to Start bookmarks in Firefox and visit Jellyfin
 User is Jellyfin
 
 
-### puTTY
-
-```bash
-sudo apt install -y putty
-```
-
-Add yourself to the `dialout` group:
-- Preferences → LXQt Settings → Users and Groups → daveg → Properties → Groups → dialout & uucp
-
-```bash
-sudo nano /etc/udev/rules.d/01-ttyusb.rules
-# Add:
-SUBSYSTEMS=="usb-serial", TAG+="uaccess"
-```
-
-Log out and log back in.
-
 ### Screen timeout
 
 Settings → Power → set as desired. Reboot.
@@ -400,22 +377,7 @@ sudo screen /dev/ttyACM0 230400
 
 ## 6. Arduino
 
-```bash
-sudo apt install -y arduino
-```
-
-Libraries for CTE collision (Arduino IDE v1.8.19): `Arduino_LSM6DS3`, `AceCommon`, `AceCRC`, `AceRoutine`, `AceUtils`, `Adafruit BusIO`, `Adafruit LSM6DS`, `SafeString`
-
-Boards: Boards Manager → Arduino SAMD boards → Arduino Nano 33 IoT
-
-**Dark theme for Arduino IDE:**
-
-```bash
-cd /usr/share/arduino/lib
-sudo mv theme themeOld
-# Download DarkArduinoTheme from https://github.com/jeffThompson/DarkArduinoTheme
-sudo cp -r /home/daveg/Downloads/DarkArduinoTheme-master/theme .
-```
+See [INSTALL_Arduino](INSTALL_Arduino.md) for Arduino IDE installation, SAMD board managers, collision libraries, and dark theme setup.
 
 ---
 
@@ -442,7 +404,7 @@ sudo modprobe snd-aloop
 
 ---
 
-## 9. Auto Suspend Scheduling (sleep)
+## 9. Auto Suspend Scheduling (sleep for standalone screencast machine that is used for nothing else)
 
 ```bash
 cp home/daveg/Documents/GitHub/myComputer/suspend_until /home/daveg/bin/.
@@ -527,41 +489,8 @@ Lubuntu → System → Discover → search "bluetooth" → install "Bluetooth Ma
 
 ### Chrome Browser
 
-```bash
-sudo apt install libu2f-udev
-cd Downloads
-rm google-chrome-stable*.deb
-wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-sudo dpkg -i google-chrome-stable_current_amd64.deb
-```
+See [INSTALL_chrome](INSTALL_chrome.md) for Google Chrome installation, deb package setup, uninstallation, and hardware acceleration/DNS tweaks.
 
-**Uninstall Chrome:**
-
-```bash
-# Uninstall 'google chrome' from Ubuntu Software app
-sudo apt remove libu2f-udev
-sudo apt autoremove
-sudo apt autoclean && sudo apt clean
-sudo apt install deborphan && sudo apt remove $(deborphan)
-```
-
-
-### Guake Terminal
-
-```bash
-sudo apt install guake
-# Set to start on login
-```
-
-### Ferdium
-
-Install via File → System Discover
-
-### Fix missing idlelib
-
-```bash
-sudo apt-get install idle-python3.12
-```
 
 ### Add support for keypress in various pyCharm projects
 
@@ -612,322 +541,46 @@ FallbackDNS=1.1.1.1 1.0.0.1
 
 This ensures DNS works globally regardless of what NetworkManager does per-interface.
 
-### Docker for DNS
-```bash
-sudo apt update
-sudo apt install ca-certificates curl gnupg lsb-release
-sudo mkdir -p /etc/apt/keyrings
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-sudo chmod a+r /etc/apt/keyrings/docker.gpg
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-sudo apt update
-sudo apt install docker-ce docker-ce-cli containerd.io
-sudo nano /etc/systemd/resolved.conf
-# Un-comment or add the following line under the [Resolve] section:
-textDNSStubListener=no
 
-sudo systemctl restart systemd-resolved
+### Docker for DNS (i.e. piHole)
 
-mkdir -p ~/pihole
-cd ~/pihole
-nano docker-compose.yml
-
-version: "3"
-
-services:
-  pihole:
-    container_name: pihole
-    image: pihole/pihole:latest
-    ports:
-      - "53:53/tcp"
-      - "53:53/udp"
-      - "80:80/tcp"
-    environment:
-      TZ: 'America/New_York'
-      FTLCONF_webserver_api_password: 'YourSecurePasswordHere'
-      FTLCONF_dns_listeningMode: 'all'
-    # Volumes persist your adlists and settings across container updates
-    volumes:
-      - './etc-pihole:/etc/pihole'
-      - './etc-dnsmasq.d:/etc/dnsmasq.d'
-    cap_add:
-      - NET_ADMIN
-    restart: unless-stopped
-
-# start in background
-docker compose up -d
-
-sudo groupadd docker
-sudo usermod -aG docker $USER
-newgrp docker
-
-sudo nano /etc/systemd/resolved.conf
-DNSStubListener=no
-
-sudo ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
-sudo systemctl restart systemd-resolved
-cd ~/pihole
-docker compose up -d
-
-# Accessing the DashboardFind your Linux machine's local IP address by running hostname -I in the terminal.Open your web browser and navigate to: http://192.168.5.216/admin.  Log in using the password you set in the docker-compose.yml file.
-
-# fix not found
-cd ~/pihole
-nano docker-compose.yml
-    ports:
-      - "53:53/tcp"
-      - "53:53/udp"
-      - "8080:80/tcp"  # <-- Changed host port from 80 to 8080
-
-docker compose up -d --force-recreate
-http://192.168.5.216:8080/admin/login
-
-# set dns to 192.168.5.216
-
-# make the IP static in router setup
-
-# Turn off advanced DNS in browsers.  See 'Firefox Tweaks' and 'Chrome Tweaks'
-```
+See [INSTALL_pihole](INSTALL_pihole.md) for installing Docker, disabling `systemd-resolved` DNS stub listener, and deploying Pi-hole via docker-compose.
 
 ---
 
 ## 14. GPU Screen Recorder (Wayland Screencasting)
 
-Traditional screencasters (such as `ffmpeg` using `x11grab` or SimpleScreenRecorder) only work on X11 and can cause high CPU utilization on low-power processors. Under Wayland, standard X11 capture fails.
-
-[GPU Screen Recorder](https://git.dec05eba.com/gpu-screen-recorder) captures directly from the GPU framebuffer via KMS (Direct Rendering Manager) or PipeWire desktop portal and encodes video with hardware acceleration (VA-API on AMD/Intel, NVENC on NVIDIA). This allows smooth 60 FPS recording with negligible CPU overhead.
-
-### Prerequisites
-
-1. **Hardware Video Acceleration Drivers (VA-API):**
-   Ensure Mesa VA-API drivers are installed for AMD or Intel GPUs:
-   ```bash
-   sudo apt update
-   sudo apt install -y mesa-va-drivers vainfo
-   vainfo   # verify driver reports VAProfileH264 / VAProfileHEVC support
-   ```
-
-2. **Audio Monitoring:**
-   ```bash
-   sudo apt install -y pavucontrol
-   ```
-
-### Option A: Install via Flatpak (Recommended — includes GUI)
-
-Lubuntu requires `flatpak` to be installed and Flathub configured:
-
-```bash
-sudo apt update
-sudo apt install -y flatpak
-flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-```
-
-Install GPU Screen Recorder system-wide (allows acquiring Polkit capture permissions):
-
-```bash
-flatpak install flathub com.dec05eba.gpu_screen_recorder
-```
-
-**Launch:**
-- Open **GPU Screen Recorder** from the LXQt Application Menu, or
-- Run in terminal:
-  ```bash
-  flatpak run com.dec05eba.gpu_screen_recorder
-  ```
-
-### Option B: Build from Source (Native CLI)
-
-```bash
-sudo apt update
-sudo apt install -y build-essential git meson ffmpeg \
-    libxi-dev libdrm-dev libavcodec-dev libavformat-dev \
-    libx11-dev libxcomposite-dev libxdamage-dev libxrender-dev \
-    libxrandr-dev libpulse-dev libva-dev libcap-dev \
-    libdbus-1-dev libpipewire-0.3-dev libavfilter-dev
-
-git clone https://repo.dec05eba.com/gpu-screen-recorder
-cd gpu-screen-recorder
-sudo ./install_ubuntu.sh
-```
-
-### Usage & Wayland Notes
-
-- **Encoder Selection:** Set Video Codec to **VAAPI** (or **Auto**) for AMD Radeon / Intel, or **NVENC** for NVIDIA.
-- **Wayland Permissions (KMS Capture):** On startup under Wayland, GPU Screen Recorder prompts for root authentication (`pkexec` / Polkit) to capture directly from KMS for maximum performance and zero frame drops.
-- **CLI Recording Example:**
-  ```bash
-  # Record full screen at 60 FPS with default system audio output:
-  gpu-screen-recorder -w screen -f 60 -a "default_output" -o ~/Videos/screencast.mp4
-
-  # Stop recording cleanly:
-  # Press Ctrl + C in the terminal
-  ```
+See [INSTALL_gpu_screen_recorder](INSTALL_gpu_screen_recorder.md) for GPU Screen Recorder installation (Flatpak/native), VA-API hardware acceleration, and Wayland KMS/portal configuration.
 
 ---
 
 ## 15. Moving from GNOME / X to Plasma / Wayland
-
-> **Hardware Recommendation:** Moving to KDE Plasma is recommended for **powerful PCs only**. Specifically, do **NOT** install this on resource-constrained machines like Lenovo 4 GiB RAM laptops; maintain the lightweight default LXQt environment on those machines to avoid memory exhaustion.
-
-Migrating from GNOME or LXQt under X11 to KDE Plasma on Wayland provides modern display protocol benefits, tear-free rendering, smoother scaling, and native hardware-accelerated screencasting (via KMS and PipeWire).
-
-### 1. Install Plasma & Wayland Packages
-
-Install the KDE Plasma desktop, Wayland session compositor integration, SDDM configuration modules, and Wayland clipboard utilities:
-
-```bash
-sudo apt update
-sudo apt install -y plasma-desktop plasma-workspace-wayland
-sudo apt install -y kde-config-sddm sddm-kcm
-sudo apt install -y wl-clipboard  # replaces xclip / xsel for terminal clipboard (wl-copy, wl-paste)
-```
-
-### 2. Configure SDDM for Wayland
-
-Switch the default display manager from GDM3 to SDDM, and configure SDDM to run natively on Wayland rather than launching an X11 server for the login greeter:
-
-```bash
-# Set SDDM as the system default display manager:
-sudo dpkg-reconfigure sddm
-# Select 'sddm' when prompted
-
-# Disable gdm3 to prevent dual display manager service conflicts:
-sudo systemctl disable gdm3
-
-# Create SDDM Wayland drop-in configuration:
-sudo mkdir -p /etc/sddm.conf.d
-sudo nano /etc/sddm.conf.d/10-wayland.conf
-```
-
-Add the following configuration:
-```ini
-[General]
-DisplayServer=wayland
-GreeterEnvironment=QT_WAYLAND_SHELL_INTEGRATION=layer-shell
-
-[Wayland]
-CompositorCommand=kwin_wayland --no-lockscreen
-```
-
-Restart SDDM (or reboot) to load the Wayland greeter:
-```bash
-sudo systemctl restart sddm
-# Or reboot:
-sudo reboot
-```
-
-*(Optional)* Configure automatic login to Plasma Wayland:
-```bash
-sudo nano /etc/sddm.conf
-```
-```ini
-[Autologin]
-User=daveg
-Session=plasmawayland
-```
-
-### 3. Display Management & HDMI Reset (`kscreen-doctor` vs `xrandr`)
-
-Under X11, `xrandr` was used to wake up or cycle modes on HDMI displays:
-```bash
-# X11 old method (does NOT change native modes under Wayland):
-DISPLAY=:0 xrandr --output HDMI-A-1 --mode 1024x768; sleep 1; DISPLAY=:0 xrandr --output HDMI-A-1 --auto
-```
-
-Under Wayland, `xrandr` only affects Xwayland client surfaces. Use KDE's CLI display tool **`kscreen-doctor`**:
-
-```bash
-# List all connected outputs and available mode numbers/resolutions:
-kscreen-doctor -o
-
-# Force display cycle / mode re-sync on HDMI-A-1:
-kscreen-doctor output.HDMI-A-1.mode.1024x768@60; sleep 1; kscreen-doctor output.HDMI-A-1.mode.auto
-```
-
-#### Reconfiguring KScreen & Restarting Plasma Shell (without reboot)
-If the desktop shell or display daemon needs a reload:
-```bash
-# Restart Plasma Shell:
-systemctl --user restart plasma-plasmashell.service
-
-# Trigger KScreen reconfigure via D-Bus:
-export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus
-qdbus org.kde.kded5 /kded org.kde.kded5.loadModule kscreen
-SSH_AUTH_SOCK="" qdbus org.kde.KScreen /org/kde/KScreen reconfigure
-```
-
-### 4. Wayland-Native Screen Recording
-
-Legacy X11 grab tools (`ffmpeg -f x11grab`, `SimpleScreenRecorder`) fail under Wayland. Use Wayland-native recorders:
-
-```bash
-# GPU Screen Recorder (recommended for hardware VA-API / NVENC capture):
-sudo apt install -y gpu-screen-recorder
-# Or install via Flatpak:
-flatpak install flathub com.dec05eba.gpu_screen_recorder
-
-# wf-recorder (lightweight CLI recorder for Wayland/PipeWire):
-sudo apt install -y wf-recorder
-```
-*See [14. GPU Screen Recorder](#14-gpu-screen-recorder-wayland-screencasting) for detailed setup and usage.*
-
-### 5. Session Verification & Environment Variables
-
-Verify your running session:
-```bash
-echo $XDG_SESSION_TYPE       # Should return 'wayland'
-echo $WAYLAND_DISPLAY        # Usually 'wayland-0'
-echo $XDG_CURRENT_DESKTOP    # Should return 'KDE'
-ls /run/user/$(id -u) | grep wayland
-```
-
-To ensure Qt and GTK applications prefer native Wayland rather than falling back to Xwayland, ensure the following are set in `~/.bashrc` or `/etc/environment`:
-```bash
-export QT_QPA_PLATFORM="wayland;xcb"
-export GDK_BACKEND="wayland,x11"
-export MOZ_ENABLE_WAYLAND=1
-```
-
-Make sure Lib mounts on boot
-```bash
-echo "UUID=e8fdea26-3474-417c-a1cf-73b7c2725a92 /media/daveg/Lib ext4 defaults,nofail 0 2" | sudo tee -a /etc/fstab
-```
-
-
-### 6. Power Management, Screen Locking & Shortcuts
-
-- **Screen Locking:** Replace X11-dependent tools (`xsecurelock`, `xautolock`, `xscreensaver`) with Plasma's native screen lock. Configure in **System Settings → Screen Locking** (`kscreenlocker`).
-- **Keyboard Mappings:** `xmodmap` does not affect native Wayland applications. For custom keys (such as backlight toggle on Scroll Lock), configure shortcuts via **System Settings → Shortcuts** or create `udev` / `hwdb` rules.
-- **Session Cleanup:**
-  ```bash
-  # Terminate any lingering user session when switching managers:
-  sudo loginctl terminate-user $USER
-  ```
+See [INSTALL_Lubuntu_Plasma](INSTALL_Lubuntu_Plasma.md) for full instructions on migrating to KDE Plasma on Wayland, SDDM configuration, and display management.
 
 ---
 
-## 16. Work In Progress
-
-### Chrome Remote Desktop
+## 16. Chrome Remote Desktop
 See [INSTALL_Chrome_Remote_Desktop](INSTALL_Chrome_Remote_Desktop.md) for Rclone setup.
 
-### noMachine Desktop Share
+---
+
+## 17. noMachine Desktop Share
 See [INSTALL_noMachine](INSTALL_noMachine.md) for Rclone setup.
 
-### Security Camera (motion / motionEye)
+---
+
+## 18. Security Camera (motion / motionEye)
 See [INSTALL_secure_cam](INSTALL_secure_cam.md) for security camera setup, motion detection, and motionEye web NVR interface.
 
-### zoxide (https://www.howtogeek.com/stop-using-the-cd-command/)
-sudo apt update
-#sudo pacman -S zoxide # for users on Arch and its derivatives
-sudo apt install zoxide # for users on Ubuntu, Debian, and their derivatives
-echo 'eval "$(zoxide init bash)"' >> ~/.bashrc # adds eval "(zoxide init bash)" to your ~/.bashrc file
-source ~/.bashrc # reloads the Bash configuration
+---
 
-# train it
-zoxide add ~/Documents/"How to Geek"/Articles
-zoxide add ~/Documents/Forbes/Articles
-zoxide add ~/Projects ~/Documents ~/Downloads # add multiple directories
+## 19. zoxide
+
+See [INSTALL_zoxide](INSTALL_zoxide.md) for zoxide smart directory navigation setup, shell integration, and training.
+
+---
+
+## 20. Work In Progress
 
 
 ### Improved HandBrake (Encrypted DVD Ripping)
@@ -983,29 +636,6 @@ sudo apt install makemkv-bin makemkv-oss -y
 Launch:
 ```bash
 makemkv
-```
-
-### Kooha Install By Flatpak
-
-This will replace GUI_screencast.
-
-```bash
-# Install Flatpak and KDE Integration Portals
-sudo apt update && sudo apt install -y flatpak xdg-desktop-portal-kde pipewire
-
-# Add the Flathub Repository
-flatpak remote-add --if-not-exists flathub https://flathub.org
-
-# Crucial for Wayland to Restart system
-sudo reboot
-
-```
-
-```bash
-# After reboot
-
-# install Kooha app
-flatpak install flathub io.github.seadve.Kooha -y
 ```
 
 ### end works in progress

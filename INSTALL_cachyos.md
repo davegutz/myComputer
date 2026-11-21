@@ -59,11 +59,6 @@
 | p3        |  17    MB| ext4    | not mounted Linux           |
 | p4        | 322.41 GB| NTFS    | (C:)                        |
 |           | 261.51 GB|         | free                        |
-| p5        | 798    MB| NTFS    | not mounted Linux           |
-| p6        |  21.49 GB| swap    | (name: 'custom' in GParted) |
-| p7        |  30.27 GB| ext4    | 'dummy'                     |
-| p8        |   1.86 GB| FAT EFI | `/boot`  (large enough to hold Windows, Pop, and Cachy) |
-| p9        | 288.18 GB| ext4    | `/root`                     |
 
 
 ## 2. Boot and Install
@@ -233,42 +228,9 @@ sudo pacman -S xorg-xhost
 sudo pacman -S gwenview
 ```
 
-## Visual Studio Code:
-```bash
-sudo pacman -S --needed base-devel git
-sudo pacman -S perl-archive-zip  # avoid crc32 error
-git clone https://aur.archlinux.org/visual-studio-code-bin.git
-cd visual-studio-code-bin
-makepkg -si
-```
-Open code and install extensions 'Workbench' (for Particle) and 'Antigravity CLI Launcher' (for Gemini).
-	Open the SOC_PARTICLE folder (not src)
+## Visual Studio Code
 
-```bash
-sudo apt install -y libarchive-zip-perl    # provides crc32 — Particle Workbench needs it
-```
-In Particle: Launch CLI run 'particle usb configure' 
-FAQ:  Missing permissions to access the USB device.  
-```bash
-sudo groupadd -g 46 plugdev
-sudo usermod -aG plugdev,uucp $USER
-sudo nano /etc/udev/rules.d/50-particle.rules
-#paste following
-# Particle Devices (Photon, Electron, Argon, Boron, Xenon, Neon, etc.)
-SUBSYSTEMS=="usb", ATTRS{idVendor}=="2b04", ATTRS{idProduct}=="0006", MODE="0666", GROUP="plugdev"
-SUBSYSTEMS=="usb", ATTRS{idVendor}=="2b04", ATTRS{idProduct}=="0008", MODE="0666", GROUP="plugdev"
-SUBSYSTEMS=="usb", ATTRS{idVendor}=="2b04", ATTRS{idProduct}=="000c", MODE="0666", GROUP="plugdev"
-SUBSYSTEMS=="usb", ATTRS{idVendor}=="2b04", ATTRS{idProduct}=="000d", MODE="0666", GROUP="plugdev"
-
-# Particle Debugger
-SUBSYSTEMS=="usb", ATTRS{idVendor}=="2b04", ATTRS{idProduct}=="0010", MODE="0666", GROUP="plugdev"
-
-# restart service
-sudo udevadm control --reload-rules && sudo udevadm trigger
-
-# logout/login or reboot
-
-```
+See [INSTALL_visual_studio](INSTALL_visual_studio.md) for Visual Studio Code installation, Particle Workbench setup, extensions, and USB permissions.
 
 **Firefox Performance:**
 ```
@@ -276,8 +238,7 @@ about:config
 browser.sessionstore.interval = 150000
 ```
 
-**Google Chrome**
-paru -S google-chrome
+**Google Chrome:** See [INSTALL_chrome](INSTALL_chrome.md) for installation and performance tweaks.
 
 **Proton VPN**
 sudo pacman -S proton-vpn-gtk-app networkmanager gnome-keyring
@@ -319,6 +280,8 @@ sudo adduser daveg dialout
 # Log out and log back in
 ```
 
+**Arduino:** See [INSTALL_Arduino](INSTALL_Arduino.md) for Arduino IDE installation, SAMD boards, sensor libraries, and themes.
+
 **Firewall:**
 
 ```bash
@@ -330,16 +293,7 @@ sudo ufw status
 
 ## 6. VS Code
 
-> **Do NOT install using snap or flatpak (COSMIC Store)** — these sandbox VS Code and it won't build.
-
-```bash
-# Download .deb from https://code.visualstudio.com/docs/?dv=linux64_deb
-sudo gdebi ./Downloads/code_1.112.0-1773778351_amd64.deb
-sudo apt install libarchive-zip-perl   # fixes missing crc32 for Particle Workbench
-```
-
-Start Code and install extensions.
-Sign into Particle ASAP.
+See [INSTALL_visual_studio](INSTALL_visual_studio.md) for Visual Studio Code installation, Particle Workbench setup, extensions, and USB permissions.
 
 
 ---
@@ -463,227 +417,21 @@ sudo pacman -S pavucontrol
 Alternatively, plug in a USB headset and adjust sound in GUI.
 
 ### Screen Recording on Wayland (COSMIC)
-The COSMIC desktop compositor (`cosmic-comp`) uses the standard Wayland ScreenCast portal and GPU hardware capture rather than wlroots extensions. Use `gpu-screen-recorder`:
-```bash
-sudo pacman -Sy gpu-screen-recorder
-```
-In `GUI_screencast`:
-- **Video:** `gpu-screen-recorder`
-- **Target:** `portal` (Strongly preferred on HP OMEN with hybrid AMD/NVIDIA graphics; avoids direct KMS display plane capture which can cause `cosmic-comp` atomic modesetting lockups that prevent the PC from going to sleep/suspend)
-- **Audio:** `alsa_output.Loopback.monitor`
+
+See [INSTALL_gpu_screen_recorder](INSTALL_gpu_screen_recorder.md) for GPU Screen Recorder installation, Wayland ScreenCast portal configuration, and loopback audio recording.
 
 ---
 
 ## 9. Google Drive (Rclone)
 
-**Install Rclone:
-
-***Get an ID and secret (new)***
-
-Msg: 2026/07/14 04:41:14 NOTICE: gdrive: This remote uses rclone's shared Google Drive client_id, which is being retired and will stop working during 2026. Create your own client_id to avoid interruption: https://rclone.org/drive/#making-your-own-client-id
-
-```html
-https://rclone.org/drive/#making-your-own-client-id
-```
-  - Select a project or create a new project
-  
-  - Under "ENABLE APIS AND SERVICES" search for "Drive", and enable the "Google Drive API" (see check next to "Try this API  <<check>> API Enabled")
-  
-  - Go back a couple. Click "Credentials" in the left-side panel (not "Create credentials", which opens the wizard).
-  
-  - If you already configured an "Oauth Consent Screen", then skip to the next step; if not, click on "CONFIGURE CONSENT SCREEN" button (near the top right corner of the right panel), then click "Get started". On the next screen, enter an "Application name" ("rclone" is OK); enter "User Support Email" (your own email is OK); Next, under Audience select "External". Next enter your own contact information, agree to terms and click "Create". You should now see rclone (or your project name) in a box in the top left of the screen.
-  
-  - You will also have to add some scopes, including
-        https://www.googleapis.com/auth/docs
-        https://www.googleapis.com/auth/drive in order to be able to edit, create and delete files with RClone.
-        https://www.googleapis.com/auth/drive.metadata.readonly which you may also want to add.
-
-       To do this, click Data Access on the left side panel, click "add or remove scopes" and select the three above and press update or go to the "Manually add scopes" text box (scroll down) and enter "https://www.googleapis.com/auth/docs,https://www.googleapis.com/auth/drive,https://www.googleapis.com/auth/drive.metadata.readonly", press add to table then update.
-
-       You should now see the three scopes on your Data access page. Now press save at the bottom!
-        
-    - After adding scopes, click Audience Scroll down and click "+ Add users". Add yourself as a test user and press save. 
-        davegutz2006@gmail.com
-
-    - Go to Overview on the left panel, click "View all clients."  "Create client". Choose an application type of "Desktop app" and click "Create". (the default name is fine)
-     id:    311741402640-qarcb5oeikcajf1nnaf9g626tgkhespr.apps.googleusercontent.com
-
-    - Provide the noted client ID and client secret to rclone
-    
-    - Run the web-based authorization flow from within rclone config, by answering "Y" when it asks "Already have a token - refresh?"
-
-After running all this stuff on https://rclone.org/drive/#making-your-own-client-id#
-you'll have
-    - Search in email for title 'Secrets for gdrive CachyOS Cosmic'
-    - Creation date:  July 14, 2026
-    - Status: Enabled
-
-   ---------
-
-***Now configure rclone to use it***
-```bash
-sudo pacman -S rclone fuse3
-rclone config
-```
-Follow the prompts:
-
-        Enter n to create a new remote.
-        e/n/d/r/c/s/q>  n
-        name>  gdrive
-        Option Storage:  find Drive (usually 18)
-        client:id>  # FROM EMAIL*************  search for "Secrets for gdrive"
-        client_secret>  # FROM EMAIL*************
-        scope>  1
-        service_account_file>  
-        Edit Advanced config?  y/n>  y
-          oauth Access Token:  enter default
-          auth_url>  
-          token_url> 
-          client_credentials>
-          root_folder_id>  
-          auth_owner_only>  
-          use_trash>  
-          copy_shortcut_content>  
-          skip_gdocs>  
-          show_all_gdocs>
-          skip_checksum_gphotos>  
-          shared_with_me>  
-          trashed_only>  
-          starred_only>  
-          export_formats>  
-          import_formats>  
-          allow_import_name_change>  
-          list_chunk>  
-          impersonate>  
-          upload_cutoff> 1Gi
-          chunk_size>  
-          acknowledge_abuse>  
-          keep_revision_forever>  
-          v2_download_min_size>  
-          pacer_min_sleep>  
-          pacer_burst>  
-          server_side_across_configs>  
-          disable_http2>  
-          stop_on_upload_limit>  
-          stop_on_download_limit>  
-          skip_shortcuts>  
-          skip_dangling_shortcuts>  
-          resource_key>  
-          fast_list_bug_fix>
-          metadata_owner>
-          metadata_permissions>
-          metadata_labels>
-          metadata_enforce_expansive_access>
-          encoding>  
-          env_auth>
-          description>
-
-          Edit advanced config?  n default
-
-          Use web browser to automatically authenticate rclone with remote? y-default
-                      Complete the authentication process in your web browser, allowing Rclone access to your Google Drive.
-                      Return to the terminal
-
-          Already have a token - refresh? y
-          
-          Configure this as a Shared Drive (Team Drive)? n (blank)
-          y/n>  n
-
-      Keep this "gdrive" remote?
-      y/e/d> y
-
-
-    Exit the configuration wizard by typing q
-    e/n/d/r/c/s/q> q
-
-***Mount Google Drive:***
-
-```bash
-mkdir ~/gdrive
-rclone mount gdrive: ~/gdrive --vfs-cache-mode full &
-```
-
-```
-
-**Auto-start rclone on login:**
-    - Add startup application: `"gdrive"` with command `"rclone mount gdrive: ~/gdrive --vfs-cache-mode full &"`
-        OR
-```bash
-mkdir -p ~/bin
-bash
-cat << EOF > ~/bin/Rclone
-#!/bin/bash
-# rclone mount gdrive: ~/gdrive &
-rclone mount gdrive: ~/gdrive \
-  --vfs-cache-mode full \
-  --vfs-cache-max-size 50G \
-  --vfs-cache-max-age 24h \
-  --dir-cache-time 1000h \
-  --drive-chunk-size 128M \
-  --buffer-size 64M
-  --poll-interval 15s \
-  --multi-thread-streams 4 \
-  --tpslimit 5 \
-  --tpslimit-burst 5 \
-  --daemon \
-  &
-EOF
-chmod +x ~/bin/Rclone
-echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc && source ~/.bashrc
-
-mkdir ~/.config/autostart
-cat << EOF > ~/.config/autostart/rclone.desktop
-[Desktop Entry]
-Name=rclone
-Exec=/home/daveg/bin/Rclone
-Terminal=false
-Type=Application
-X-Desktop-File-Install-Version=0.27
-EOF
-chmod +x /home/daveg/.config/autostart/rclone.desktop
-```
-
-    Test the autostart entry:
-
-```bash
-gio launch ~/.config/autostart/rclone.desktop
-# or
-sudo apt install dex
-sudo pacman -S dex
-dex ./.config/autostart/rclone.desktop
-```
-
-***Remount the Drive***
-Launch if lost permissions (general i/o error)
-```bash
-rclone config
-```
-Choose e to edit an existing remote.
-Select the number or name of your Google Drive remote.
-enter defaults until...
-Already have a token - refresh? y
-	auto config - y
-	go to browser
-Log into your Google account in the browser window that opens and approve the permissions request.
-```bash
-Rclone
-```
-May have to unmount gdrive to get connect using Rclone
-
-### Optimized Copy / Backup / Sync
+See [INSTALL_Google_Drive_Rclone](INSTALL_Google_Drive_Rclone.md) for Rclone installation, Google OAuth credentials, mounting, and autostart configuration.
 See [INSTALL_Google_Drive_Backup](INSTALL_Google_Drive_Backup.md) for optimized rclone copy and sync commands.
-See [INSTALL_Google_Drive_Rclone](INSTALL_Google_Drive_Rclone.md) for generic Rclone setup and autostart configuration.
 
 ---
 
 ## 10. Claude Code
 
-```bash
-curl -fsSL https://claude.ai/install.sh | bash
-echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc && source ~/.bashrc
-claude --version   # verify
-claude             # log in to Anthropic
-```
+See [INSTALL_claude_code](INSTALL_claude_code.md) for Claude Code installation and authentication.
 
 ---
 
@@ -743,11 +491,10 @@ See https://github.com/tropicbliss/cosmic-ext-applet-caffeine and follow the REA
 ## 14. Utilities
 
 ```bash
-sudo apt install fzf        # fuzzy find
-sudo snap install tldr      # quick command help
-sudo apt install mtr        # traceroute tool
-sudo apt install ripgrep    # fast grep
+sudo pacman -S fzf ripgrep mtr
 ```
+
+See [INSTALL_zoxide](INSTALL_zoxide.md) for zoxide smart directory navigation setup.
 
 ---
 
@@ -831,13 +578,7 @@ rclone copy Downloads/google-chrome-stable_current_amd64.deb gdrive:  --multi-th
 
 ___
 ### Install Chrome
-get the 64-bit deb file
-https://www.google.com/chrome/
-
-```bash
-cd Downloads
-sudo dpkg -i  google-chrome-stable_current_amd64.deb
-``` 
+See [INSTALL_chrome](INSTALL_chrome.md) for Google Chrome installation (AUR `paru -S google-chrome`) and tweaks. 
 
 ___
 ### Chrome Remote Desktop
