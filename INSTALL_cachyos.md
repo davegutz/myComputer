@@ -944,7 +944,47 @@ omen-fan-control-gui
 xhost +si:localuser:root
 sudo -E omen-fan-control-gui
 ```
-# 11/2026 I set the curve to (24, 50), (32, 56), (40, 71), (43, 92), (44, 99), (105, 100)
+# 11/18/2026 I set the curve to (24, 50), (32, 56), (40, 71), (43, 92), (44, 99), (105, 100)
+# 11/21/2026                    (18, 44), (30, 61), (38, 78), (43, 92), (44, 99), (105, 100)
+
+
+# AI recommend-----
+# Disable core cpu spiking
+# test
+# echo 0 | sudo tee /sys/devices/system/cpu/cpufreq/boost
+# perm
+echo "w /sys/devices/system/cpu/cpufreq/boost - - - - 0" | sudo tee /etc/tmpfiles.d/disable-boost.conf
+# To remove it in the future and restore default behavior:
+#sudo rm /etc/tmpfiles.d/disable-boost.conf
+
+# repaste both chips 0.2 mm Honeywell PTM7950
+
+# Recommended Fan Curve with Preemptive Headroom
+
+  If you keep CPU boost managed, you can refine your curve so the machine is whisper-quiet when typing or idle, but aggressively ramps before spikes can build momentum:
+
+  • (35°C, 45%) — Silent idle
+  • (45°C, 60%) — Gentle ramp for web browsing
+  • (55°C, 80%) — Preemptive cooling kicks in before heavy load builds
+  • (65°C, 95%) — High cooling headroom
+  • (75°C, 100%) — Max RPM well before any danger zone
+  
+#----------  
+  
+### Comprehensive Hardware, Thermal & Fan Logger (`monitor_cachyOS_fan`)
+Logs hardware thermals, power draws, processor loads, and device states every minute to `monitor_cachyOS_fan.csv`:
+* **CPU**: Package temp (°C), power draw (`PPT` in Watts), processor load (%), average core frequency (MHz)
+* **Fans**: Omen primary fan (RPM), CPU fan 1 (RPM), GPU fan 2 (RPM), PWM duty cycle (%)
+* **GPU**: Dedicated NVIDIA RTX 3070 temp (°C) & power draw (Watts), active GPU load (%), integrated AMD Radeon iGPU temp (°C)
+* **Storage & Display**: NVMe SSD temp (°C), screen brightness (%), laptop lid state (`open`/`closed`), power source (`AC`/`Battery`)
+
+```bash
+# Run continuously every minute:
+~/Documents/GitHub/myComputer/monitor_cachyOS_fan
+
+# Single sample test:
+~/Documents/GitHub/myComputer/monitor_cachyOS_fan --once
+```
 
 ___
 ## End works in progress

@@ -1,0 +1,505 @@
+#!/usr/bin/env python3
+"""
+monitor_cachyOS_fan - Comprehensive thermal, fan, load, and hardware monitor for HP Omen (CachyOS/Linux).
+
+Collects and logs every minute to CSV:
+- CPU package temp (°C), CPU power consumption (Watts), CPU load (%), average core frequency (MHz)
+- Dual fan speeds (RPM), omen-fan-control speed (RPM), fan PWM duty cycle (%)
+- Dedicated GPU temp (°C), GPU power draw (Watts), active GPU load (%)
+- Integrated AMD Radeon GPU temp (°C)
+- NVMe SSD storage composite temp (°C)
+- Laptop display brightness (%), lid state (open/closed), and AC/battery power source
+
+Usage:
+    ./monitor_cachyOS_fan               # Run continuously every minute
+    ./monitor_cachyOS_fan --once        # Take a single measurement and exit
+    ./monitor_cachyOS_fan --interval 30 # Sample every 30 seconds
+    ./monitor_cachyOS_fan --output path # Custom CSV destination path
+"""
+
+import argparse
+import csv
+import glob
+import os
+import re
+import signal
+import subprocess
+import sys
+import time
+from datetime import datetime
+from pathlib import Path
+
+DEFAULT_OUTPUT_FILE = "monitor_cachyOS_fan.csv"
+
+CSV_HEADERS = [
+    "timestamp",
+    "cpu_package_temp_c",
+    "cpu_power_w",
+    "cpu_load_percent",
+    "cpu_freq_mhz",
+    "fan_speed_rpm",
+    "fan1_speed_rpm",
+    "fan2_speed_rpm",
+    "fan_pwm_percent",
+    "gpu_temp_c",
+    "gpu_power_w",
+    "gpu_load_percent",
+    "igpu_temp_c",
+    "nvme_temp_c",
+    "lid_status",
+    "brightness_percent",
+    "power_source",
+]
+
+
+def get_omen_fan_status():
+    """
+    Executes 'omen-fan-control status' and parses CPU package temp (°C) and fan speed (RPM).
+    Returns (cpu_temp_c, fan_speed_rpm). Values may be None if parsing fails.
+    """
+    try:
+        res = subprocess.run(
+            ["omen-fan-control", "status"],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            timeout=5,
+            check=False,
+        )
+        output = res.stdout
+    except FileNotFoundError:
+        return None, None
+    except Exception:
+        return None, None
+
+    fan_match = re.search(r"Fan Speed:\s*([0-9]+)\s*RPM", output, re.IGNORECASE)
+    fan_speed = int(fan_match.group(1)) if fan_match else None
+
+    temp_match = re.search(
+        r"CPU Package Temp:\s*([0-9]+(?:\.[0-9]+)?)\s*°?C", output, re.IGNORECASE
+    )
+    cpu_temp = float(temp_match.group(1)) if temp_match else None
+
+    # Fallback to k10temp if omen-fan-control didn't return temperature
+    if cpu_temp is None:
+        for hw in glob.glob("/sys/class/hwmon/hwmon*"):
+            try:
+                name = open(f"{hw}/name").read().strip()
+                if name == "k10temp" and os.path.exists(f"{hw}/temp1_input"):
+                    cpu_temp = round(float(open(f"{hw}/temp1_input").read().strip()) / 1000.0, 1)
+                    break
+            except Exception:
+                pass
+
+    return cpu_temp, fan_speed
+
+
+def get_hwmon_fans():
+    """
+    Reads hardware fan RPMs (fan1=CPU, fan2=GPU) and PWM duty cycle (%) from the hp hwmon driver.
+    Returns (fan1_rpm, fan2_rpm, pwm_percent).
+    """
+    fan1, fan2, pwm = None, None, None
+    for hw in glob.glob("/sys/class/hwmon/hwmon*"):
+        try:
+            name = open(f"{hw}/name").read().strip()
+            if name == "hp":
+                if os.path.exists(f"{hw}/fan1_input"):
+                    fan1 = int(open(f"{hw}/fan1_input").read().strip())
+                if os.path.exists(f"{hw}/fan2_input"):
+                    fan2 = int(open(f"{hw}/fan2_input").read().strip())
+                if os.path.exists(f"{hw}/pwm1"):
+                    raw_pwm = float(open(f"{hw}/pwm1").read().strip())
+                    pwm = round((raw_pwm / 255.0) * 100.0, 1)
+                break
+        except Exception:
+            pass
+    return fan1, fan2, pwm
+
+
+def get_amdgpu_metrics():
+    """
+    Reads CPU Package Power Tracking (PPT in Watts) and integrated AMD Radeon GPU temperature (°C).
+    Returns (cpu_power_w, igpu_temp_c).
+    """
+    power_w, igpu_temp = None, None
+    for hw in glob.glob("/sys/class/hwmon/hwmon*"):
+        try:
+            name = open(f"{hw}/name").read().strip()
+            if name == "amdgpu":
+                if os.path.exists(f"{hw}/power1_input"):
+                    power_w = round(
+                        float(open(f"{hw}/power1_input").read().strip()) / 1000000.0, 1
+                    )
+                if os.path.exists(f"{hw}/temp1_input"):
+                    igpu_temp = round(
+                        float(open(f"{hw}/temp1_input").read().strip()) / 1000.0, 1
+                    )
+                break
+        except Exception:
+            pass
+    return power_w, igpu_temp
+
+
+def get_cpu_freq_mhz():
+    """
+    Calculates the average current CPU core frequency in MHz across all active cores.
+    """
+    freqs = []
+    for f in glob.glob("/sys/devices/system/cpu/cpu[0-9]*/cpufreq/scaling_cur_freq"):
+        try:
+            freqs.append(float(open(f).read().strip()) / 1000.0)
+        except Exception:
+            pass
+    if freqs:
+        return int(round(sum(freqs) / len(freqs)))
+    return None
+
+
+def get_cpu_load(interval=0.5):
+    """
+    Measures CPU processor load percentage over a brief sampling window.
+    Uses psutil if available, with a /proc/stat delta fallback.
+    """
+    try:
+        import psutil
+
+        return float(psutil.cpu_percent(interval=interval))
+    except Exception:
+        pass
+
+    try:
+        def read_stat():
+            with open("/proc/stat", "r", encoding="utf-8") as f:
+                fields = [float(x) for x in f.readline().strip().split()[1:8]]
+            idle = fields[3] + fields[4]
+            total = sum(fields)
+            return idle, total
+
+        idle1, total1 = read_stat()
+        time.sleep(interval)
+        idle2, total2 = read_stat()
+        idle_delta = idle2 - idle1
+        total_delta = total2 - total1
+        if total_delta > 0:
+            return round(100.0 * (1.0 - idle_delta / total_delta), 1)
+    except Exception:
+        pass
+
+    return None
+
+
+def get_nvidia_metrics():
+    """
+    Queries dedicated NVIDIA GPU temperature (°C) and power draw (Watts) via nvidia-smi.
+    Returns (gpu_temp_c, gpu_power_w).
+    """
+    temp, power = None, None
+    try:
+        res = subprocess.run(
+            [
+                "nvidia-smi",
+                "--query-gpu=temperature.gpu,power.draw",
+                "--format=csv,noheader,nounits",
+            ],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.DEVNULL,
+            text=True,
+            timeout=2,
+            check=False,
+        )
+        if res.returncode == 0 and res.stdout.strip():
+            parts = [p.strip() for p in res.stdout.strip().splitlines()[0].split(",")]
+            if len(parts) >= 1 and parts[0] != "[N/A]":
+                temp = round(float(parts[0]), 1)
+            if len(parts) >= 2 and parts[1] != "[N/A]":
+                power = round(float(parts[1]), 1)
+    except Exception:
+        pass
+    return temp, power
+
+
+def get_gpu_load():
+    """
+    Queries active GPU processor utilization percentage across NVIDIA dGPU and AMD iGPU.
+    Returns the maximum/active GPU load percentage (0-100), or None if unavailable.
+    """
+    gpu_loads = []
+
+    # 1. Check NVIDIA GPU via nvidia-smi
+    try:
+        res = subprocess.run(
+            [
+                "nvidia-smi",
+                "--query-gpu=utilization.gpu",
+                "--format=csv,noheader,nounits",
+            ],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.DEVNULL,
+            text=True,
+            timeout=2,
+            check=False,
+        )
+        if res.returncode == 0 and res.stdout.strip():
+            for line in res.stdout.strip().splitlines():
+                val = line.strip()
+                if val.isdigit() or re.match(r"^\d+(\.\d+)?$", val):
+                    gpu_loads.append(float(val))
+    except Exception:
+        pass
+
+    # 2. Check AMD / Intel GPUs via sysfs gpu_busy_percent
+    for path in glob.glob("/sys/class/drm/card*/device/gpu_busy_percent"):
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                val = f.read().strip()
+                if val.isdigit() or re.match(r"^\d+(\.\d+)?$", val):
+                    gpu_loads.append(float(val))
+        except Exception:
+            pass
+
+    if gpu_loads:
+        return max(gpu_loads)
+    return None
+
+
+def get_nvme_temp():
+    """Reads NVMe SSD composite temperature in °C."""
+    for hw in glob.glob("/sys/class/hwmon/hwmon*"):
+        try:
+            name = open(f"{hw}/name").read().strip()
+            if name == "nvme" and os.path.exists(f"{hw}/temp1_input"):
+                return round(float(open(f"{hw}/temp1_input").read().strip()) / 1000.0, 1)
+        except Exception:
+            pass
+    return None
+
+
+def get_lid_status():
+    """Determines laptop lid state ('open' or 'closed')."""
+    for lid_path in glob.glob("/proc/acpi/button/lid/*/state"):
+        try:
+            with open(lid_path, "r", encoding="utf-8") as f:
+                content = f.read().lower()
+                if "open" in content:
+                    return "open"
+                elif "closed" in content:
+                    return "closed"
+        except Exception:
+            pass
+
+    try:
+        res = subprocess.run(
+            ["upower", "-d"],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.DEVNULL,
+            text=True,
+            timeout=5,
+            check=False,
+        )
+        for line in res.stdout.splitlines():
+            if "lid-is-closed:" in line.lower():
+                return "closed" if "yes" in line.lower() else "open"
+    except Exception:
+        pass
+
+    return "unknown"
+
+
+def get_brightness():
+    """Reads laptop display backlight brightness as a percentage (0-100%)."""
+    for b in glob.glob("/sys/class/backlight/*"):
+        try:
+            with open(f"{b}/brightness", "r", encoding="utf-8") as f1, open(
+                f"{b}/max_brightness", "r", encoding="utf-8"
+            ) as f2:
+                cur = float(f1.read().strip())
+                max_b = float(f2.read().strip())
+                if max_b > 0:
+                    return round((cur / max_b) * 100.0, 1)
+        except Exception:
+            pass
+    return None
+
+
+def get_power_source():
+    """Determines power supply source ('AC' or 'Battery')."""
+    for p in glob.glob("/sys/class/power_supply/AC*"):
+        try:
+            with open(f"{p}/online", "r", encoding="utf-8") as f:
+                return "AC" if f.read().strip() == "1" else "Battery"
+        except Exception:
+            pass
+    return "unknown"
+
+
+def record_sample(csv_path):
+    """Takes a comprehensive sample across all sensors and appends it to CSV."""
+    now = datetime.now()
+    timestamp_str = now.strftime("%Y-%m-%d %H:%M:%S")
+
+    # Gather all metrics
+    cpu_temp, omen_fan_rpm = get_omen_fan_status()
+    fan1_rpm, fan2_rpm, fan_pwm = get_hwmon_fans()
+    fan_speed = omen_fan_rpm if omen_fan_rpm is not None else fan1_rpm
+
+    cpu_power_w, igpu_temp = get_amdgpu_metrics()
+    cpu_freq = get_cpu_freq_mhz()
+    cpu_load = get_cpu_load(interval=0.5)
+
+    gpu_temp, gpu_power = get_nvidia_metrics()
+    gpu_load = get_gpu_load()
+
+    nvme_temp = get_nvme_temp()
+    lid_status = get_lid_status()
+    brightness = get_brightness()
+    power_src = get_power_source()
+
+    # Create directory if needed
+    csv_path.parent.mkdir(parents=True, exist_ok=True)
+    file_exists = csv_path.is_file() and csv_path.stat().st_size > 0
+
+    with open(csv_path, mode="a", newline="", encoding="utf-8") as f:
+        writer = csv.writer(f)
+        if not file_exists:
+            writer.writerow(CSV_HEADERS)
+
+        writer.writerow(
+            [
+                timestamp_str,
+                f"{cpu_temp:.1f}" if cpu_temp is not None else "",
+                f"{cpu_power_w:.1f}" if cpu_power_w is not None else "",
+                f"{cpu_load:.1f}" if cpu_load is not None else "",
+                cpu_freq if cpu_freq is not None else "",
+                fan_speed if fan_speed is not None else "",
+                fan1_rpm if fan1_rpm is not None else "",
+                fan2_rpm if fan2_rpm is not None else "",
+                f"{fan_pwm:.1f}" if fan_pwm is not None else "",
+                f"{gpu_temp:.1f}" if gpu_temp is not None else "",
+                f"{gpu_power:.1f}" if gpu_power is not None else "",
+                f"{gpu_load:.1f}" if gpu_load is not None else "",
+                f"{igpu_temp:.1f}" if igpu_temp is not None else "",
+                f"{nvme_temp:.1f}" if nvme_temp is not None else "",
+                lid_status,
+                f"{brightness:.1f}" if brightness is not None else "",
+                power_src,
+            ]
+        )
+        f.flush()
+
+    return {
+        "timestamp": timestamp_str,
+        "cpu_temp": cpu_temp,
+        "cpu_power": cpu_power_w,
+        "cpu_load": cpu_load,
+        "cpu_freq": cpu_freq,
+        "fan_speed": fan_speed,
+        "fan1": fan1_rpm,
+        "fan2": fan2_rpm,
+        "fan_pwm": fan_pwm,
+        "gpu_temp": gpu_temp,
+        "gpu_power": gpu_power,
+        "gpu_load": gpu_load,
+        "igpu_temp": igpu_temp,
+        "nvme_temp": nvme_temp,
+        "lid": lid_status,
+        "brightness": brightness,
+        "power_src": power_src,
+    }
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Log HP Omen thermals, fans, CPU/GPU power & load, brightness, and lid status to CSV."
+    )
+    parser.add_argument(
+        "--output",
+        "-o",
+        type=Path,
+        default=Path(__file__).resolve().parent / DEFAULT_OUTPUT_FILE,
+        help=f"Target CSV file path (default: <script_dir>/{DEFAULT_OUTPUT_FILE})",
+    )
+    parser.add_argument(
+        "--interval",
+        "-i",
+        type=int,
+        default=60,
+        help="Polling interval in seconds (default: 60)",
+    )
+    parser.add_argument(
+        "--once",
+        action="store_true",
+        help="Log a single measurement and exit immediately",
+    )
+    parser.add_argument(
+        "--quiet",
+        "-q",
+        action="store_true",
+        help="Suppress console output during sampling",
+    )
+
+    args = parser.parse_args()
+
+    # Graceful exit handling
+    running = True
+
+    def sig_handler(signum, frame):
+        nonlocal running
+        print("\nStopping monitor_cachyOS_fan...", flush=True)
+        running = False
+
+    signal.signal(signal.SIGINT, sig_handler)
+    signal.signal(signal.SIGTERM, sig_handler)
+
+    if not args.quiet:
+        print(f"Logging to: {args.output}")
+        if not args.once:
+            print(f"Sampling every {args.interval}s. Press Ctrl+C to exit.\n")
+
+    while running:
+        d = record_sample(args.output)
+        if not args.quiet:
+            c_temp_str = f"{d['cpu_temp']:.1f}°C" if d["cpu_temp"] is not None else "N/A"
+            c_load_str = f"{d['cpu_load']:.1f}%" if d["cpu_load"] is not None else "N/A"
+            c_pwr_str = f"{d['cpu_power']:.1f}W" if d["cpu_power"] is not None else "N/A"
+            c_freq_str = f"{d['cpu_freq']}MHz" if d["cpu_freq"] is not None else "N/A"
+
+            f1_str = str(d["fan1"]) if d["fan1"] is not None else "N/A"
+            f2_str = str(d["fan2"]) if d["fan2"] is not None else "N/A"
+            pwm_str = f"{d['fan_pwm']:.0f}%" if d["fan_pwm"] is not None else "N/A"
+
+            g_temp_str = f"{d['gpu_temp']:.1f}°C" if d["gpu_temp"] is not None else "N/A"
+            g_pwr_str = f"{d['gpu_power']:.1f}W" if d["gpu_power"] is not None else "N/A"
+            g_load_str = f"{d['gpu_load']:.1f}%" if d["gpu_load"] is not None else "N/A"
+
+            igpu_str = f"{d['igpu_temp']:.1f}°C" if d["igpu_temp"] is not None else "N/A"
+            nvme_str = f"{d['nvme_temp']:.1f}°C" if d["nvme_temp"] is not None else "N/A"
+            bright_str = f"{d['brightness']:.0f}%" if d["brightness"] is not None else "N/A"
+
+            print(
+                f"[{d['timestamp']}] "
+                f"CPU: {c_temp_str} ({c_load_str} @ {c_freq_str}, {c_pwr_str}) | "
+                f"Fans: {f1_str}/{f2_str} RPM ({pwm_str}) | "
+                f"GPU: {g_temp_str} ({g_load_str}, {g_pwr_str}) | "
+                f"iGPU: {igpu_str} | NVMe: {nvme_str} | "
+                f"Bright: {bright_str} | Lid: {d['lid']} | Pwr: {d['power_src']}",
+                flush=True,
+            )
+
+        if args.once or not running:
+            break
+
+        # Align to minute marks when interval is 60 seconds
+        if args.interval == 60:
+            sleep_time = max(1.0, 60.0 - (time.time() % 60.0))
+        else:
+            sleep_time = float(args.interval)
+
+        # Sleep in small slices to respond promptly to signals
+        end_time = time.time() + sleep_time
+        while running and time.time() < end_time:
+            time.sleep(min(0.5, max(0.1, end_time - time.time())))
+
+
+if __name__ == "__main__":
+    main()
