@@ -953,6 +953,7 @@ sudo -E omen-fan-control-gui
 # test
 # echo 0 | sudo tee /sys/devices/system/cpu/cpufreq/boost
 # perm
+
 echo "w /sys/devices/system/cpu/cpufreq/boost - - - - 0" | sudo tee /etc/tmpfiles.d/disable-boost.conf
 # To remove it in the future and restore default behavior:
 #sudo rm /etc/tmpfiles.d/disable-boost.conf
@@ -985,6 +986,17 @@ Logs hardware thermals, power draws, processor loads, and device states every mi
 # Single sample test:
 ~/Documents/GitHub/myComputer/monitor_cachyOS_fan --once
 ```
+
+### Printer
+sudo pacman -S cups cups-pdf system-config-printer
+sudo ./linux-brprinter-installer-2.2.6-1 DCP-L2640DW
+cachyos-rate-mirrors
+sudo systemctl enable --now cups.service
+sudo systemctl enable --now avahi-daemon.service
+sudo lpadmin -p Brother_DCP_L2640DW -E -v "ipp://192.168.6.119/ipp/print" -m everywhere
+sudo	lpadmin -d Brother_DCP_L2640DW
+lp -d Brother_DCP_L2640DW /etc/issue
+
 
 ___
 ## End works in progress
