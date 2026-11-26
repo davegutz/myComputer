@@ -327,29 +327,7 @@ sudo apt install LocalSend
 
 ### Optional: Jellyfin Media Server
 
-> Better to have NO media server on a 4 GB Lenovo.
-
-```bash
-sudo apt install -y flatpak gnome-software-plugin-flatpak
-flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-# reboot
-flatpak install flathub com.github.iwalton3.jellyfin-media-player
-flatpak run com.github.iwalton3.jellyfin-media-player
-ifconfig  # copy ip string for inet from wlp2s0  e.g. 192.168.5.205  (http://192.168.5.205:8096/web/#/home.html)
-# answer jellyfin_..._pkg by cut and paste from previous
-# Remove:
-flatpak remove com.github.iwalton3.jellyfin-media-player
-```
-Install server
-```bash
-curl -s https://repo.jellyfin.org/install-debuntu.sh | sudo bash
-sudo usermod -a -G daveg jellyfin
-# Visit http://localhost:8096
-sudo chown -R jellyfin /media/daveg
-```
-Start
-Browse to Start bookmarks in Firefox and visit Jellyfin
-User is Jellyfin
+See [INSTALL_Jellyfin_for_Lubuntu](INSTALL_Jellyfin_for_Lubuntu.md) for Jellyfin media player and server installation, initial setup, and external USB drive auto-recovery configuration.
 
 
 ### Screen timeout
