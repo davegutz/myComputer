@@ -318,6 +318,23 @@ snap install pycharm-community --classic
 # Give it time to index on first launch
 ```
 
+### Printer
+# https://support.brother.com/g/b/downloadend.aspx?c=us&lang=en&prod=dcpl2640dw_us_as&os=128&dlid=dlf006893_000&flang=4&type3=625&source_c=cinst
+
+LXQt: File Archiver
+
+Extract into Downloads and make executable permission
+
+```bash
+sudo ./linux-brprinter-installer-2.2.6-1 DCP-L2640DW
+Y
+Will you,,,URI:   Y
+Device :  Auto.
+static ip   192.168.6.119
+```
+
+'Printers' linux app from Discover or equivalent
+
 
 ### Other Apps
 
